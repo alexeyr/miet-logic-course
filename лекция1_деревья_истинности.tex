@@ -1,0 +1,379 @@
+\documentclass[10pt]{beamer}
+\input{lecture_preamble.tex}
+
+\title{Введение в логику высказываний}
+\date{\today}
+
+\begin{document}
+\begin{frame}[plain]
+\maketitle
+\end{frame}
+
+\begin{frame}
+\frametitle{Предмет математической логики}
+\begin{itemize}
+    \item Математическая логика — раздел математики, изучающий математические обозначения, формальные системы, доказуемость математических суждений, природу математического доказательства в целом, вычислимость и прочие аспекты оснований математики (из Wikipedia).
+    \item Разделы нашего курса:
+    \begin{itemize}
+        \item Логика высказываний
+        \item Логика предикатов
+        \item Теория множеств
+        \item Теория алгоритмов (если успеем)
+    \end{itemize}
+    \item Курс очень короткий и каждый раздел будет на базовом уровне.
+    \pause
+    \item Сегодня "--- логика высказываний (далее ЛВ). 
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Высказывания}
+    \begin{itemize}
+        \item Высказывания "--- предложения, которые могут быть истинны или ложны.
+        \item Например: $4<5$, \enquote{Волга впадает в Балтийское море}.
+        \item Но не вопросы, императивные предложения и т.д.
+        \pause
+        \item Оба эти высказывания \emph{простые} или \emph{атомарные}, так как не содержат более простых.
+        \item Их внутренняя структура в ЛВ не рассматривается.
+        \pause
+        \item Мы можем комбинировать простые высказывания с помощью \emph{логических связок} $\land$ (\enquote{и}, конъюнкция), $\lor$ (\enquote{или}, дизъюнкция), $\to$ (\enquote{если$\ldots$то$\ldots$}, импликация), $\neg$ (\enquote{не}, отрицание).
+        \pause
+        \item Например, \enquote{в огороде бузина, а в Киеве дядька} = \enquote{в огороде бузина} $\land$ \enquote{в Киеве дядька}.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Язык логики высказываний}
+    \begin{itemize}
+        \item Язык ЛВ "--- это \emph{формальный язык}, то есть множество последовательностей символов определённого алфавита, построенных по определённым правилам.
+        \pause
+        \item Алфавит ЛВ состоит из:
+        \begin{itemize}
+            \item \emph{Пропозициональных переменных} $p, q, r, p_1,\ldots$ Множество всех переменных обозначим $Var_{Prop}$.
+            \item Символов $\land, \lor, \to, \neg$ (иногда включают также $\leftrightarrow$).
+            \item Скобок $($, $)$. 
+        \end{itemize}
+        \pause
+        \item Формулы ЛВ (множество $Prop$):
+        \begin{itemize}
+            \item Каждая переменная "--- формула ($Var_{Prop} \subset Prop$).
+            \item Если $A$ "--- формула, то $\neg A$ тоже ($\forall A : Prop ~ \neg A \in Prop$).
+            \item Если $A$ и $B$ "--- формулы, то $(A \land B)$, $(A \lor B)$ и $(A \to B)$ тоже ($\forall A, B : Prop ~ (A \land B) \in Prop$, $\ldots$).
+            \item Других формул нет.
+        \end{itemize}
+        \pause
+        \item Заметьте, что $A$ и $B$ не принадлежат языку ЛВ. Это \emph{метапеременные}, т.е. переменные \emph{метаязыка}, на котором мы описываем ЛВ. 
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Доказательства свойств формул по индукции}
+    \begin{itemize}
+        \item Данное определение формул ЛВ "--- \emph{индуктивное} (какие ещё индуктивные определения вы знаете?).
+        \item Соответственно, если мы хотим доказать, что какое-то свойство $P$ выполняется для всех формул ($\forall A : Prop ~ P(A)$), достаточно показать, что:
+        \pause
+        \begin{itemize}
+            \item оно верно для всех переменных, $\forall v : Var_{Prop} ~ P(v)$ \\($v$ это снова метапеременная, не переменная ЛВ).
+            \item если $A$ "--- формула и $P(A)$ верно, то верно и $P(\neg A)$, $\forall A : Prop ~ (P(A) \to P(\neg A))$.
+            \item Если $A$ и $B$ "--- формулы и $P(A)$ и $P(B)$ верны, то $P(A \land B)$, $P(A \lor B)$ и $P(A \to B)$ верны.
+        \end{itemize}
+        \pause
+        \item Пример: покажите, что число открывающих скобок в любой формуле равно числу закрывающих.
+        \pause
+        \item Более важный: теорема о единственности прочтения. По формуле можно однозначно определить, какая операция была последней в её построении и к каким формулам она была применена.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Соглашения об опускании скобок}
+    \begin{itemize}
+        \item TODO
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Семантика логики высказываний}
+    \begin{itemize}
+        \item Пока мы говорили только о \emph{синтаксисе} языка ЛВ, т.е. какие комбинации символов в нём допустимы.
+        \item \emph{Семантика} или \emph{интерпретация} формального языка описывает соответствие между объектами языка и тем, что они обозначают.
+        \item У одного языка может быть много интерпретаций. Даже у такого простого, как язык ЛВ. Но мы посмотрим только на стандартную.
+        \item Напомним, что высказывания могут быть истинны (обозначим как 1) или ложны (0). $\mathbb{B} = \{0, 1\}$ "--- множество значений истинности.
+        \item \emph{Оценка} $\sigma$ это функция $Var_{Prop} \to \mathbb{B}$. Каждую оценку можно продолжить на всё $Prop$ рекурсивно:
+        \begin{itemize}
+            \item $\sigma(\neg A) = \neg \sigma(A)$
+            \item $\ldots$
+        \end{itemize}
+        \item Заметьте, что $\neg$/$\land$/$\ldots$ слева "--- символы языка ЛВ, а справа "--- операции булевой алгебры.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Свойства формул}
+    \begin{itemize}
+        \item Теперь среди всех формул $A$ можно выделить
+        \begin{itemize}
+            \item \emph{тождественно истинные} (обозначаем как $\vDash A$): $\forall \sigma ~ \sigma(A) = 1$;
+            \item \emph{тождественно ложные}: $\forall \sigma ~ \sigma(A) = 0$;
+            \item \emph{выполнимые}: $\exists \sigma ~ \sigma(A) = 1$;
+            \item \emph{опровержимые}: $\exists \sigma ~ \sigma(A) = 0$.
+        \end{itemize}
+        \pause
+        \item Формулы $A$ и $B$ \emph{эквивалентны} (обозначаем $A \equiv B$), если $\forall \sigma ~ \sigma(A) = \sigma(B)$.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Пример дерева истинности}
+\begin{itemize}
+    \item Начнём с примера. Нужно доказать $p \to (q \to p \land q)$:
+    \item[] 
+\only<1>{
+    \begin{tableau}{
+    }
+        [{p \to (q \to p \land q) = 0}, just=Дано]
+    \end{tableau}
+}
+\only<2>{
+    \begin{tableau}{
+        }
+        [{p \to (q \to p \land q) = 0}, just=Дано, checked
+        [{p = 1}, just=1
+        [{q \to p \land q = 0}, just = 1
+        ]]]
+    \end{tableau}
+}
+\only<3>{
+    \begin{tableau}{
+        }
+        [{p \to (q \to p \land q) = 0}, just=Дано, checked
+        [{p = 1}, just=1, checked
+        [{q \to p \land q = 0}, just = 1
+        ]]]
+    \end{tableau}
+}
+\only<4>{
+    \begin{tableau}{
+        }
+        [{p \to (q \to p \land q) = 0}, just=Дано, checked
+        [{p = 1}, just=1, checked
+        [{q \to p \land q = 0}, just = 1, checked
+        [{q = 1}, checked, just=3
+        [{p \land q = 0}, just=3
+        ]]]]]
+    \end{tableau}
+}
+\only<5>{
+    \begin{tableau}{
+        }
+        [{p \to (q \to p \land q) = 0}, just=Дано, checked
+        [{p = 1}, just=1, checked
+        [{q \to p \land q = 0}, just = 1, checked
+        [{q = 1}, checked, just=3
+        [{p \land q = 0}, just=3
+        [{p = 0}, just=5] [{q = 0}, just=5]
+        ]]]]]
+    \end{tableau}
+}
+\only<6>{
+    \begin{tableau}{
+        }
+        [{p \to (q \to p \land q) = 0}, just=Дано, checked
+        [{p = 1}, just=1, checked
+        [{q \to p \land q = 0}, just = 1, checked
+        [{q = 1}, checked, just=3
+        [{p \land q = 0}, just=3
+        [{p = 0}, just=5, close={2,6}] [{q = 0}, just=5, close={4,6}]
+        ]]]]]
+    \end{tableau}
+}
+\onslide<7->{
+    \item Пусть $p \to (q \to p \land q) = 0$. 
+\item Тогда $p = 1$ и $q \to p \land q = 0$.
+\item Тогда $q = 1$ и $p \land q = 0$.
+\item Отсюда $p = 0$ или $q = 0$. Но оба невозможны!
+\item Значит,  $p \to (q \to p \land q) = 0$ невозможно.
+\item $p \to (q \to p \land q)$ тождественно истинно!
+}
+
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Правила деревьев истинности}
+\begin{itemize}
+    \item  Формулы со знаком ($A=0$ или $A=1$) делятся на 4 типа: 
+    \begin{itemize}
+        \item Атомарные (слева переменная).
+        \item Слева отрицание.
+        \item $\alpha$ ведут себя как \enquote{и}: $\alpha \Leftrightarrow \alpha_1 \land \alpha_2$.
+        \item $\beta$ ведут себя как \enquote{или}: $\beta \Leftrightarrow \beta_1 \lor \beta_2$.
+    \end{itemize}
+    \pause
+    \item[]
+    \item Правила:
+\begin{columns}
+    \begin{column}{0.33\textwidth}
+        \begin{center}
+            \begin{tableau}{not line numbering, single branches}
+                [{\neg A = 1(0)} [{~A = 0(1)}]]
+            \end{tableau}
+        \end{center}
+    \end{column}
+    \begin{column}{0.33\textwidth}
+        \begin{center}
+            \begin{tableau}{not line numbering, single branches}
+                [{\alpha} [{\displaystyle \alpha_1 \atop \displaystyle \alpha_2}]]
+            \end{tableau}
+        \end{center}
+    \end{column}
+    \begin{column}{0.33\textwidth}
+        \begin{center}
+            \begin{tableau}{not line numbering}
+                [\beta [\beta_1] [\beta_2]]
+            \end{tableau}
+        \end{center}
+    \end{column}
+\end{columns}
+    \vspace{1em}
+    \begin{tabular}{|c | c | c || c | c | c |}
+        \hline
+        $\alpha$ & $\alpha_1$ & $\alpha_2$ & $\beta$ & $\beta_1$ & $\beta_2$ \\
+        \hline
+        $A \land B = 1$ & $A = 1$ & $B = 1$ & $A \land B = 0$ & $A = 0$ & $B = 0$ \\
+        $A \lor B = 0$ & $A = 0$ & $B = 0$ & $A \lor B = 1$ & $A = 1$ & $B = 1$ \\
+        $A \to B = 0$ & $A = 1$ & $B = 0$ & $A \to B = 1$ & $A = 0$ & $B = 1$ \\
+        \hline
+    \end{tabular}
+    \pause
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Построение дерева истинности}
+\begin{itemize}
+    \item Идея в поиске контрпримера для формулы (или секвенции), которую хотим доказать.
+    \item Для доказательства формулы $A$ мы начинаем с уравнения $A=0$.
+    \item Для секвенции $A_1,\, A_2,\,\ldots \vdash B$ начинаем с \pause $A_1=1,\, A_2=1,\, \ldots,\, B=0$ (пишем их в столбик).
+    \item Для эквивалентности $A \equiv B$ строим 2 дерева: \pause $A=1,\, B=0$ и $A=0,\, B=1$.
+    \pause
+    \item[]
+    \item На каждом шаге:
+    \begin{itemize}
+        \item Выбираем неразобранное уравнение (не отмечено \checkmark).
+        \item Применяем правила с предыдущего слайда.
+        \item Результаты дописываются в конец всех открытых ветвей под ним.
+        \item Отмечаем как разобранное.
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Построение дерева истинности (2)}
+\begin{itemize}
+    \item Ветвь, в которой одновременно есть $A=1$ и $A=0$ для какой-то формулы $A$, называется \emph{закрытой}.
+    \item В ней можно дальше ничего не писать.
+    \item[]
+    \item Дерево \emph{закрыто}, если все его ветви закрыты. 
+    \item В этом случае уравнения, с которых начали, не имеют решений! 
+    \item Значит, исходная формула/секвенция не имеет контрпримера и она тождественно истинна.
+    \item[]
+    \pause
+    \item Если какая-то ветвь закончилась (нет неразобранных строк), но не закрылась, то мы нашли контрпример к исходной формуле и она \emph{не} тождественно истинна.
+    \item[]
+    \pause
+    \item Порядок применения влияет только на размер дерева, но не на результат.
+    \item Выгоднее сначала применять правила без ветвления.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Пример незакрытого дерева}
+\begin{itemize}
+    \item Проверим $(p \to r) \lor (q \to r) \to (p \lor q \to r)$:
+    \begin{tableau}{}
+        [{(p \to r) \lor (q \to r) \to (p \lor q \to r) = 0}, checked, just=Дано
+        [{(p \to r) \lor (q \to r) = 1}, checked, just=1
+        [{p \lor q \to r = 0}, checked, just=1
+        [{p \lor q = 1}, checked, just=3
+        [{r = 0}, checked, just=3
+        [{p \to r = 1}, checked, just=2
+        [{p = 1}, checked, just=4
+        [{p=0}, checked, just=6, close={7,8}]
+        [{r=1}, checked, just=6, close={5,8}]
+        ]
+        [{q = 1}, checked, just=4
+        [\vdots]
+        ]
+        ]
+        [{q \to r = 1}, checked, just=2
+        [{p = 1}, checked, just=4
+        [{q=0}, checked, just=6]
+        [{r=1}, checked, just=6, close={5,8}]
+        ]
+        [{q = 1}, checked, just=4
+        [\vdots]
+        ]
+        ]
+        ]]]]]
+    \end{tableau}
+    \item В законченной ветви $p=1,\,q=0,\,r=0$. На этом наборе строка 1 выполняется, значит, \pause формула не тождественно истинна.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Корректность и полнота}
+    \begin{itemize}
+        \item Формальная система \emph{корректна} для какого-то свойства, если все выводимые в этой системе формулы (или другие объекты) имеют это свойство.
+        \item Формальная система \emph{полна} для какого-то свойства, если все объекты с этим свойством выводимы.
+        \pause
+        \item[]
+        \item В приложении к деревьям истинности:
+        \item Теорема о корректности деревьев истинности для логики высказываний: если для $A=0$ есть закрытое дерево истинности, то $A$ тождественно истинна.
+        \item Теорема о полноте деревьев истинности для логики высказываний: если $A$ тождественно истинна, то для $A=0$ есть закрытое дерево истинности.
+        \item Можно доказать больше: любое законченное дерево истинности для $A=0$ закрыто.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Доказательство теоремы о корректности}
+    \begin{itemize}
+        \item Теорема: если для $A=0$ есть закрытое дерево истинности, то $A$ тождественно истинна.
+        \item Доказательство: от противного. Если $A$ не тождественно истинна, то $A=0$ выполнимо.
+        \pause
+        \item Значит, в исходном дереве единственная ветвь выполнима (есть оценка, для которой все уравнения в этой ветви истинны одновременно).
+        \pause
+        \item Лемма: если в дереве есть выполнимая ветвь, после применения правил такая ветвь тоже есть. Доказательство отдельно для правил $\neg$, $\alpha$ и $\beta$ (используя $\alpha \Leftrightarrow \alpha_1 \land \alpha_2$ и $\beta \Leftrightarrow \beta_1 \lor \beta_2$).
+        \pause
+        \item Значит, сколько не применяем правила к исходному дереву, на каждом шаге есть выполнимая ветвь.
+        \pause
+        \item Закрытая ветвь не может быть выполнима, значит, на каждом шаге есть открытая ветвь.
+        \item Значит, дерево не может быть закрыто.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Доказательство теоремы о полноте}
+    \begin{itemize}
+        \item Теорема: если $A$ тождественно истинна, то любое законченное дерево истинности для $A=0$ закрыто.
+        \item Доказательство: снова от противного. 
+        \pause
+        \item Пусть есть дерево с законченной открытой ветвью $\mathcal{B}$.
+        \pause
+        \item Рассмотрим оценку 
+        \[ \sigma(v) = \left\{ \begin{array}{l}
+            1, \text{ если } v=1 \in \mathcal{B} \\
+            0, \text{ если } v=0 \in \mathcal{B} \\
+            0 \text{ иначе} 
+        \end{array} \right. \]
+        \item Лемма: все уравнения в $\mathcal{B}$ выполняются на оценке $\sigma$.
+        \pause
+        \item Доказательство по индукции: для переменных по определению $\sigma$, и для случаев $\neg$, $\alpha$ и $\beta$.
+        \item Для $\beta$: $\beta \in \mathcal{B} \Rightarrow \beta_1 \in \mathcal{B} \lor \beta_2 \in \mathcal{B}$ (т.к. $\beta$ разобрана в $\mathcal{B}$) $\Rightarrow \sigma(\beta_1) = 1 \lor \sigma(\beta_2) = 1$ (по предположению индукции) $\Rightarrow \sigma(\beta) = 1$.
+        \pause
+        \item Для $\alpha$ аналогично, но $\land$ вместо $\lor$.
+        \pause
+        \item В частности, $\sigma(A)=0$ и $A$ не тождественно истинна.
+    \end{itemize}
+\end{frame}
+
+\end{document}

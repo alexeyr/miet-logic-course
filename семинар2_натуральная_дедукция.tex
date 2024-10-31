@@ -1,0 +1,160 @@
+\documentclass[10pt]{beamer}
+\input{lecture_preamble.tex}
+
+\title{Натуральная дедукция (естественный вывод)}
+\date{\today}
+
+\begin{document}
+\begin{frame}[plain]
+    \maketitle
+\end{frame}
+
+\begin{frame}
+    \frametitle{Секвенции}
+    \begin{itemize}
+        \item Выражение $A_1,\ldots,A_n \vdash B$ называется секвенцией и читается \enquote{из $A_1,\ldots,A_n$ выводится $B$}.
+        \item Удобно считать, что слева множество формул (порядок и повторения неважны).
+        \item Оно может быть пустым. \pause
+        \item $A_1,\ldots,A_n \vdash B$ истинна, если \pause на всех тех наборах, на которых $A_1,\ldots,A_n$ истинны, \pause $B$ тоже истинна.
+        \item Соответственно, $\vdash B$ (\enquote{$B$ выводится}) истинна тогда, когда $B$ \pause тождественно истинна.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Правила натуральной дедукции}
+    \tiny
+    \begin{itemize}
+        \item Для $\land$:
+        \[ 
+        \frac{A \qquad B}{A \wedge B}\ \wedge I 
+        \qquad \qquad 
+        \frac{A \wedge B}{A}\ \wedge{E}
+        \qquad
+        \frac{A \wedge B}{B}\ \wedge{E} 
+        \]
+        \item Для $\to$:
+        \[ 
+        \frac{\boxed{\begin{matrix}
+                A \\
+                \rvdots \\
+                B
+        \end{matrix}}}{A \to B}\ \to I 
+        \qquad \qquad 
+        \frac{A \to B \quad A}{B}\ \to E
+        \]
+        \item Для $\neg$ и $\bot$:
+        \[
+        \frac{\boxed{\begin{matrix}
+                A \\
+                \rvdots \\
+                \bot
+        \end{matrix}}}{\neg A}\ \neg I 
+        \qquad \qquad 
+        \frac{\neg A \quad A}{\bot}\ \neg E/\bot I
+        \qquad \qquad 
+        \frac{\bot}{A}\ \bot{E}
+        \]
+        \item Для $\lor$:
+        \[
+        \frac{A}{A \lor B}\ \lor{I}
+        \qquad
+        \frac{B}{A \lor B}\ \lor{I}
+        \qquad \qquad 
+        \frac{
+            \begin{matrix}
+                \phantom{A} \\
+                \phantom{\rvdots} \\
+                A \lor B 
+            \end{matrix}
+            \quad
+            \boxed{\begin{matrix}
+                A \\
+                \rvdots \\
+                C
+            \end{matrix}}
+            \quad
+            \boxed{\begin{matrix}
+                B \\
+                \rvdots \\
+                C
+            \end{matrix}}
+        }{C}\ \lor E
+        \qquad \qquad         
+        \frac{\boxed{\begin{matrix}
+                \neg A \\
+                \rvdots \\
+                B
+        \end{matrix}}}{A \lor B}\ \lor I'
+        \qquad 
+        \frac{\boxed{\begin{matrix}
+                \neg B \\
+                \rvdots \\
+                A
+        \end{matrix}}}{A \lor B}\ \lor I'
+        \]
+        \item Остальные:
+        \[
+        \frac{\boxed{\begin{matrix}
+                \neg A \\
+                \rvdots \\
+                \bot
+        \end{matrix}}}{A}\ RAA
+        \qquad \qquad 
+        \frac{A}{A}\ R
+        \]
+        \item $I$ обозначает правила введения (Introduction), $E$ "--- правила исключения (Elimination). 
+        \item[] Например, $\land I$ это правило \enquote{введения конъюнкции}. Можете также писать как В$\land$.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Пример}
+    \begin{align*}
+        \begin{nd}
+            \hypo{1}{(p \land q) \land r} \by{Дано}{}
+            \have{2}{p \land q} \ae{1}
+            \have[n][-4]{5}{q} \ae{2}
+            \have[n][-3]{3}{r} \ae{1}
+            \have[n][-2]{4}{p} \ae{2}
+            \have[n][-1]{6}{q \land r} \ai{4,5}
+            \have{n}{p \land (q \land r)} \ai{3,6}
+        \end{nd}
+    \end{align*}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Пример}
+    \begin{align*}
+        \begin{nd}
+            \open
+            \onslide<2->    \hypo{prem}{p} \by{Дано}{}
+                \open
+            \onslide<3->        \hypo{hyp}{q} \by{Дано}{}
+            \onslide<3->    \have{reit}{p} \r{prem}
+                \close
+            \onslide<2->    \have[n][-1]{cond}{q \rightarrow p} \ii{hyp-reit}
+            \close
+            \onslide<1-> \have[n]{conc}{p \rightarrow (q \rightarrow p)} \ii{prem-cond}
+        \end{nd}
+    \end{align*}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Допустимые правила}
+    \begin{itemize}
+        \item Выше доказали $(p \land q) \land r \vdash p \land (q \land r)$.
+        \item Это можно превратить в доказательство $(A \land B) \land C \vdash A \land (B \land C)$ для любых формул $A,B,C$. Как? \pause
+        \item Это даёт новое \emph{допустимое правило}:
+        \[
+            \frac{(A \land B) \land C}{A \land (B \land C)}\ \wedge A
+        \]
+        \item И так для каждой секвенции, которую докажем! Например
+        \[
+            \frac{\neg \neg A}{A}\ \neg \neg E \qquad \qquad \frac{A}{\neg \neg A}\ \neg \neg I \qquad \qquad \frac{A \to B \qquad B \to C}{A \to C}\ \to T
+        \]
+        и т.д.
+        \item У каких-то из этих правил есть обозначения, как выше, но можно просто пометить соотвествующей секвенцией.
+    \end{itemize}
+\end{frame}
+
+\end{document}

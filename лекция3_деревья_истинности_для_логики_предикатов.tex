@@ -1,0 +1,629 @@
+\documentclass[10pt]{beamer}
+\input{lecture_preamble.tex}
+
+\title{Логика предикатов\\Деревья истинности}
+\date{\today}
+
+\begin{document}
+\begin{frame}[plain]
+\maketitle
+\end{frame}
+
+\begin{frame}
+\frametitle{Доказательства в логике предикатов}
+\begin{itemize}
+    \item В логике предикатов естественно встаёт вопрос:
+    \item Дана формула, тождественно истинна ли она?
+    \item Что значит \enquote{Формула тождественно истинна}? \pause 
+    \begin{itemize}
+        \item Замкнутая: истинна на всех моделях её сигнатуры. \pause
+        \item Со свободными переменными: можем навесить квантор всеобщности. \pause
+    \end{itemize}
+    \item Варианты: эквивалентны ли две формулы? Является ли формула теоремой данной теории (это сложнее!)?
+    \item[]
+    \item Как это можно проверить?
+    \item Нельзя просто перечислить все модели: \pause их бесконечно (и даже несчётно) много!
+    \item Можно расширить деревья истинности и натуральную дедукцию. 
+    \item Сегодня деревья истинности.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Правила деревьев истинности}
+\begin{itemize}
+    \item Правила для $\land$/$\lor$/$\to$/$\neg$ (типы $\alpha$ и $\beta$) сохраняются.
+    \item Добавляются правила для формул с кванторами.
+    \item Есть несколько способов, рассмотрим простейший.
+    \item Добавляется бесконечное множество \emph{параметров} $a_1,a_2,\ldots$, не зависящих от сигнатуры.
+    \item Два новых типа формул: \pause
+    \addvbuffer[0.5em 0.5em]{
+    \begin{tabular}{|c | c || c | c |}
+    \hline
+    $\gamma$ & $\gamma(t)$ & $\delta$ & $\delta(t)$ \\
+    \hline
+    $\forall v ~ A(v) = 1$ & $A(t) = 1$ & $\forall v ~ A(v) = 0$ & $A(t) = 0$ \\
+    $\exists v ~ A(v) = 0$ & $A(t) = 0$ & $\exists v ~ A(v) = 1$ & $A(t) = 1$ \\
+    \hline
+    \end{tabular}}
+    \item Правила для них: \pause
+\begin{columns}
+    \begin{column}{0.5\textwidth}
+        \begin{center}
+            \begin{tableau}{not line numbering, single branches}
+                [{\gamma} [\gamma(t)]]
+            \end{tableau}\\
+            \vspace{0.5em}
+            $t$ --- замкнутый терм,\\ можно раскрыть много раз
+        \end{center}
+    \end{column} \pause
+    \begin{column}{0.5\textwidth}
+        \begin{center}
+            \begin{tableau}{not line numbering, single branches}
+                [{\delta} [\delta(a)]]
+            \end{tableau}\\
+        \vspace{0.5em}
+        $a$ --- новый (для ветви) параметр
+        \end{center}
+    \end{column}
+\end{columns}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Пояснения к правилам}
+\begin{itemize}
+    \item Смысл правила $\gamma$: утверждение, верное для всех объектов, верно в том числе для значения $t$.
+    \item Смысл правила $\delta$: мы даём название $a$ тому объекту, существование которого утверждается. \pause 
+    \item Обратите внимание, что $\forall x ~ A(x) = 0$ читается как \pause $(\forall x ~ A(x)) = 0$, а не $\forall x ~ (A(x) = 0)$. \pause
+    \item \emph{Замкнутый терм} не содержит переменных. В случае без константных и функциональных символов это просто параметр. \pause
+    \item $\gamma$-формулы не помечаются $\checkmark$ при раскрытии, чтобы показать, что они могут быть повторно раскрыты. Только использованным термом.
+    \item Для $\delta$-формул параметр можно указать рядом с $\checkmark$, чтобы легко увидеть использованные параметры.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Пример дерева истинности}
+\begin{itemize}
+    \item Первый пример: одно из правил де Моргана для кванторов, $\neg (\forall x ~ P(x)) \to (\exists x ~ \neg P(x))$.
+    \item[] 
+\only<+>{
+    \begin{tableau}{
+    }
+    [{\neg (\forall x ~ P(x)) \to (\exists x ~ \neg P(x)) = 0}, just=Дано]
+    \end{tableau}
+}
+\only<+>{
+    \begin{tableau}{
+    }
+    [{\neg (\forall x ~ P(x)) \to (\exists x ~ \neg P(x)) = 0}, just=Дано, checked
+    [{\neg (\forall x ~ P(x)) = 1}, just=1, checked
+    [{\exists x ~ \neg P(x) = 0}, just = 1
+    [{\forall x ~ P(x) = 0}, just=2
+    ]]]]
+    \end{tableau}
+}
+\only<+>{
+    \begin{tableau}{
+        }
+        [{\neg (\forall x ~ P(x)) \to (\exists x ~ \neg P(x)) = 0}, just=Дано, checked
+        [{\neg (\forall x ~ P(x)) = 1}, just=1, checked
+        [{\exists x ~ \neg P(x) = 0}, just = 1
+        [{\forall x ~ P(x) = 0}, just=2, checked=a_1
+        [{P(a_1) = 0}, just=4, checked
+        ]]]]]
+    \end{tableau}
+}
+\onslide<+->
+    \begin{tableau}{
+        }
+        [{\neg (\forall x ~ P(x)) \to (\exists x ~ \neg P(x)) = 0}, just=Дано, checked
+        [{\neg (\forall x ~ P(x)) = 1}, just=1, checked
+        [{\exists x ~ \neg P(x) = 0}, just = 1, subs=a_1
+        [{\forall x ~ P(x) = 0}, just=2, checked=a_1
+        [{P(a_1) = 0}, just=4, checked
+        [{\neg P(a_1) = 0}, just=3, checked
+        [{P(a_1) = 1}, just=6, checked, close={5,7}
+        ]]]]]]]
+    \end{tableau}
+\item Дерево закрылось, значит формула $\neg (\forall x ~ P(x)) \to (\exists x ~ \neg P(x))$ \onslide<+-> тождественно истинна.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Порядок действий}
+\begin{itemize}
+    \item Заметьте, что если сначала раскрыли бы строку 3 с параметром $a_1$, то в строке 4 пришлось бы использовать новый параметр $a_2$.
+    \item И противоречия не получится, пока не раскроем строку 3 с $a_2$. \pause
+    \item Также правила позволяют раскрыть строку 3 сколько угодно раз с разными параметрами и не дойти до строки 4.
+    \item Тогда опять не получим противоречия. \pause
+    \item Поэтому порядок раскрытия строк теперь важен для результата. \pause
+    \item Сначала $\alpha$ и $\delta$, потом $\beta$, потом $\gamma$. \pause
+    \item Это не единственно возможный, но достаточно простой.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Пример дерева истинности (2)}
+\begin{itemize}
+    \item Ещё пример: $\forall x ~ P(x) \land Q(x) \vdash (\forall x ~ P(x)) \land (\forall x ~ Q(x))$. \\ Как думаете, тождественно истинна или нет?
+    \item[] 
+    \only<+>{
+        \begin{tableau}{
+            }
+            [{\forall x ~ P(x) \land Q(x) = 1}, just=Дано
+            [{(\forall x ~ P(x)) \land (\forall x ~ Q(x)) = 0}, just=Дано]]
+        \end{tableau}
+    }
+    \only<+>{
+    \begin{tableau}{
+        }
+        [{\forall x ~ P(x) \land Q(x) = 1}, just=Дано
+        [{(\forall x ~ P(x)) \land (\forall x ~ Q(x)) = 0}, just=Дано, checked
+        [{\forall x ~ P(x) = 0}, just = 2
+        ]
+        [{\forall x ~ Q(x) = 0}, just = 2
+        ]]]
+        \end{tableau}
+    }
+    \only<+>{
+        \begin{tableau}{
+            }
+        [{\forall x ~ P(x) \land Q(x) = 1}, just=Дано
+        [{(\forall x ~ P(x)) \land (\forall x ~ Q(x)) = 0}, just=Дано, checked
+        [{\forall x ~ P(x) = 0}, just = 2, checked=a_1
+        [{P(a_1) = 0}, just=3, checked
+        ]]
+        [{\forall x ~ Q(x) = 0}, just = 2, checked=a_1
+        [{Q(a_1) = 0}, just=3, checked
+        ]
+        ]]]
+        \end{tableau}
+    }
+    \only<+>{
+        \begin{tableau}{
+            }
+        [{\forall x ~ P(x) \land Q(x) = 1}, just=Дано, subs=a_1
+        [{(\forall x ~ P(x)) \land (\forall x ~ Q(x)) = 0}, just=Дано, checked
+        [{\forall x ~ P(x) = 0}, just = 2, checked=a_1
+        [{P(a_1) = 0}, just=3, checked
+        [{P(a_1) \land Q(a_1) = 1}, just=1
+        ]]]
+        [{\forall x ~ Q(x) = 0}, just = 2, checked=a_1
+        [{Q(a_1) = 0}, just=3, checked
+        [{P(a_1) \land Q(a_1) = 1}, just=1
+        ]]
+        ]]]
+        \end{tableau}
+    }
+    \onslide<+->
+    \begin{tableau}{
+        }
+        [{\forall x ~ P(x) \land Q(x) = 1}, just=Дано, subs=a_1
+        [{(\forall x ~ P(x)) \land (\forall x ~ Q(x)) = 0}, just=Дано, checked
+        [{\forall x ~ P(x) = 0}, just=2, checked=a_1
+        [{P(a_1) = 0}, just=3, checked
+        [{P(a_1) \land Q(a_1) = 1}, just=1, checked
+        [{P(a_1) = 1}, just=5, checked, close={4,6}
+        ]]]]
+        [{\forall x ~ Q(x) = 0}, just=2, checked=a_1
+        [{Q(a_1) = 0}, just=3, checked
+        [{P(a_1) \land Q(a_1) = 1}, just=1, checked
+        [{Q(a_1) = 1}, just=5, checked, close={4,6}
+        ]]]
+        ]]]
+    \end{tableau}
+    \item Дерево закрылось, значит секвенция \onslide<+-> тождественно истинна. \onslide<3->
+    \item В строке 3 можем использовать $a_1$ в обеих ветвях. \onslide<4->
+    \item Когда раскрываем строку 1, под ней две открытые ветви, результат пишем в обе.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Пример дерева истинности (3)}
+\begin{itemize}
+    \item $\forall x ~ P(x) \lor Q(x) \vdash (\forall x ~ P(x)) \lor (\forall x ~ Q(x))$. \\ Как думаете, тождественно истинна или нет?
+    
+    \only<+>{
+        \begin{tableau}{
+            }
+            [{\forall x ~ P(x) \lor Q(x) = 1}, just=Дано
+            [{(\forall x ~ P(x)) \lor (\forall x ~ Q(x)) = 0}, just=Дано
+            ]]
+        \end{tableau}
+    }
+    
+    \only<+>{
+        \begin{tableau}{
+            }
+            [{\forall x ~ P(x) \lor Q(x) = 1}, just=Дано
+            [{(\forall x ~ P(x)) \lor (\forall x ~ Q(x)) = 0}, just=Дано, checked
+            [{\forall x ~ P(x) = 0}, just = 2
+            [{\forall x ~ Q(x) = 0}, just = 2
+            ]]]]
+        \end{tableau}
+    }
+    
+    \only<+>{
+        \begin{tableau}{
+            }
+            [{\forall x ~ P(x) \lor Q(x) = 1}, just=Дано
+            [{(\forall x ~ P(x)) \lor (\forall x ~ Q(x)) = 0}, just=Дано, checked
+            [{\forall x ~ P(x) = 0}, just = 2, checked=a_1
+            [{\forall x ~ Q(x) = 0}, just = 2, checked=a_2
+            [{P(a_1) = 0}, just=3, checked
+            [{Q(a_2) = 0}, just=4, checked
+            ]]]]]]
+        \end{tableau}
+    }
+    
+        \only<+>{
+        \begin{tableau}{
+            }
+            [{\forall x ~ P(x) \lor Q(x) = 1}, just=Дано, subs={a_1}
+            [{(\forall x ~ P(x)) \lor (\forall x ~ Q(x)) = 0}, just=Дано, checked
+            [{\forall x ~ P(x) = 0}, just = 2, checked=a_1
+            [{\forall x ~ Q(x) = 0}, just = 2, checked=a_2
+            [{P(a_1) = 0}, just=3, checked
+            [{Q(a_2) = 0}, just=4, checked
+            [{P(a_1) \lor Q(a_1) = 1}, just=1
+            ]]]]]]]
+        \end{tableau}
+    }
+
+    \only<+>{
+    \begin{tableau}{
+        }
+        [{\forall x ~ P(x) \lor Q(x) = 1}, just=Дано, subs={a_1}
+        [{(\forall x ~ P(x)) \lor (\forall x ~ Q(x)) = 0}, just=Дано, checked
+        [{\forall x ~ P(x) = 0}, just = 2, checked=a_1
+        [{\forall x ~ Q(x) = 0}, just = 2, checked=a_2
+        [{P(a_1) = 0}, just=3, checked
+        [{Q(a_2) = 0}, just=4, checked
+        [{P(a_1) \lor Q(a_1) = 1}, just=1, checked
+        [{P(a_1) = 1}, just={7 (ветвь закончена?)}, checked, close={5,8}
+        ]
+        [{Q(a_1) = 1}, just={7 (ветвь закончена?)}, checked
+        ]]]]]]]]
+    \end{tableau}
+}
+
+    \only<+>{
+        \begin{tableau}{
+            }
+        [{\forall x ~ P(x) \lor Q(x) = 1}, just=Дано, subs={a_1,a_2}
+[{(\forall x ~ P(x)) \lor (\forall x ~ Q(x)) = 0}, just=Дано, checked
+[{\forall x ~ P(x) = 0}, just = 2, checked=a_1
+[{\forall x ~ Q(x) = 0}, just = 2, checked=a_2
+[{P(a_1) = 0}, just=3, checked
+[{Q(a_2) = 0}, just=4, checked
+[{P(a_1) \lor Q(a_1) = 1}, just=1, checked
+[{P(a_1) = 1}, just=7, checked, close={5,8}
+]
+[{Q(a_1) = 1}, just=7, checked
+[{P(a_2) \lor Q(a_2) = 1}, just=1
+]]]]]]]]]
+        \end{tableau}
+    }
+
+    \onslide<+->
+    \begin{tableau}{
+        }
+        [{\forall x ~ P(x) \lor Q(x) = 1}, just=Дано, subs={a_1,a_2}
+        [{(\forall x ~ P(x)) \lor (\forall x ~ Q(x)) = 0}, just=Дано, checked
+        [{\forall x ~ P(x) = 0}, just = 2, checked=a_1
+        [{\forall x ~ Q(x) = 0}, just = 2, checked=a_2
+        [{P(a_1) = 0}, just=3, checked
+        [{Q(a_2) = 0}, just=4, checked
+        [{P(a_1) \lor Q(a_1) = 1}, just=1, checked
+        [{P(a_1) = 1}, just=7, checked, close={5,8}
+        ]
+        [{Q(a_1) = 1}, just=7, checked
+        [{P(a_2) \lor Q(a_2) = 1}, just=1, checked
+        [{P(a_2) = 1}, just=9, checked
+        ]
+        [{Q(a_2) = 1}, just=9, checked, close={6,10}
+        ]
+        ]]]]]]]]]
+    \end{tableau}
+    \item Дерево не закрылось!
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Пример дерева истинности (3)}
+\begin{itemize}
+    \item Получили открытую ветвь, в которой: 
+    \begin{itemize}
+        \item все $\alpha$-, $\beta$-, $\delta$- и $\neg$-формулы раскрыты;
+        \item все $\gamma$-формулы раскрыты со всеми параметрами (и хотя бы с одним).
+    \end{itemize}
+    \item Такая ветвь называется законченной. \pause
+    \item В нашем случае атомы в ней $P(a_1) = 0$, $Q(a_2) = 0$, $Q(a_1) = 1$, $P(a_2) = 1$.
+    \item По ним строим модель. В ней два объекта, которые так и обозначим: $a_1$ и $a_2$. \\ \pause
+    \begin{tabular}{|c | c c |}
+    \hline
+    $x$ & $a_1$ & $a_2$ \\
+    \hline
+    $P(x)$ & $0$ & $1$ \\
+    \hline
+    $Q(x)$ & $1$ & $0$ \\
+    \hline
+    \end{tabular} \pause
+    \item Что делать, если бы в ветви не было атома c $P(a_1)$ (например)? \pause
+    \item Можем поставить туда любое значение. \pause
+    \item Снова видим, что $x$, связанные разными кванторами, по сути разные переменные (строки 5-6).
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Пример дерева истинности (4)}
+\begin{itemize}
+    \item $\forall x \exists y ~ P(x, y) \vdash \exists y \forall x ~ P(x, y)$. \\ Как думаете, тождественно истинна или нет?
+    \item[] 
+\only<+>{
+    \begin{tableau}{
+        }
+        [{\forall x \exists y ~ P(x, y) = 1}, just=Дано
+        [{\exists y \forall x ~ P(x, y) = 0}, just=Дано
+        ]]
+    \end{tableau}
+}
+
+    \only<+>{
+    \begin{tableau}{
+        }
+        [{\forall x \exists y ~ P(x, y) = 1}, just=Дано, subs={a_1}
+        [{\exists y \forall x ~ P(x, y) = 0}, just=Дано
+        [{\exists y ~ P(a_1, y) = 1}, just=1, checked=a_2
+        [{P(a_1, a_2) = 1}, just=3, checked
+        ]]]]
+    \end{tableau}
+}
+
+    \only<+>{
+\begin{tableau}{
+    }
+    [{\forall x \exists y ~ P(x, y) = 1}, just=Дано, subs={a_1}
+    [{\exists y \forall x ~ P(x, y) = 0}, just=Дано, subs={a_2}
+    [{\exists y ~ P(a_1, y) = 1}, just=1, checked=a_2
+    [{P(a_1, a_2) = 1}, just=3, checked
+    [{\forall x ~ P(x, a_2) = 0}, just=2, checked=a_3
+    [{P(a_3, a_2) = 0}, just={5 (ветвь закончена?)}, checked
+    ]]]]]]
+\end{tableau}
+}
+
+    \onslide<+->
+    \begin{tableau}{
+        }
+        [{\forall x \exists y ~ P(x, y) = 1}, just=Дано, subs={a_1,a_3,\ldots}
+        [{\exists y \forall x ~ P(x, y) = 0}, just=Дано, subs={a_2,\ldots}
+        [{\exists y ~ P(a_1, y) = 1}, just=1, checked=a_2
+        [{P(a_1, a_2) = 1}, just=3, checked
+        [{\forall x ~ P(x, a_2) = 0}, just=2, checked=a_3
+        [{P(a_3, a_2) = 0}, just=5, checked
+        [{\exists y ~ P(a_3, y) = 1}, just=1, checked=a_4
+        [{\ldots}
+        ]]]]]]]]
+    \end{tableau}
+    \onslide<+->
+    \item На этот раз ситуация сложнее предыдущей.
+    \item Противоречия нет, но и законченной ветви (в смысле прошлого слайда) тоже.
+    \item По крайней мере после любого конечного числа шагов.
+    \onslide<+->
+    \item Наверное, легко \emph{увидеть}, что противоречия так и не получим, но как это \emph{доказать}?
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Бесконечные контрмодели}
+\begin{itemize}
+    \item В нашей ветви видны некоторые значения предиката:
+    \item[] \begin{tabular}{c | c c c c c}
+        \diagbox[height=1.5\line]{x}{y} & $a_1$ & $a_2$ & $a_3$ & $a_4$ & \ldots \\ \hline
+        $a_1$ & ? & 1 & ? & ? & \\
+        $a_2$ & ? & ? & ? & ? & \\
+        $a_3$ & ? & 0 & ? & 1 & \\
+        $a_4$ & ? & ? & ? & ? & \\
+        \ldots & & & & & \\ 
+    \end{tabular}
+    \item Как в терминах этой таблицы выглядят:
+    \begin{itemize}
+        \item $\forall x \exists y ~ P(x, y) = 1$? \pause В каждой строке есть 1. \pause
+        \item $\exists y \forall x ~ P(x, y) = 0$? \pause Нет столбца, где все 1. 
+        \item[] Помните, что это $(\exists y \forall x ~ P(x, y)) = 0$, а не $\exists y \forall x ~ (P(x, y) = 0)$!
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Бесконечные контрмодели}
+\begin{itemize}
+    \item Видно, что расставить 0 и 1 на место ? произвольно нельзя, но вот вариант:
+    \item[] {\small \begin{tabular}{c | c c c c c}
+        \diagbox[height=1.5\line]{x}{y} & $a_1$ & $a_2$ & $a_3$ & $a_4$ & \ldots \\ \hline
+        $a_1$ & 0 & 1 & 0 & 0 & \\
+        $a_2$ & 0 & 0 & 1 & 0 & \\
+        $a_3$ & 0 & 0 & 0 & 1 & \\
+        $a_4$ & 0 & 0 & 0 & 0 & \\
+        \ldots & & & & & \\ 
+    \end{tabular}}
+    \pause
+    \item[]
+    \item Мы нашли бесконечный контрпример для этой секвенции, а есть ли конечный? Напомню условия:
+    \item В каждой строке есть 1; нет столбца, где все 1. 
+    \pause
+    \item Конечно, есть. Например:
+    \item[] {\small \begin{tabular}{c | c c |}
+        \diagbox[height=1.5\line]{x}{y} & $a_1$ & $a_2$ \\ \hline
+        $a_1$ & 1 & 0 \\
+        $a_2$ & 0 & 1 \\
+        \hline
+    \end{tabular}}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Теорема о корректности}
+    \begin{itemize}
+        \item Теорема: если для $A=0$ есть закрытое дерево истинности, то $A$ тождественно истинна.
+        \item Общий ход доказательства тот же, что для логики высказываний. Напомню:
+        \pause
+        \item Доказательство от противного. Если $A$ не тождественно истинна, то $A=0$ выполнимо.
+        \item Значит, в исходном дереве единственная ветвь выполнима.
+        \item Лемма: если в дереве есть выполнимая ветвь, после применения правил такая ветвь тоже есть.
+        \item Значит, сколько не применяем правила к исходному дереву, на каждом шаге есть выполнимая ветвь.
+        \item Закрытая ветвь не может быть выполнима, значит, на каждом шаге есть открытая ветвь.
+        \item Значит, дерево не может быть закрыто.
+        \pause
+        \item Остаётся только доказать основную лемму для правил $\gamma$ и $\delta$.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Основная лемма теоремы о корректности}
+    \begin{itemize}
+        \item Ветвь $\mathcal{B}$ выполнима, т.е. есть модель $M$, в которой все уравнения из $\mathcal{B}$ истинны. Параметры имеют значения в этой модели, как константы.
+        \item Случай $\gamma$ с термом $t$: Рассмотрим $\forall v ~ A(v)=1$. По предположению, она истинна в $M$. Значит, $A(t)=1$ тоже истинно в $M$. Для $\exists v ~ A(v)=0$ аналогично.
+        \pause
+        \item Случай $\delta$ с параметром $a_i$: Рассмотрим $\exists v ~ A(v)=1$. По предположению, она истинна в $M$. Значит, есть $e \in \bar{M}$, для которого $A(e) = 1$ \pause (строго говоря, $\sigma_{v \mapsto e}(A(v)) = 1$).
+        \item Зададим $M'$, которая отличается от $M$ только тем, что параметр $a_i$ имеет значение $e$. Тогда в $M'$: \begin{itemize}
+            \item $A(a_i) = A(e) = 1$; 
+            \item остальные уравнения из $\mathcal{B}$ истинны, так как \pause не содержат $a_i$.
+        \end{itemize}
+        Значит, все уравнения новой ветви истинны в $M'$.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Множества и лемма Хинтикки}
+    \begin{itemize}
+        \item Перейдём к теореме о полноте.
+        \item Для упрощения ограничимся случаем, когда в сигнатуре есть только предикатные символы, нет константных и функциональных.
+        \pause
+        \item Множество уравнений $H$ "--- \emph{множество Хинтикки}, если есть множество параметров $U$ такое, что
+        \begin{enumerate}
+            \item $P(a_{i_1},\ldots,a_{i_k})=1 \notin H \lor P(a_{i_1},\ldots,a_{i_k})=0 \notin H$ для любого предикатного символа $P$ и параметров $a_{i_1},\ldots,a_{i_k}$ из $U$.
+            \item $\alpha \in H \Rightarrow \alpha_1 \in H \land \alpha_2 \in H$.
+            \item $\beta \in H \Rightarrow \beta_1 \in H \lor \beta_2 \in H$.
+            \item $\gamma \in H \Rightarrow \forall a_i \in U ~ \gamma(a_i) \in H$.
+            \item $\delta \in H \Rightarrow \exists a_i \in U ~ \delta(a_i) \in H$.
+        \end{enumerate}
+        \pause
+        \item Лемма Хинтикки для логики первого порядка: любое множество Хинтикки имеет модель, носителем которой является $U$.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Лемма Хинтикки (доказательство)}
+    \begin{itemize}
+        \item Как и для логики высказываний, задаём
+        \[ P^M(a_{i_1},\ldots,a_{i_k}) = \left\{ \begin{array}{l}
+            1, \text{ если } P(a_{i_1},\ldots,a_{i_k})=1 \in H \\
+            0, \text{ если } P(a_{i_1},\ldots,a_{i_k})=0 \in H \\
+            0 \text{ иначе} 
+        \end{array} \right. \]
+        \item Атомарные уравнения из $H$ истинны в $M$ по определению. 
+        \pause
+        \item Индукцией по сложности покажем, что все остальные тоже.
+        \item $\alpha$ и $\beta$ как в логике высказываний.
+        \pause
+        \item Пусть $\gamma \in H$ имеет вид $\forall v ~ A(v)=1$. Тогда все $A(a_i)=1 \in H$. Их сложность меньше, и они истинны в $M$ по предположению индукции. Значит, $\forall v ~ A(v)=1$ истинно в $M$. 
+        \pause
+        \item Для $\exists v ~ A(v)=0$ аналогично.
+        \pause
+        \item Для $\delta$ тоже разбираем отдельно $\exists v ~ A(v)=1$ и $\forall v ~ A(v)=0$.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Систематические деревья}
+    \begin{itemize}
+        \item В отличие от логики высказываний, порядок раскрытия уравнений в логике предикатов важен.
+        \item То есть может оказаться, что в зависимости от этого порядка ветвь закроется или нет.
+        \item Нужен способ гарантировать, что если противоречие есть, мы его найдём
+        \item А если нет, то получим множество Хинтикки.
+        \item Этот способ "--- систематические деревья.
+        \pause
+        \item На каждом шаге раскрываем самое верхнее нераскрытое уравнение. Если их несколько на одном уровне, то левое из них.
+        \item Уравнения типа $\gamma$ раскрываем сначала с параметром $a_1$, и добавляем под $\gamma(a_1)$ ещё одну копию $\gamma$.
+        \item Когда до неё дойдём, раскроем с $a_2$ и добавим ещё копии\ldots
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Систематические деревья (2)}
+    \begin{itemize}
+        \item Систематическое дерево \emph{закончено} в любом из следующих случаев: 
+        \begin{enumerate}
+            \item оно закрыто;
+            \item в нём не осталось неразобранных уравнений;
+            \item оно бесконечно.
+        \end{enumerate}
+        \item Открытая ветвь в законченном систематическом дереве является множеством Хинтикки.
+        \item Доказательство: если ветвь конечна, это следует сразу из определения. 
+        \item А если она бесконечна, то в систематической процедуре было сделано бесконечно много шагов.
+        \item Так как число уравнений на каждом уровне конечно, то все уравнения до любого фиксированного уровня $n$ будут разобраны за конечное число шагов.
+        \item Значит, все уравнения бесконечной ветви разобраны. В том числе типа $\gamma$ "--- со всеми параметрами.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Теорема о полноте}
+    \begin{itemize}
+        \item Теорема: если $A$ тождественно истинна, то законченное систематическое дерево истинности для $A=0$ закрыто.
+        \pause
+        \item Доказательство: если оно открыто, то его открытая ветвь "--- множество Хинтикки, содержащее $A=0$. 
+        \item По лемме Хинтикки эта ветвь имеет модель.
+        \item В этой модели $A=0$.
+        \item Значит, $A$ не тождественно истинна.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Счётные модели}
+    \begin{itemize}
+        \item Существенно, что построенная модель для множества Хинтикки конечна или \emph{счётна}, то есть её элементы можно перенумеровать $\{a_1,a_2,\ldots\}$.\footnote{Больше о счётных и несчётных множествах в следующем разделе.}
+        \item Пусть формула $A$ выполнима (то есть имеет какую-то модель). 
+        \item Тогда $\neg A$ не тождественно истинна.
+        \item Значит, систематическое дерево для $\neg A = 0$ или для $A = 1$ не может быть закрыто.
+        \item Значит, $A$ имеет конечную или счётную модель.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Теорема Лёвенгейма-Сколема}
+    \begin{itemize}
+        \item Можно рассматривать деревья не для одного уравнения, а для множества, в том числе счётного.
+        \item Позже увидим, что любое бесконечное множество уравнений логики предикатов счётно.
+        \item Если множество счётное, то мы не можем начать с ветви, содержащей все уравнения.
+        \item Вместо этого разрешаем кроме обычных правил расширения дерева добавлять уравнения из множества в конец открытой ветви.
+        \item В построении систематического дерева будет изменение: после шага $n$ добавим в конец всех открытых ветвей уравнение $A_n$.
+        \item Доказательства выше работают по-прежнему.
+        \item Получается теорема Лёвенгейма-Сколема: если счётное множество уравнений выполнимо, то оно выполнимо в конечной или счётной модели.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Теорема о компактности}
+    \begin{itemize}
+        \item С другой стороны, если систематическое дерево для бесконечного множества уравнений закроется, то это случится после конечного количества шагов.
+        \item При этом может быть использовано только конечное число уравнений исходного множества.
+        \item Теорема о компактности: если множество уравнений невыполнимо, то у него есть конечное невыполнимое подмножество.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Последние замечания}
+\begin{itemize}
+    \item Есть варианты правил деревьев, которые позволят найти конечный контрпример в последнем примере, но их сложнее объяснить и понять.
+    \item Краткое изложение \href{https://en.wikipedia.org/wiki/Method_of_analytic_tableaux\#First-order_tableau_with_unification}{в английской Википедии}. \pause
+    \item[]
+    \item Пока мы не можем это доказать, но логика предикатов неразрешима: нет алгоритма, который для любой формулы скажет, тождественно истинна ли она.
+    \item Значит, в любой системе доказательств надо что-то придумывать (для некоторых формул), чисто механических действий недостаточно.
+\end{itemize}
+\end{frame}
+
+
+\end{document}

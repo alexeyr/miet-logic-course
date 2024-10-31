@@ -1,0 +1,276 @@
+\documentclass[10pt]{beamer}
+\input{lecture_preamble.tex}
+
+\title{Введение в логику предикатов}
+\date{\today}
+
+\begin{document}
+\begin{frame}[plain]
+\maketitle
+\end{frame}
+
+\begin{frame}
+    \frametitle{Структура атомарных высказываний}
+    \begin{itemize}
+        \item Вспомним примеры простых высказываний с прошлой лекции: $4<5$, \enquote{Волга впадает в Балтийское море}.
+        \pause
+        \item $4$, $5$, \enquote{Волга} и \enquote{Балтийское море} здесь \emph{константы}, обозначающие какие-то объекты.
+        \item $<$ и \enquote{\_ впадает в \_} "--- \emph{предикаты}, обозначающие отношения между объектами. Оба предиката \emph{бинарные} (или \emph{двухместные}).
+        \pause
+        \item Свойства (например \enquote{\_ круглое} в \enquote{Земля круглая}) "--- тоже предикаты, но \emph{унарные}.
+        \pause
+        \item Ещё пример: $2+2=5$. Здесь $2$ и $5$ "--- \pause константы, $=$ "--- \pause предикат, а $+$ "--- \pause \emph{функция}.
+        \item $2+2$ "--- \emph{терм}, обозначает объект (как и константы).
+        \item В $n$-местный предикат можно подставить $n$ термов и получить высказывание.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Сигнатуры, термы, формулы}
+    \begin{itemize}
+        \item \emph{Сигнатура} $\Sigma$ "--- конечные или счётные множества константных $Const_\Sigma$, функциональных $Fun_\Sigma$ и предикатных $Pred_\Sigma$ символов. Для каждого символа из $Fun_\Sigma$ и $Pred_\Sigma$ задано число аргументов (\emph{арность}).
+        \item \emph{Переменные} "--- \pause $x,\,y,\,z_3,\,\ldots$. Обозначают \pause какие-то объекты (не истину/ложь, как $p,q,r$). Множество $Var$ не зависит от сигнатуры. \pause
+        \item \emph{Термы} "--- \pause $x,\,(y+2) \cdot z,\,\ldots$ Выражения, значения которых "--- объекты. Строятся из переменных и константных символов применением функциональных. Множество термов над $\Sigma$: $Term_\Sigma$. \pause
+        \item \emph{Формулы} "--- \pause $x=y+1$; $\forall x ~ x \neq x^2$ \ldots Вот их значения истина и ложь. \emph{Атомарные формулы} строятся из термов применением предикатных символов, а остальные  применением связок $\land$/$\lor$/\ldots и кванторов $\forall$ и $\exists$ к формулам. Множество формул над $\Sigma$: $Form_\Sigma$.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Модели}
+    \begin{itemize}
+        \item \emph{Модель} $M$ сигнатуры $\Sigma$ состоит из:
+        \begin{itemize}
+            \item \emph{Носитель} (или \emph{универсум}): \pause множество $\bar{M}$.
+            \item Для каждого символа $c : Const_\Sigma$\only<2->{\footnote{Я пишу $:$ вместо $\in$ для объявления новой переменной.}}: \pause элемент $c_M : \bar{M}$.
+            \item Для $f: Fun_\Sigma$: \pause функция $f_M: M^{arity(f)} \to M$.
+            \item Для $P: Pred_\Sigma$: \pause предикат $P_M: M^{arity(P)} \to \{0,1\}$.
+        \end{itemize}
+        \item \emph{Оценка} "--- значение переменных в модели, $\sigma : Var \to \bar{M}$. Или $V \to \bar{M}$, где $V \subset Var$.
+        \item Важно: символы сигнатуры сами по себе ничего не говорят об их интерпретации! $+_M$ может быть $-$ или $\cdot$ или $x,y \mapsto \int_{x}^{y} t dt$.
+        \pause 
+        \item Одно исключение: если есть $=$, то $=_M$ это равенство на $\bar{M}$.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Значения термов и формул}
+    \begin{itemize}
+        \item $\sigma$ расширяется на \only<1>{$Term_\Sigma \to ~ ???$ и на $Form_\Sigma \to ~ ???$}\only<2->{$Term_\Sigma \to \bar{M}$ и на $Form_\Sigma \to \{0,1\}$} по индукции: \pause 
+        \item $\sigma(c) = c_M$.
+        \item $\sigma(f(t_1,\ldots,t_n)) = f_M(\sigma(t_1),\ldots,\sigma(t_n))$.
+        \pause
+        \item[]
+        \item $\sigma(P(t_1,\ldots,t_n)) = P_M(\sigma(t_1),\ldots,\sigma(t_n))$.
+        \item $\sigma(A \land B) = \sigma(A) \land \sigma(B)$ (аналогично для $\neg$/$\lor$/$\to$).
+        \pause
+        \item Для кванторов нужно сначала определить $\sigma_{v \mapsto a}$ (где $v$ переменная, а $a$ "--- объект из $\bar{M}$): 
+        \[ \begin{array}{l}
+            \sigma_{v \mapsto a}(v) = a \\
+            \sigma_{v \mapsto a}(u) = \sigma(u) \text{ для остальных переменных } u.
+        \end{array} \]
+        \pause
+        Теперь
+        \[ \sigma(\forall v ~ A) = \left\{ \begin{array}{l}
+            1, \text{ если } \forall a : \bar{M} ~  \sigma_{v \mapsto a}(A) = 1 \\
+            0 \text{ иначе }
+        \end{array} \right. \]
+        и аналогично для $\exists$.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Свободные и связанные переменные}
+    \begin{itemize}
+        \item \emph{Связанное вхождение переменной} "--- \pause $v$ под квантором по этой же переменной $\forall v/\exists v$.
+        \item \emph{Свободное вхождение переменной} "--- \pause любое другое.
+        \item Переменная свободна в формуле, если имеет какие-то свободные вхождения.
+        \item \emph{Замкнутая формула} (или \emph{предложение}) "--- формула без свободных переменных.
+        \item Почему это важно? Какая между ними разница? \pause 
+        \item $\sigma(\forall/\exists v ~ \ldots)$ не зависит от $\sigma(v)$.
+        \pause
+        \item Отсюда можно доказать, что значение формулы $A$ зависит только от значений свободных переменных $A$, но не от связанных.
+        \pause
+        \item А значение замкнутой формулы? \pause Вообще не зависит от оценки, только от модели.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Свободные и связанные переменные (2)}
+    \begin{itemize}
+        \item Связанную переменную можно переименовать, не изменив смысла и значения формулы.
+        \item Вместо свободной переменной можно подставить произвольный терм, вместо связанной нельзя.
+        \item Переменные с одним названием, связанные разными кванторами, это по сути разные переменные. Пример: $x = 3 \land (\exists x ~ x=0) \land \forall x ~ (x > 0 \to x^2 > 0)$.
+        \item В математике переменные могут связываться не только кванторами: \pause
+        \[ \lim_{x \to \ldots} \ldots \qquad \int_{\ldots}^{\ldots} \ldots dx \qquad \{x|\ldots\} \]
+        все связывают $x$.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Примеры}
+    \begin{itemize}
+        \item Рассмотрим пример.
+        \item Формула (замкнутая): $\forall x ~ (P(x) \to Q(x))$.
+        \item Возьмём произвольную модель из 3 элементов: $\bar{M} = \{0,1,2\}$.
+        \item Как можно задать предикаты $P$ и $Q$? \pause
+        \item[] \begin{tabular}{c | c c c}
+            x & 0 & 1 & 2 \\ \hline
+            P(x) & 0 & 0 & 1 \\
+            Q(x) & 1 & 0 & 1
+        \end{tabular}
+        \item Истинна ли формула? \pause Да. \pause
+        \item Попробуем другую формулу на той же модели:  $\exists x ~ (P(x) \land Q(x)) \land \exists x ~ \neg P(x)$. Истинна ли она? \pause Да. \pause
+        \item Как насчёт незамкнутой формулы $P(x) \to \forall x ~ Q(x)$? \pause Истинна при $\sigma(x) = 0,~\sigma(x) = 1$, ложна при $\sigma(x) = 2$. \pause
+        \item Для простоты можно писать $x = 0$ вместо $\sigma(x) = 0$. \pause
+        \item Ничего не изменится, если $\bar{M} = \{a,b,c\}$, какие-то абстрактные объекты. 
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Примеры}
+    \begin{itemize}
+        \item Ещё пример с бинарным предикатом:
+        \item Формула: $\forall x \exists y ~ (P(x,y) \to P(x,x))$.
+        \item Возьмём $\bar{M} = \{a,b,c\}$.
+        \item Какой таблицей задаётся бинарный предикат? \pause
+        \item[] \begin{tabular}{c | c c c}
+            \diagbox[height=1.5\line]{x}{y} & a & b & c \\ \hline
+            a & 0 & 1 & 1 \\
+            b & 0 & 1 & 0 \\
+            c & 1 & 1 & 0
+        \end{tabular}
+        \item Истинна ли формула? \pause Да. \pause
+        \item Слегка поменяем: $\forall x ~ ((\exists y ~ P(x,y)) \to P(x,x))$. Эта формула \pause ложна. \pause
+        \item На бесконечных моделях работает так же, но мы не можем просто перечислить все значения переменных, чтобы найти значение формулы! 
+        \pause 
+        \item Вместо механического процесса приходится думать.
+        \item На практике для больших конечных тоже.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+   \frametitle{Формализация}
+   \begin{itemize}
+       \item Часто возникает задача: дано утверждение (математическое или в терминах \enquote{реального мира}), нужно записать его в виде формулы данной сигнатуры.
+       \item Пример: \enquote{Кто-то любит всех на свете}. Универсум: люди, предикат $Loves(x, y)$ для \enquote{$x$ любит $y$}.
+       \item Кто-то любит всех на свете $\equiv \exists x $ $x$ любит всех на свете \pause $\equiv \exists x ~ \forall y $ $x$ любит $y$ \pause $\equiv \exists x ~ \forall y ~ Loves(x, y)$. \pause
+    %    \item Ещё пример в той же сигнатуре: \enquote{Всякая любовь взаимна}.
+    %    \item Ответ: \pause $\forall x ~ \forall y ~ (Loves(x, y) \to Loves(y,x))$. \pause
+    %    \item И ещё: \enquote{Кто-то не любит никого, кто любит его}.
+    %    \item Ответ: \pause $\exists x ~ \forall y ~ (Loves(y, x) \to \neg Loves(x,y))$.
+   \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Ещё примеры формализации}
+    \begin{itemize}
+        \item \enquote{$x$ делится на $2$}. Универсум: натуральные числа.
+        \item Если предположили что-то вроде $x / 2 \in \mathbb{N}$: это не подойдёт. Почему? \pause
+        \item Например, $\mathbb{N}$ это не объект нашего универсума. А если $\in \mathbb{N}$ рассматривать как единый предикатный символ, он верен для всех объектов! \pause 
+        \item Более того, если $/$ "--- функциональный символ, то он должен иметь значение в нашем универсуме для любых аргументов. Есть варианты логики, которые снимают это ограничение, но мы их не изучаем. \pause
+        \item Ответ (возможный): \pause $\exists y ~ x = 2 \cdot y$. \pause
+        \item Можно ли то же самое записать без $\cdot$? \pause Да! $\exists y ~ x = y + y$. \pause
+        \item Вот \enquote{$x$ делится на $y$} без $\cdot$ записать уже не получится. \pause
+     %    \item Задание сложнее: \enquote{$x$ "--- простое число}.
+     %    \item Ответ (возможный): \pause $\forall y ~ \forall z ~ x = y \cdot z \to y = 1 \lor z = 1$. 
+     %    \pause 
+     %    \item Неправда! В чём ошибка? \pause $x \neq 1 \land \forall y ~ \forall z ~ x = y \cdot z \to y = 1 \lor z = 1$. 
+    \end{itemize}
+ \end{frame}
+ 
+\begin{frame}
+   \frametitle{Формализация со свободными переменными}
+   \begin{itemize}
+       \item У нас на предыдущих слайдах появлялись утверждения с переменными (например, \enquote{$x$ любит всех на свете}) в промежуточных результатах. 
+       \item Может и сразу быть дано такое утверждение. \pause
+       \item В результате должна получиться формула с теми же \textbf<3->{свободными} переменными (и какими угодно связанными). \pause
+       \item Если в формуле есть \enquote{лишние} свободные переменные или связана одна из тех, что есть в формализуемом утверждении, это заведомо неверный ответ.
+   \end{itemize}
+\end{frame}
+
+% \begin{frame}
+%    \frametitle{Ограниченные кванторы}
+%    \begin{itemize}
+%        \item В математических текстах мы часто видим что-то вроде $\forall x > 1 ~ x^2 > x$. Но по нашему определению это не формула! В чём дело? \pause
+%        \item Это сокращённая запись формулы, но какой?
+%        \item $\forall x ~ (x > 1 ~ ? ~ x^2 > x)$. Какую связку нужно поставить?
+%        \pause
+%        \item $\forall x ~ (x > 1 \to x^2 > x)$. 
+%        \pause
+%        \item А для случая $\exists x > 1 ~ x^2 > x$?
+%        \pause
+%        \item $\exists x ~ (x > 1 \land x^2 > x)$.
+%        \pause
+%        \item Убедитесь, что это работает, если заменить $x > 1$ и $x^2 > 1$ на любые другие \pause формулы.
+%    \end{itemize}
+% \end{frame}
+
+% \begin{frame}
+%    \frametitle{\only<1>{$\exists !$}\only<2->{Существование и единственность}}
+%    \begin{itemize}
+%        \item $\exists ! x ~ P(x)$ читается как \pause \enquote{Существует единственное $x$ такое, что\ldots}
+%        \item $P$ здесь "--- формула со свободной переменной $x$. \pause
+%        \item Но в нашем языке такого символа нет.
+%        \item Может быть, $!$ "--- предикатный символ (или функциональный, или константный)? \pause Тогда бы не получилась формула. После квантора может стоять только переменная. \pause
+%        \item Это сокращение, как и ограниченные кванторы. Осталось его расшифровать. \pause
+%        \item $\exists x ~ (P(x) ~\land~ ???)$ \pause
+%        \item $\exists x ~ (P(x) \land \forall y ~ (P(y) \to x = y))$ или 
+%        \item $(\exists x ~ P(x)) \land \forall y,z ~ (P(y) \land P(z) \to y = z)$
+%    \end{itemize}
+% \end{frame}
+
+\begin{frame}
+    \frametitle{Многосортная логика предикатов}
+    \begin{itemize}
+        \item Часто удобно одновременно говорить о нескольких разных типах объектов. Пример: числа, множества чисел и функции в мат. анализе. Тогда
+        \item К сигнатуре добавляется набор \emph{сортов}. Каждый сорт обозначает какое-то множество объектов.
+        \item У функциональных и предикатных символов кроме числа аргументов задан сорт каждого, у функциональных ещё и сорт результата. 
+        \item Применение символов к аргументам не тех сортов считается бессмысленным (т.е. его результат не является термом/формулой). 
+        \item Каждая переменная имеет сорт: $x:S$. Сорт термов определяется по индукции.
+        \item В моделях есть носитель для каждого сорта.
+        \item Многосортную логику можно свести к односортной, добавив по предикату для каждого сорта, но формулы при этом усложняются.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Подстановки}
+    \begin{itemize}
+        \item Попробуем определить результат замены переменной $v$ на терм $t$ в терм $s$ и в формулу $A$: $s[v \mapsto t]$ и $A[v \mapsto t]$. Должно получиться 
+        \[ \begin{array}{c}
+            \sigma(s[v \mapsto t]) = \sigma_{v \mapsto \sigma(t)}(s) \\
+            \sigma(A[v \mapsto t]) = \sigma_{v \mapsto \sigma(t)}(A)
+        \end{array} \]
+        (понятен ли смысл этого?). 
+        \pause
+        \item Первые шаги очевидны:
+        \[ \begin{array}{l}
+            v[v \mapsto t] = t \\ \pause
+            u[v \mapsto t] = \pause u ~(u\text{ "--- переменная, кроме }v) \\
+            c[v \mapsto t] = \pause c ~(c \text{ "--- константа}) \\ \pause
+            f(t_1,\ldots,t_n)[v \mapsto t] = \pause f(t_1[v \mapsto t],\ldots,t_n[v \mapsto t]) \\ \pause
+            P(t_1,\ldots,t_n)[v \mapsto t] = \pause P(t_1[v \mapsto t],\ldots,t_n[v \mapsto t]) \\ \pause
+            (\neg A)[v \mapsto t] = \neg (A[v \mapsto t]) ~ (\text{аналогично для } \land/\lor/\to)
+        \end{array} \]
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Подстановки с кванторами}
+    \begin{itemize}
+        \item Для формул с кванторами всё сложнее.
+        \item Если квантор по той же переменной:
+        \[ (\forall v ~ A)[v \mapsto t] = \pause \forall v ~ A \]
+        Формула не меняется!
+        \pause
+        \item Если переменные разные, можно предположить 
+        \[ (\forall u ~ A)[v \mapsto t] = \pause \forall u ~ (A[v \mapsto t]) \]
+        \pause
+        \vspace{-1.5em}
+        \item Но рассмотрим пример
+        \enquote{$x$ делится на $2$} $\equiv \exists y ~ x = 2 \cdot y$. При замене $x$ на $y$ должно получиться \pause \enquote{$y$ делится на $2$}. Если попробуем правило выше, получится \pause $\exists y ~ y = 2 \cdot y$, \pause явно не выражающая \enquote{$y$ делится на $2$}.
+        \item Если в $A$ связаны какие-то переменные терма $t$, то перед подстановкой их нужно сначала переименовать: 
+        \[ (\exists y ~ x = 2 \cdot y)[x \mapsto y] = (\exists y' ~ x = 2 \cdot y')[x \mapsto y] = \exists y' ~ y = 2 \cdot y' \]
+    \end{itemize}
+\end{frame}
+
+\end{document}

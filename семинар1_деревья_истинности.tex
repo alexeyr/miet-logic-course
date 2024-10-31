@@ -1,0 +1,269 @@
+\documentclass[10pt]{beamer}
+\input{lecture_preamble.tex}
+
+\title{Деревья истинности (семантические таблицы)}
+\date{\today}
+
+\begin{document}
+\begin{frame}[plain]
+\maketitle
+\end{frame}
+
+\begin{frame}
+\frametitle{Системы доказательств в логике высказываний}
+\begin{itemize}
+    \item Мы знаем две системы доказательств:
+    \pause
+    \item Таблицы истинности
+    \item[] Проблемы:
+    \pause
+    \begin{itemize}
+        \item Размер (удваивается при добавлении переменной)
+        \item Не обобщается на логику предикатов
+    \end{itemize}
+    \pause
+    \item Натуральная дедукция / исчисление секвенций
+    \item[] Проблемы:
+    \pause
+    \begin{itemize}
+        \item Нужно думать! (Выбирать правила, формулы для \(E\neg\) и т.д.)
+        \item Позволяет доказать тождественно истинные формулы, но не опровергнуть не тождественно истинные
+    \end{itemize}
+    \item[]
+    \item Сегодня: деревья истинности (семантические таблицы)
+    \item Не имеют ни одной из этих проблем (разве что размер для некоторых задач). Но есть другие!
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Пример дерева истинности}
+\begin{itemize}
+    \item Начнём с примера. Нужно доказать $p \to (q \to p \land q)$:
+    \item[] 
+\only<1>{
+    \begin{tableau}{
+    }
+        [{p \to (q \to p \land q) = 0}, just=Дано]
+    \end{tableau}
+}
+\only<2>{
+    \begin{tableau}{
+        }
+        [{p \to (q \to p \land q) = 0}, just=Дано, checked
+        [{p = 1}, just=1
+        [{q \to p \land q = 0}, just = 1
+        ]]]
+    \end{tableau}
+}
+\only<3>{
+    \begin{tableau}{
+        }
+        [{p \to (q \to p \land q) = 0}, just=Дано, checked
+        [{p = 1}, just=1, checked
+        [{q \to p \land q = 0}, just = 1
+        ]]]
+    \end{tableau}
+}
+\only<4>{
+    \begin{tableau}{
+        }
+        [{p \to (q \to p \land q) = 0}, just=Дано, checked
+        [{p = 1}, just=1, checked
+        [{q \to p \land q = 0}, just = 1, checked
+        [{q = 1}, checked, just=3
+        [{p \land q = 0}, just=3
+        ]]]]]
+    \end{tableau}
+}
+\only<5>{
+    \begin{tableau}{
+        }
+        [{p \to (q \to p \land q) = 0}, just=Дано, checked
+        [{p = 1}, just=1, checked
+        [{q \to p \land q = 0}, just = 1, checked
+        [{q = 1}, checked, just=3
+        [{p \land q = 0}, just=3
+        [{p = 0}, just=5] [{q = 0}, just=5]
+        ]]]]]
+    \end{tableau}
+}
+\only<6>{
+    \begin{tableau}{
+        }
+        [{p \to (q \to p \land q) = 0}, just=Дано, checked
+        [{p = 1}, just=1, checked
+        [{q \to p \land q = 0}, just = 1, checked
+        [{q = 1}, checked, just=3
+        [{p \land q = 0}, just=3
+        [{p = 0}, just=5, close={2,6}] [{q = 0}, just=5, close={4,6}]
+        ]]]]]
+    \end{tableau}
+}
+\onslide<7->{
+    \item Пусть $p \to (q \to p \land q) = 0$. 
+\item Тогда $p = 1$ и $q \to p \land q = 0$.
+\item Тогда $q = 1$ и $p \land q = 0$.
+\item Отсюда $p = 0$ или $q = 0$. Но оба невозможны!
+\item Значит,  $p \to (q \to p \land q) = 0$ невозможно.
+\item $p \to (q \to p \land q)$ тождественно истинно!
+}
+
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Правила деревьев истинности}
+\begin{itemize}
+    \item  Формулы со знаком ($A=0$ или $A=1$) делятся на 4 типа: 
+    \begin{itemize}
+        \item Атомарные (слева переменная).
+        \item Слева отрицание.
+        \item $\alpha$ ведут себя как \enquote{и}: $\alpha \Leftrightarrow \alpha_1 \land \alpha_2$.
+        \item $\beta$ ведут себя как \enquote{или}: $\beta \Leftrightarrow \beta_1 \lor \beta_2$.
+    \end{itemize}
+    \pause
+    \item[]
+    \item Правила:
+\begin{columns}
+    \begin{column}{0.33\textwidth}
+        \begin{center}
+            \begin{tableau}{not line numbering, single branches}
+                [{\neg A = 1(0)} [{~A = 0(1)}]]
+            \end{tableau}
+        \end{center}
+    \end{column}
+    \begin{column}{0.33\textwidth}
+        \begin{center}
+            \begin{tableau}{not line numbering, single branches}
+                [{\alpha} [{\displaystyle \alpha_1 \atop \displaystyle \alpha_2}]]
+            \end{tableau}
+        \end{center}
+    \end{column}
+    \begin{column}{0.33\textwidth}
+        \begin{center}
+            \begin{tableau}{not line numbering}
+                [\beta [\beta_1] [\beta_2]]
+            \end{tableau}
+        \end{center}
+    \end{column}
+\end{columns}
+    \vspace{1em}
+    \begin{tabular}{|c | c | c || c | c | c |}
+        \hline
+        $\alpha$ & $\alpha_1$ & $\alpha_2$ & $\beta$ & $\beta_1$ & $\beta_2$ \\
+        \hline
+        $A \land B = 1$ & $A = 1$ & $B = 1$ & $A \land B = 0$ & $A = 0$ & $B = 0$ \\
+        $A \lor B = 0$ & $A = 0$ & $B = 0$ & $A \lor B = 1$ & $A = 1$ & $B = 1$ \\
+        $A \to B = 0$ & $A = 1$ & $B = 0$ & $A \to B = 1$ & $A = 0$ & $B = 1$ \\
+        \hline
+    \end{tabular}
+    \pause
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Построение дерева истинности}
+\begin{itemize}
+    \item Идея в поиске контрпримера для формулы (или секвенции), которую хотим доказать.
+    \item Для доказательства формулы $A$ мы начинаем с уравнения $A=0$.
+    \item Для секвенции $A_1,\, A_2,\,\ldots \vdash B$ начинаем с \pause $A_1=1,\, A_2=1,\, \ldots,\, B=0$ (пишем их в столбик).
+    \item Для эквивалентности $A \equiv B$ строим 2 дерева: \pause $A=1,\, B=0$ и $A=0,\, B=1$.
+    \pause
+    \item[]
+    \item На каждом шаге:
+    \begin{itemize}
+        \item Выбираем неразобранное уравнение (не отмечено \checkmark).
+        \item Применяем правила с предыдущего слайда.
+        \item Результаты дописываются в конец всех открытых ветвей под ним.
+        \item Отмечаем как разобранное.
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Построение дерева истинности (2)}
+\begin{itemize}
+    \item Ветвь, в которой одновременно есть $A=1$ и $A=0$, называется закрытой.
+    \item В ней можно дальше ничего не писать.
+    \item[]
+    \item Если все ветви закрылись, то уравнения, с которых начали, не имеют решений! 
+    \item Значит, исходная формула/секвенция не имеет контрпримера и она тождественно истинна.
+    \item[]
+    \pause
+    \item Если какая-то ветвь закончилась (нет неразобранных строк), но не закрылась, то мы нашли контрпример к исходной формуле и она \emph{не} тождественно истинна.
+    \item[]
+    \pause
+    \item Порядок применения влияет только на размер дерева, но не на результат.
+    \item Выгоднее сначала применять правила без ветвления.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Пример незакрытого дерева}
+\begin{itemize}
+    \item Проверим $(p \to r) \lor (q \to r) \to (p \lor q \to r)$:
+    \begin{tableau}{}
+        [{(p \to r) \lor (q \to r) \to (p \lor q \to r) = 0}, checked, just=Дано
+        [{(p \to r) \lor (q \to r) = 1}, checked, just=1
+        [{p \lor q \to r = 0}, checked, just=1
+        [{p \lor q = 1}, checked, just=3
+        [{r = 0}, checked, just=3
+        [{p \to r = 1}, checked, just=2
+        [{p = 1}, checked, just=4
+        [{p=0}, checked, just=6, close={7,8}]
+        [{r=1}, checked, just=6, close={5,8}]
+        ]
+        [{q = 1}, checked, just=4
+        [\vdots]
+        ]
+        ]
+        [{q \to r = 1}, checked, just=2
+        [{p = 1}, checked, just=4
+        [{q=0}, checked, just=6]
+        [{r=1}, checked, just=6, close={5,8}]
+        ]
+        [{q = 1}, checked, just=4
+        [\vdots]
+        ]
+        ]
+        ]]]]]
+    \end{tableau}
+    \item В законченной ветви $p=1,\,q=0,\,r=0$. На этом наборе строка 1 выполняется, значит, \pause формула не тождественно истинна.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Ещё один пример}
+\begin{itemize}
+    \item Для $p \vee (q \vee \lnot r), p \to \lnot r, q \to \lnot r \vdash \lnot r$:
+    \begin{tableau}{}
+        [{p \lor (q \lor \lnot r) = 1}, just=Дано, checked
+        [{p \to \lnot r = 1}, just=Дано, checked
+        [{q \to \lnot r = 1}, just=Дано, checked,name=last premise
+        [{\lnot r = 0}, just=Дано,name=not conc
+        [{p = 1}, just={1}
+        [{p = 0}, close={:!u,!c}]
+        [{\lnot r = 1}, close={:not conc,!c},just={ 2}]]
+        [{q \vee \lnot r = 1}
+        [{q = 1}, move by=1
+        [{q = 0}, close={:!u,!c}]
+        [{\lnot r = 1}, close={:not conc,!c},just={3}]]
+        [{\lnot r = 1}, close={:not conc,!c},move by=1, just={7}]]]]]]
+    \end{tableau}
+    \item Дерево закрыто, значит, \pause контрпримера нет и секвенция тождественно истинна.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Домашнее задание}
+\begin{enumerate}
+    \item[] С помощью деревьев докажите или опровергните:
+    \item $p \to q \equiv \neg p \lor q$
+    \item $(p \land q) \lor r \equiv (p \lor r) \lor (q \lor r)$
+    \item $\neg (p \land q) \equiv \neg p \land \neg q$
+    \item $p \land q \to r \equiv (p \to r) \lor (q \to r)$
+\end{enumerate}
+\end{frame}
+
+
+\end{document}

@@ -1,0 +1,108 @@
+\documentclass[10pt]{beamer}
+\input{lecture_preamble.tex}
+
+\title{Ординалы}
+\date{\today}
+
+\begin{document}
+\begin{frame}[plain]
+    \maketitle
+\end{frame}
+
+\begin{frame}
+    \frametitle{Ординалы как множества}
+    \begin{itemize}
+        \item $0 = \varnothing$
+        \item $\forall \alpha : Ord ~ \alpha + 1 = \alpha \cup \{\alpha\}$
+        \item $\forall A \subset Ord ~ \sup A = \bigcup A$ 
+        \pause
+        \item Например, $0 = \varnothing; 1 = \{0\} = \{\varnothing\}; 2 = \{0,1\} = \{\varnothing, \{\varnothing\}\}; \ldots$
+        \item $\omega = \{0,1,2,\ldots\}$
+        \pause
+        \item $\alpha < \beta \Leftrightarrow \alpha \subsetneq \beta \Leftrightarrow \alpha \in \beta$
+        \item Всегда $\alpha = \{\beta \mid \beta < \alpha\}$.
+        \pause
+        \item $\omega = \sup \omega = \sup \{\alpha | \alpha < \omega\}$. Такой ординал называется предельным.
+        \item Дальше $\omega + 1, \omega + 2, \ldots, \omega \cdot 2, \omega \cdot 2 + 1, \ldots, \omega \cdot 3, \ldots, \omega \cdot 4, \ldots, \omega^2, \ldots$
+        \item $\omega \cdot 2 = \sup \{\omega + 1, \omega +2, \ldots\}$
+        \item $\omega \cdot \omega = \sup \{\omega, \omega \cdot 2, \ldots\}$
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Арифметика ординалов}
+    \begin{itemize}
+        \item $\alpha + \beta$: порядок на $\alpha \cup \beta'$ (копия $\beta$), все элементы $\alpha$ меньше всех элементов $\beta'$.
+        \pause
+        \item $\alpha \cdot \beta$: лексикографический порядок на $\beta \times \alpha$ (сравнить первые элементы, если они равны, сравнить вторые).
+        \pause
+        \item Рекурсивные определения:
+        \begin{itemize}
+            \item $\alpha + 0 = \alpha$
+            \item $\alpha + (\beta + 1) = (\alpha + \beta) + 1$
+            \item $\alpha + \sup A = \sup \{\alpha + \beta \mid \beta : A\}$
+            \pause
+            \item[]
+            \item $\alpha \cdot 0 = 0$
+            \pause            
+            \item $\alpha \cdot (\beta + 1) = \alpha \cdot \beta + \alpha$
+            \pause
+            \item $\alpha \cdot \sup A = \sup \{\alpha \cdot \beta \mid \beta : A\}$
+            \pause
+            \item[]
+            \item $\alpha^0 = 1$
+            \pause            
+            \item $\alpha^{\beta + 1} = \alpha ^ \beta \cdot \alpha$
+            \pause
+            \item $\alpha^{\sup A} = \sup \{\alpha ^ \beta \mid \beta : A\}$
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Примеры}
+    \begin{itemize}
+        \item Рекурсией и напрямую: $\omega + 2$ и $2 + \omega$, $\omega \cdot 2$ и $2 \cdot \omega$.
+        \pause
+        \item $(\omega+1)^2 \pause = \omega^2 + \omega + 1$
+        \pause
+        \item $2^\omega \pause = \omega$. Заметьте, что операции над ординалами не согласуются с операциями над мощностями, кроме конечных чисел.
+        \pause
+        \item[]
+        \item Примеры выполняющихся свойств:
+        \begin{itemize}
+            \item $0 + \alpha = \alpha$
+            \item $(\alpha + \beta) + \gamma = \alpha + (\beta + \gamma)$ (и для $\cdot$)
+            \item $\alpha \cdot (\beta + \gamma) = \alpha \cdot \beta + \alpha \cdot \gamma$
+            \item $\beta > \gamma \Rightarrow \alpha + \beta > \alpha + \gamma$
+            \item $\beta > \gamma \Rightarrow \beta + \alpha \geq \gamma + \alpha$
+            \item $\ldots$
+        \end{itemize}
+        \item Примеры невыполняющихся свойств:
+        \begin{itemize}
+            \item $\alpha + \beta = \beta + \alpha$ (и для $\cdot$)
+            \item $(\beta + \gamma) \cdot \alpha = \beta \cdot \alpha + \gamma \cdot \alpha$
+            \item $\beta > \gamma \Rightarrow \beta + \alpha > \gamma + \alpha$
+            \item $\ldots$            
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Нормальная форма Кантора}
+    \begin{itemize}
+        \item Нормальная форма Кантора: любое $\alpha$ единственным образом представляется как $\omega^{\beta_1} \cdot c_1 + \ldots + \omega^{\beta_k} \cdot c_k$, где:
+        \begin{itemize}
+            \item $k \in \mathbb{N}$
+            \item $c_i \in \mathbb{N}$
+            \item $\beta_1 > \beta_2 > \ldots > \beta_k \geq 0 \in Ord$
+        \end{itemize}
+        \pause
+        \item $\varepsilon_0 = \sup \{\omega, \omega^\omega, \omega^{\omega^\omega}, \ldots\}$
+        \item $\omega^{\varepsilon_0} = \pause \varepsilon_0$ (и это минимальный такой ординал).
+        \item Дальше эта иерархия продолжается неограниченно.
+    \end{itemize}
+\end{frame}
+
+
+\end{document}

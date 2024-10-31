@@ -1,0 +1,80 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1,T2A]{fontenc}
+\usepackage[russian]{babel}
+\usepackage[a4paper, margin=1in]{geometry}
+\usepackage{csquotes}
+\usepackage{amsfonts}
+
+\begin{document}
+\section{Деревья истинности для логики высказываний}
+Доказать или опровергнуть с помощью деревьев истинности:
+\begin{enumerate}
+    \item $p \to q \equiv \neg p \vee q$
+    \item $\neg (p \vee q) \equiv \neg p \wedge \neg q$
+    \item $((p \to q) \to p) \to p$
+    \item $p \wedge q \to r \equiv (p \to r) \vee (q \to r)$
+    \item $p \wedge q \to r \equiv (p \to r) \wedge (q \to r)$
+    \item Сформулировать правила деревьев истинности для следующих операций: стрелка Пирса $\downarrow$, штрих Шеффера $\mid$, равносильность $\equiv$, сумма по модулю 2 $\oplus$ (она же исключающее или). Если какие-то из них незнакомы и не получится найти определение, напишите.
+\end{enumerate}
+
+\section{Натуральная дедукция для логики высказываний}
+Доказать с помощью натуральной дедукции:
+\begin{enumerate}
+    \item $p \to q \equiv \neg q \to \neg p$.
+    \item $p \to q \land r \equiv (p \to q) \land (p \to r)$.
+    \item $p \equiv \neg \neg p$.
+    \item $p \land q \to r \equiv (p \to r) \lor (q \to r)$.
+    \item Законы де Моргана (2 в обоих направлениях).
+    \item $\vdash p \lor \neg p$ (использовать RAA и закон де Моргана для отрицания дизъюнкции).
+    \item $p \to q \equiv \neg p \lor q$.
+    \item[8*.] $\vdash ((p \to q) \to p) \to p$ (подсказка: можно использовать задачу 7 или закон исключённого третьего).
+    \item[9*.] Составить правила введения и исключения для равносильности, суммы по модулю 2, стрелки Пирса и штриха Шеффера.
+\end{enumerate}
+
+\section{Формализация утверждений в логике предикатов}
+Перевести на язык логики предикатов:
+\begin{enumerate}
+    \item Мне скучно.
+    \item Иванов, Петров и Васильев играют в домино.
+    \item Иванов, Петров и Васильев слушают лекцию.
+    \item Среднее арифметическое $x$ и $y$ больше иx среднего геометрического.
+    \item $5$ не является решением уравнения $x^2 - 3x + 2 = 0$.
+    \item Слон Бимбо больше собаки Ланды.
+    \item Точки $A, B, C$ являются вершинами равнобедренного треугольника.
+    \item Каждый, кто упорно работает, добивается успеха.
+    \item Кошки бывают только белые и серые.
+    \item Функция $f$ принимает в том числе такие комплексные значения, которые не являются действительными.
+    \item У каждого положительного действительного числа есть ровно один положительный квадратный корень.
+    \item Число $x$ простое (для групп, где не сделали на занятии).
+    \item Есть сколько угодно большие простые числа.
+\end{enumerate}
+
+\section{Деревья истинности для логики предикатов}
+Доказать или опровергнуть с помощью деревьев истинности:
+\begin{enumerate}
+    \item $\exists x~(P(x) \to \forall y~P(y))$
+    \item $\forall x~(P(x) \vee Q(x)) \vdash (\exists x~P(X)) \vee (\forall x~Q(x))$
+    \item $\exists x~P(x), \forall x~(P(x) \to Q(x)) \vdash \exists x~Q(x)$
+    \item $\neg \exists x~(P(x) \to Q(x)) \vdash (\exists x~A(x)) \land (\forall x~Q(x))$
+    \item $\forall x \exists y~P(x,y), \exists x \forall y~Q(x,y) \vdash \exists x \exists y~(P(x,y) \land Q(x,y))$
+    \item[] Следующие формализовать как секвенции с двумя посылками:
+    \item Не все политики мошенники. Все мошенники умны. Значит, некоторые политики глупы.
+    \item Те, кто что-то учил, решили некоторые задачи. Андрей не решил ни одной. Значит, он не учил ничего.
+    \item Эквивалентность двух формализаций $\exists! x~P(x)$:\\$\exists x~(P(x) \land \forall y~(P(y) \to x=y) \equiv (\exists x~P(x)) \land \forall y,z~(P(y) \land P(z) \to y=z)$
+\end{enumerate}
+
+\section{Натуральная дедукция для логики предикатов}
+Доказать с помощью натуральной дедукции:
+\begin{enumerate}
+    \item Правила де Моргана для кванторов (любые 2 из 4).
+    \item $\exists x~P(x), \forall x~(P(x) \to Q(x)) \vdash \exists x~Q(x)$
+    \item $\exists x~(P(x) \land Q(x)) \vdash (\exists x~P(x)) \land (\exists x~Q(x))$
+    \item $\forall x~(P(x) \vee Q(x)) \vdash (\exists x~P(X)) \vee (\forall x~Q(x))$
+    \item $\forall x \exists y~P(x,y), \exists x \forall y~Q(x,y) \vdash \exists x \exists y~(P(x,y) \land Q(x,y))$
+    \item Эквивалентность двух формализаций $\exists! x~P(x)$:\\$\exists x~(P(x) \land \forall y~(P(y) \to x=y) \equiv (\exists x~P(x)) \land \forall y,z~(P(y) \land P(z) \to y=z)$
+    \item[7*.] $\exists x~(P(x) \to \forall y~P(y))$
+\end{enumerate}
+
+\end{document}

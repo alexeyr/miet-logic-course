@@ -1,0 +1,90 @@
+\usepackage[utf8]{inputenc}
+\usepackage[T1,T2A]{fontenc}
+\usepackage[russian]{babel}
+\usepackage{color}
+\usepackage{calc}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{hyperref}
+\hypersetup{unicode,colorlinks}
+\usepackage{csquotes}
+\usepackage{upquote}
+\usepackage{cprotect}
+\usetheme[progressbar=head,numbering=fraction,block=fill]{metropolis}
+\usepackage{dejavu}
+\usepackage{etoolbox}
+\usepackage{bm}
+\usepackage[ND]{prftree}
+\usepackage[tableaux]{prooftrees}
+\usepackage{mathtools} % for bigtimes
+\usepackage{diagbox}
+\usepackage{verbatimbox}
+%\usepackage[defaultsans]{droidsans}
+%\usepackage[defaultmono]{droidmono}
+%\makeatletter
+%\input droid/t1fdm.fd
+%\makeatother
+
+\input{fitch.sty}
+
+\makeatletter
+\DeclareRobustCommand*{\bfseries}{%
+    \not@math@alphabet\bfseries\mathbf
+    \fontseries\bfdefault\selectfont
+    \boldmath
+}
+\makeatother
+
+\makeatletter
+\chardef\straightquote@code=\catcode`'
+\chardef\backquote@code=\catcode``
+\catcode`'=\active \catcode``=\active
+\patchcmd{\@noligs}
+{\textasciigrave}
+{\fixedtextasciigrave}
+{}{}
+\newcommand{\fixedtextasciigrave}{%
+    \makebox[.5em]{\fontencoding{TS1}\fontfamily{fvs}\selectfont\textasciigrave}% Vera Sans
+}
+\catcode\lq\'=\straightquote@code
+\catcode\lq\`=\backquote@code
+\makeatletter
+
+\setbeamercovered{again covered={\opaqueness<1->{25}}}
+
+\forestset{close with=\ensuremath{\bigtimes}}
+
+\newcommand{\customframefont}[1]{
+    \setbeamertemplate{itemize/enumerate body begin}{#1}
+    \setbeamertemplate{itemize/enumerate subbody begin}{#1}
+}
+
+\NewEnviron{framefont}[1]{
+    \customframefont{#1} % for itemize/enumerate
+    {#1 % For the text outside itemize/enumerate
+        \BODY
+    }
+    \customframefont{\normalsize}
+}
+
+
+\makeatletter
+\DeclareRobustCommand{\rvdots}{%
+    \vphantom{\int\limits^x}\smash[t]{\vdots}
+}
+\makeatother
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\pow}[1]{\mathcal{P}({#1})}
+\newcommand{\continuum}{\mathfrak{c}}
+
+\author{Алексей Романов}
+\subtitle{Математическая логика и теория алгоритмов}
+%\logo{}
+\institute{МИЭТ}
+\subject{Математическая логика и теория алгоритмов}
+%\setbeamercovered{transparent}
+%\setbeamertemplate{navigation symbols}{}
