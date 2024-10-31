@@ -68,13 +68,16 @@
 \section{Натуральная дедукция для логики предикатов}
 Доказать с помощью натуральной дедукции:
 \begin{enumerate}
-    \item Правила де Моргана для кванторов (любые 2 из 4).
+    \item $(\forall x~P(x)) \to (\exists x~P(x))$
     \item $\exists x~P(x), \forall x~(P(x) \to Q(x)) \vdash \exists x~Q(x)$
+    \item Правила де Моргана для кванторов (любые 2 из 4).
     \item $\exists x~(P(x) \land Q(x)) \vdash (\exists x~P(x)) \land (\exists x~Q(x))$
     \item $\forall x~(P(x) \vee Q(x)) \vdash (\exists x~P(X)) \vee (\forall x~Q(x))$
     \item $\forall x \exists y~P(x,y), \exists x \forall y~Q(x,y) \vdash \exists x \exists y~(P(x,y) \land Q(x,y))$
     \item Эквивалентность двух формализаций $\exists! x~P(x)$:\\$\exists x~(P(x) \land \forall y~(P(y) \to x=y) \equiv (\exists x~P(x)) \land \forall y,z~(P(y) \land P(z) \to y=z)$
-    \item[7*.] $\exists x~(P(x) \to \forall y~P(y))$
+    \item Убедитесь, что $\exists x~P(x) \vdash \forall x~P(x)$ нельзя доказать и постройте контрмодель.
+    \item (*) $\exists x~(P(x) \to \forall y~P(y))$
+    \item (*) $\forall x~R(x,y) \to R(y,x), ~~ \forall xyz~R(x,y) \land R(y,z) \to R(x,z), ~~ \forall x \exists y~R(x,y) \vdash \forall x~R(x,x)$ \\ Подсказка: так как $\forall x \exists y~R(x,y)$, то для этого $y$ также верно $R(y,x)$, а из $R(x,y)$ и $R(y,x)$ заключаем $R(x,x)$.
 \end{enumerate}
 
 \end{document}

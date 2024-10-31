@@ -1,7 +1,7 @@
 \documentclass[10pt]{beamer}
 \input{lecture_preamble.tex}
 
-\title{Натуральная дедукция (естественный вывод)}
+\title{Натуральная дедукция (естественный вывод) для логики предикатов}
 \date{\today}
 
 \begin{document}
@@ -10,7 +10,7 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{Правила натуральной дедукции}
+    \frametitle{Правила для логики высказываний}
     \scriptsize
     \begin{itemize}
         \item Для $\land$:
@@ -97,40 +97,58 @@
 \begin{frame}
     \frametitle{Правила натуральной дедукции для кванторов}
     \begin{itemize}
-        \item Для $\forall$:
-        \[ 
-        \frac{\begin{matrix}
+        \item Снова сохраняются правила из логики высказываний (на предыдущем слайде).
+        \item Добавляются правила введения и исключения для кванторов. 
+        \pause
+        \item Начнём с простых: 
+        $\dfrac{\forall x ~ A(x)}{A(t)}\ \forall E$ и
+        $\dfrac{A(t)}{\exists x ~ A(x)}\ \exists I$. \\
+        Здесь $t$ --- любой терм (обычно просто параметр).
+        \item Эти правила --- аналоги типа $\gamma$ в деревьях.
+        \pause
+        \item
+        $\dfrac{\boxed{
+            \begin{matrix}
+                \textrm{произв. }a \\
                 \rvdots \\
                 A(a)
-        \end{matrix}}{\forall x ~ A(x)}\ \forall I 
-        \qquad \qquad 
-        \frac{\forall x ~ A(x)}{A(t)}\ \forall E
-        \]
-        \item Для $\exists$:
-        \[
-        \frac{A(t)}{\exists x ~ A(x)}\ \exists I
-        \qquad \qquad 
-        \frac{
+            \end{matrix}}}{\forall x ~ A(x)}\ \forall I$ и  
+        $\dfrac{
             \begin{matrix}
+                \phantom{a} \\
                 \phantom{A} \\
                 \phantom{\rvdots} \\
                 \exists x ~ A(x)
             \end{matrix}
             \quad
-            \begin{matrix}
-                A(a) \\
-                \rvdots \\
-                B
-            \end{matrix}
-        }{B}\ \exists E
-        \]
-        \item $t$ в $\forall E$ и $\exists I$ "--- произвольный терм (в наших примерах всегда просто параметр). Они соответствуют типу $\gamma$ в деревьях истинности.
-        \item $a$ в $\forall I$ и $\exists E$ "--- новый параметр, которого нет в уже построенной части доказательства. Они соответствуют типу $\delta$.
+            \boxed{
+                \begin{matrix}
+                    \textrm{возьмём }a, \\
+                    \textrm{т.ч. }A(a) \\
+                    \rvdots \\
+                    B
+                \end{matrix}
+            }
+         }{B}\ \exists E$
+          \\
+        Здесь $a$ --- новый параметр, как в $\delta$.
     \end{itemize}
 \end{frame}
 
 \begin{frame}
-    \frametitle{Пример}
+    \frametitle{Пояснения к правилам}
+    \begin{itemize}
+        \item Смысл правила $\forall I$: чтобы доказать $\forall x ~ A(x)$, нужно доказать $A(a)$ для \emph{произвольного} $a$. Произвольность как раз обеспечивается тем, что это новый параметр и о нём ничего неизвестно. \pause
+        \item Смысл правила $\exists E$: мы временно даём название $a$ тому объекту, существование которого утверждается. Правило немного аналогично $\lor E$.
+        \item Удобно помечать подвывод, вводящий параметр, этим параметром.
+        \item[]
+        \item Есть упрощённый вариант $\exists E$, не вводящий подвывод, но он усложняет определение контрмоделей для недоказумых секвенций и мы его не используем.
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Пример 1}
     \begin{align*}
     \forall x (P(x) \rightarrow Q(x)) \vdash \exists x P(x) \rightarrow \exists x Q(x) \\
     \vspace{1em}
@@ -138,49 +156,49 @@
     \begin{nd}
         \hypo{1}{\forall x (P(x) \rightarrow Q(x))}  \by{\text{Дано}}{}
         \have[\vdots]{4}{\vdots}
-        \have[][2]{2}{\exists x P(x) \rightarrow \exists x Q(x)}
+        \have[n]{n}{\exists x P(x) \rightarrow \exists x Q(x)}
     \end{nd}
     }
     \only<2>{
     \begin{nd}
         \hypo{1}{\forall x (P(x) \rightarrow Q(x))}  \by{\text{Дано}}{}
         \open
-        \hypo[][3]{3}{\exists x P(x)} \by{\text{Дано}}{}
+        \hypo{3}{\exists x P(x)} \by{\text{Дано}}{}
         \have[\vdots]{7}{\vdots}
-        \have[][4]{4}{\exists x Q(x)} 
+        \have[n][-1]{4}{\exists x Q(x)} 
         \close
-        \have[][2]{2}{\exists x P(x) \rightarrow \exists x Q(x)} \ii{3-4}
+        \have[n]{2}{\exists x P(x) \rightarrow \exists x Q(x)} \ii{3-(4)}
     \end{nd}
     }
     \only<3>{
     \begin{nd}
         \hypo{1}{\forall x (P(x) \rightarrow Q(x))}  \by{\text{Дано}}{}
         \open
-        \hypo[][3]{3}{\exists x P(x)} \by{\text{Дано}}{}
+        \hypo{3}{\exists x P(x)} \by{\text{Дано}}{}
         \open[a]
-        \hypo[][5]{5}{P(a)} \by{\text{Дано}}{}
+        \hypo{5}{P(a)} \by{\text{Дано}}{}
         \have[\vdots]{7}{\vdots}
-        \have[][6]{6}{\exists x Q(x)}
+        \have[n][-2]{6}{\exists x Q(x)}
         \close
-        \have[][4]{4}{\exists x Q(x)} \Ee{3,5-6}
+        \have[n][-1]{4}{\exists x Q(x)} \Ee{3,5-(6)}
         \close
-        \have[][2]{2}{\exists x P(x) \rightarrow \exists x Q(x)} \ii{3-4}
+        \have[n]{2}{\exists x P(x) \rightarrow \exists x Q(x)} \ii{3-(4)}
     \end{nd}
 }
     \only<4->{
     \begin{nd}
         \hypo{1}{\forall x (P(x) \rightarrow Q(x))}  \by{\text{Дано}}{}
         \open
-        \hypo[][3]{3}{\exists x P(x)} \by{\text{Дано}}{}
+        \hypo{3}{\exists x P(x)} \by{\text{Дано}}{}
         \open[a]
-        \hypo[][5]{5}{P(a)} \by{\text{Дано}}{}
-        \have[][7]{7}{P(a) \rightarrow Q(a)} \Ae{1}
+        \hypo{5}{P(a)} \by{\text{Дано}}{}
+        \have{7}{P(a) \rightarrow Q(a)} \Ae{1}
         \have{8}{Q(a)} \ie{5,7}
-        \have[][6]{6}{\exists x Q(x)} \Ei{8}
+        \have[n][-2]{6}{\exists x Q(x)}
         \close
-        \have[][4]{4}{\exists x Q(x)} \Ee{3,5-6}
+        \have[n][-1]{4}{\exists x Q(x)} \Ee{3,5-(6)}
         \close
-        \have[][2]{2}{\exists x P(x) \rightarrow \exists x Q(x)} \ii{3-4}
+        \have[n]{2}{\exists x P(x) \rightarrow \exists x Q(x)} \ii{3-(4)}
     \end{nd}
     }
     \end{align*}
@@ -192,19 +210,149 @@
     \forall y \neg P(y) \vdash \neg \exists x P(x) \\
     \vspace{1em}
     \begin{nd}
-        \hypo {1} {\forall y \neg P(y)}
+        \hypo {1} {\forall y \neg P(y)} \by{\text{Дано}}{}
         \open
-        \hypo[][3] {2} {\exists x P(x)}
+        \hypo{2} {\exists x P(x)} \by{\text{Дано}}{}
         \open[a]
-        \hypo[][5] {3} {P(a)}
-        \have {5} {\neg P(a)}            \Ae{1}
-        \have {6} {\bot}                 \ne{3,5}
+        \hypo{3} {P(a)} \by{\text{Дано}}{}
+        \have{5} {\neg P(a)}            \Ae{1}
+        \have[n-2]{6} {\bot}                 \ne{3,5}
         \close
-        \have[][4] {6a}{\bot}                 \Ee{2,3-6}
+        \have[n-1]{6a}{\bot}                 \Ee{2,3-(6)}
         \close
-        \have[][2]{7} {\neg \exists x P(x)}  \ni{2-6a}
+        \have[n]{7} {\neg \exists x P(x)}  \ni{2-(6a)}
     \end{nd}
     \end{align*}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Пример 3}
+    \begin{itemize}
+        \item Докажем $\forall x ~ P(x) \land Q(x) \vdash (\forall x ~ P(x)) \land (\forall x ~ Q(x))$:
+        \[
+        \NDANDI
+            {\prftree[r]{\scriptsize $\forall I\,a_1$}
+                {\fbox{\NDANDE
+                    {\NDALLE
+                        {\prfbyaxiom{\scriptsize дано}{\forall x ~ P(x) \land Q(x)}}
+                        {P(a_1) \land Q(a_1)}}
+                    {P(a_1)}}}
+                {\forall x ~ P(x)}}
+            {\prftree[r]{\scriptsize $\forall I\,a_2$}
+                {\fbox{\NDANDE
+                        {\NDALLE
+                            {\prfbyaxiom{\scriptsize дано}{\forall x ~ P(x) \land Q(x)}}
+                            {P(a_2) \land Q(a_2)}}
+                        {Q(a_2)}}}
+                {\forall x ~ Q(x)}}
+            {(\forall x ~ P(x)) \land (\forall x ~ Q(x))}
+        \]
+        \item Можно ли оба раза использовать $a_1$? \pause Да, так как подвыводы независимы. Но незачем.
+    \end{itemize}
+    \end{frame}
+
+\begin{frame}
+    \frametitle{Пример 3 в линейной записи}
+        \begin{columns}
+            \begin{column}{0.5\textwidth}
+                    $\scriptsize
+                \begin{nd}
+                \hypo{1}{\forall x ~ P(x) \land Q(x)} \by{\text{Дано}}{}
+                \open[a_1]
+                \have{2}{P(a_1) \land Q(a_1)} \Ae{1}
+                \have[k][-1]{3}{P(a_1)} \ae{2}
+                \close
+                \open[a_2]
+                \have[k]{5}{P(a_2) \land Q(a_2)} \Ae{1}
+                \have[n][-3]{6}{Q(a_2)} \ae{5}
+                \close
+                \have[n][-2]{4}{\forall x ~ P(x)} \Ai{2-(3)}
+                \have[n][-1]{7}{\forall x ~ Q(x)} \Ai{5-(6)}
+                \have[n]{8}{(\forall x ~ P(x)) \land (\forall x ~ Q(x))} \ai{4,7}
+                \end{nd}
+                $ \\ \vspace{0.5em} или
+            \end{column} \pause
+            \begin{column}{0.05\textwidth}\end{column}
+            \begin{column}{0.5\textwidth}
+        $\scriptsize
+        \begin{nd}
+        \hypo{1}{\forall x ~ P(x) \land Q(x)} \by{\text{Дано}}{}
+        \have[][7]{2}{P(a_1) \land Q(a_1)} \Ae{1}
+        \open[a_1]
+        \have[][5]{3}{P(a_1)} \ae{2}
+        \close
+        \open[a_1]
+        \have[][6]{6}{Q(a_1)} \ae{5}
+        \close
+        \have[][3]{4}{\forall x ~ P(x)} \Ai{3-3}
+        \have{7}{\forall x ~ Q(x)} \Ai{6-6}
+        \have[][2]{8}{(\forall x ~ P(x)) \land (\forall x ~ Q(x))} \ai{4,7}
+        \end{nd}
+        $ \\ \vspace{0.5em} Здесь важно, что строка 7 появилась после 5 и 6, иначе в них нельзя использовать $a_1$. Если использовать параметры только внутри подвыводов, которые их вводят, эта проблема не возникает.
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Пример 4}
+    \begin{itemize}
+        \item Доказываем $\exists x \forall y ~ P(x, y) \vdash \forall y \exists x ~ P(x, y)$: \pause
+        \[
+        \prftree[r]{\scriptsize $\forall I\,a_1$}
+        {\fbox{
+                \prftree[r]{\scriptsize $\exists E\,a_2; \forall y ~ P(a_2, y) \vdash$}
+                {\prfbyaxiom{\scriptsize дано}{\exists x \forall y ~ P(x, y)}}
+                {\fbox{
+                        \NDEXI
+                            {\NDALLE{\prfbyaxiom{\scriptsize для $\exists E$}{\forall y ~ P(a_2, y)}}{P(a_2, a_1)}}
+                            {\exists x ~ P(x, a_1)}
+                }}
+                {\exists x ~ P(x, a_1)}
+        }}
+        {\forall y \exists x ~ P(x, y)}
+        \]
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Пример 4 в линейной записи}
+    \begin{itemize}
+        \item Доказываем $\exists x \forall y ~ P(x, y) \vdash \forall y \exists x ~ P(x, y)$ в линейной записи:
+        \item[]
+        $
+        \begin{nd}
+        \hypo{1}{\exists x \forall y ~ P(x, y)} \by{\text{Дано}}{}
+        \open[a_1]
+        \open[a_2]
+        \hypo{4}{\forall y ~ P(a_2, y)} \by{\text{Дано}}{}
+        \have{5}{P(a_2, a_1)} \Ae{4}
+        \have[n][-2]{6}{\exists x ~ P(x, a_1)} \Ei{5}
+        \close
+        \have[n][-1]{3}{\exists x ~ P(x, a_1)} \Ee{1,4-(6)}
+        \close
+        \have[n]{2}{\forall y \exists x ~ P(x, y)} \Ai{4-(3)}
+        \end{nd}
+        $
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Построение контрмодели}
+    \begin{itemize}
+        \item Если формулу или секвенцию доказать не получается, можно предположить, что она неверна и попробовать построить контрмодель.
+        \item Для дерева с вынесенными посылками выбираем вершину, а для линейной записи --- строку, на которых застряли. 
+        \item Все видимые посылки должны быть истинны, а сама выбранная формула ложна.
+        \item Значения предикатов должны быть заданы на всех параметрах этих формул (если они все без параметров, то на одном параметре $a_1$). 
+        \item Может понадобиться добавить ещё параметры.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Дополнительное чтение}
+    \begin{itemize}
+        \item Непейвода, 11.2.5 и 11.4.
+        \item Гладкий, глава 10 (менее удобная система записи).
+    \end{itemize}
 \end{frame}
 
 \end{document}
