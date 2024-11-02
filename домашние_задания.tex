@@ -86,8 +86,8 @@
     \item Убедитесь, что $\exists x~P(x) \vdash \forall x~P(x)$ нельзя доказать и постройте контрмодель.
     \item $\exists x~P(f(x)) \vdash \exists x~P(x)$
     \item $\forall x \exists! y~f(x)=y$ (если не получится, сделайте упрощённый вариант с $\exists y$)
-    \item Эквивалентность двух формализаций $\exists! x~P(x)$:\\$\exists x~(P(x) \land \forall y~(P(y) \to x=y)) \equiv (\exists x~P(x)) \land \forall y \forall z~(P(y) \land P(z) \to y=z)$
     \item $\forall x \forall y~P(f(x), y),~\forall x \forall y~\neg P(x,g(y)) \vdash \bot$
+    \itemhard Эквивалентность двух формализаций $\exists! x~P(x)$:\\$\exists x~(P(x) \land \forall y~(P(y) \to x=y)) \equiv (\exists x~P(x)) \land \forall y \forall z~(P(y) \land P(z) \to y=z)$
     \itemhard \label{h51} $\exists x~(P(x) \to \forall y~P(y))$
     \itemhard \label{h52} $\forall x~(R(x,y) \to R(y,x)),~~\forall x \forall y \forall z~(R(x,y) \land R(y,z) \to R(x,z)),~~\forall x \exists y~R(x,y) \vdash \forall x~R(x,x)$
 \end{enumerate}
