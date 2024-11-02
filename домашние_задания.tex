@@ -6,6 +6,7 @@
 \usepackage[a4paper, margin=1in]{geometry}
 \usepackage{csquotes}
 \usepackage{amsfonts}
+\usepackage{hyperref}
 
 \newcommand{\itemhard}{\refstepcounter{enumi}\item[\theenumi$^\star$.]}
 
@@ -31,7 +32,7 @@
     \item Законы де Моргана (2 в обоих направлениях).
     \item $\vdash p \lor \neg p$ (использовать RAA и закон де Моргана для отрицания дизъюнкции).
     \item $p \to q \equiv \neg p \lor q$.
-    \itemhard $\vdash ((p \to q) \to p) \to p$ (подсказка: можно использовать задачу 7 или закон исключённого третьего).
+    \itemhard \label{h21} $\vdash ((p \to q) \to p) \to p$ (есть \hyperref[hints]{подсказка}).
     \itemhard Составить правила введения и исключения для равносильности, суммы по модулю 2, стрелки Пирса и штриха Шеффера.
 \end{enumerate}
 
@@ -39,18 +40,20 @@
 Перевести на язык логики предикатов:
 \begin{enumerate}
     \item Мне скучно.
-    \item Иванов, Петров и Васильев играют в домино.
-    \item Иванов, Петров и Васильев слушают лекцию.
-    \item Среднее арифметическое $x$ и $y$ больше иx среднего геометрического.
-    \item $5$ не является решением уравнения $x^2 - 3x + 2 = 0$.
-    \item Слон Бимбо больше собаки Ланды.
-    \item Точки $A, B, C$ являются вершинами равнобедренного треугольника.
+    \item Иванов и Петров играют в шахматы.
+    \item Иванов и Петров слушают лекцию.
     \item Каждый, кто упорно работает, добивается успеха.
+    \item Слон Бимбо больше собаки Ланды.
     \item Кошки бывают только белые и серые.
+    \item Среднее арифметическое любых двух чисел больше иx среднего геометрического (не используйте операции деления и извлечения корня, так как они не везде определены).
+    \item Уравнение $x^2 - 3x + 2 = 0$ не имеет решений.
+    \item Функция $f$ непрерывна в точке $a$ (используйте определение предела через $\varepsilon$ и $\delta$).
+    \item Точки $A, B, C$ являются вершинами равнобедренного треугольника.
     \item Функция $f$ принимает в том числе такие комплексные значения, которые не являются действительными.
     \item У каждого положительного действительного числа есть ровно один положительный квадратный корень.
     \item Число $x$ простое (для групп, где не сделали на занятии).
     \item Есть сколько угодно большие простые числа.
+    \item Последовательность $a_0, a_1, \ldots$ имеет более одной предельной точки.
 \end{enumerate}
 
 \section{Деревья истинности для логики предикатов}
@@ -64,22 +67,40 @@
     \item[] Следующие формализовать как секвенции с двумя посылками:
     \item Не все политики мошенники. Все мошенники умны. Значит, некоторые политики глупы.
     \item Те, кто что-то учил, решили некоторые задачи. Андрей не решил ни одной. Значит, он не учил ничего.
-    \item Эквивалентность двух формализаций $\exists! x~P(x)$:\\$\exists x~(P(x) \land \forall y~(P(y) \to x=y) \equiv (\exists x~P(x)) \land \forall y,z~(P(y) \land P(z) \to y=z)$
+    \item Если бинарное отношение транзитивно и симметрично, то оно рефлексивно (здесь квантора по бинарным отношениям нет, просто обозначьте его как $R(x,y)$).
+    \item[] Задачи с равенством и с функциями:
+    \item $\forall x \exists! y~f(x)=y$
+    \item Эквивалентность двух формализаций $\exists! x~P(x)$:\\$\exists x~(P(x) \land \forall y~(P(y) \to x=y)) \equiv (\exists x~P(x)) \land \forall y \forall z~(P(y) \land P(z) \to y=z)$
+    \itemhard $\forall x \forall y~(P(f(x), y) \vee Q(x,y)),~\forall x \forall y~(\neg P(x,g(y)) \vee Q(x,y)) \vdash \exists x \exists y~Q(x,y)$
 \end{enumerate}
 
 \section{Натуральная дедукция для логики предикатов}
 Доказать с помощью натуральной дедукции:
 \begin{enumerate}
     \item $(\forall x~P(x)) \to (\exists x~P(x))$
-    \item $\exists x~P(x), \forall x~(P(x) \to Q(x)) \vdash \exists x~Q(x)$
-    \item Правила де Моргана для кванторов (любые 2 из 4).
+    \item $\forall x~P(x), \exists x~(P(x) \to Q(x)) \vdash \exists x~Q(x)$
+    \item $\neg \forall x~P(x) \equiv \exists x~\neg P(x)$.
     \item $\exists x~(P(x) \land Q(x)) \vdash (\exists x~P(x)) \land (\exists x~Q(x))$
-    \item $\forall x~(P(x) \vee Q(x)) \vdash (\exists x~P(X)) \vee (\forall x~Q(x))$
-    \item $\forall x \exists y~P(x,y), \exists x \forall y~Q(x,y) \vdash \exists x \exists y~(P(x,y) \land Q(x,y))$
-    \item Эквивалентность двух формализаций $\exists! x~P(x)$:\\$\exists x~(P(x) \land \forall y~(P(y) \to x=y) \equiv (\exists x~P(x)) \land \forall y,z~(P(y) \land P(z) \to y=z)$
+    \item $\forall x~(P(x) \vee Q(x)) \vdash (\exists x~P(x)) \vee (\forall x~Q(x))$
+    \item $\forall x \exists y~P(x,y),~\exists x \forall y~Q(x,y) \vdash \exists x \exists y~(P(x,y) \land Q(x,y))$
     \item Убедитесь, что $\exists x~P(x) \vdash \forall x~P(x)$ нельзя доказать и постройте контрмодель.
-    \itemhard $\exists x~(P(x) \to \forall y~P(y))$
-    \itemhard $\forall x~R(x,y) \to R(y,x), ~~ \forall xyz~R(x,y) \land R(y,z) \to R(x,z), ~~ \forall x \exists y~R(x,y) \vdash \forall x~R(x,x)$ \\ Подсказка: так как $\forall x \exists y~R(x,y)$, то для этого $y$ также верно $R(y,x)$, а из $R(x,y)$ и $R(y,x)$ заключаем $R(x,x)$.
+    \item $\exists x~P(f(x)) \vdash \exists x~P(x)$
+    \item $\forall x \exists! y~f(x)=y$ (если не получится, сделайте упрощённый вариант с $\exists y$)
+    \item Эквивалентность двух формализаций $\exists! x~P(x)$:\\$\exists x~(P(x) \land \forall y~(P(y) \to x=y)) \equiv (\exists x~P(x)) \land \forall y \forall z~(P(y) \land P(z) \to y=z)$
+    \item $\forall x \forall y~P(f(x), y),~\forall x \forall y~\neg P(x,g(y)) \vdash \bot$
+    \itemhard \label{h51} $\exists x~(P(x) \to \forall y~P(y))$
+    \itemhard \label{h52} $\forall x~(R(x,y) \to R(y,x)),~~\forall x \forall y \forall z~(R(x,y) \land R(y,z) \to R(x,z)),~~\forall x \exists y~R(x,y) \vdash \forall x~R(x,x)$
 \end{enumerate}
+Для~\ref*{h51} и~\ref*{h52} есть \hyperref[hints]{подсказки}.
+
+\pagebreak
+\section*{Подсказки}
+\label{hints}
+
+2.\ref{h21}: можно использовать задачу 7 или закон исключённого третьего.
+
+5.\ref{h51}: можно использовать закон исключённого третьего для $\forall y~P(y)$.
+
+5.\ref{h52}: так как $\forall x \exists y~R(x,y)$, то для этого $y$ также верно $R(y,x)$, а из $R(x,y)$ и $R(y,x)$ заключаем $R(x,x)$.
 
 \end{document}
