@@ -18,6 +18,7 @@
 \newcommand{\continuum}{\mathfrak{c}}
 
 \newcommand{\itemhard}{\refstepcounter{enumi}\item[\theenumi$^\star$.]}
+\renewcommand{\labelenumii}{\asbuk{enumii})}
 
 \begin{document}
 \section{Деревья истинности для логики высказываний}
@@ -159,11 +160,28 @@
 
 \section{Теория множеств: ординалы}
 \begin{enumerate}
-    \item Пусть $A,B$ частично упорядоченные множества.
+    \item Докажите:
         \begin{enumerate}
+            \item Если $A$ и $B$ частично упорядочены, то $A + B$ и $A \times B$ частично упорядочены.
             \item Если $A$ и $B$ линейно упорядочены, то $A + B$ и $A \times B$ линейно упорядочены.
             \item Если $A$ и $B$ фундированы, то $A + B$ и $A \times B$ фундированы.
         \end{enumerate}
+    \item Приведите к нормальной форме Кантора: $(\omega+2)(\omega+1)\omega$.
+    \item Приведите к нормальной форме Кантора: $(\omega+2)^3$.
+    \item Приведите к нормальной форме Кантора: $(\omega+1)^{\omega+1}$.
+    \item Найдите контрпример к утверждению $(\alpha + \beta) \cdot \gamma = \alpha \cdot \gamma + \beta \cdot \gamma$.
+    \item Докажите, что $(\alpha+\beta)+\gamma = \alpha+(\beta+\gamma)$.
+    \item Докажите, что если $\alpha < \beta$, то 
+        \begin{enumerate}
+            \item $\gamma + \alpha < \gamma + \beta$.
+            \item $\alpha + \gamma \leq \beta + \gamma$ (но не обязательно $<$).
+        \end{enumerate}
+    \itemhard Докажите, что $\alpha + \beta = \beta \Leftrightarrow \alpha \cdot \omega \leq \beta$.
+    \itemhard Докажите, что:
+    \begin{enumerate}
+        \item Ординалы вида $\omega^\alpha$ нельзя представить как сумму двух меньших ординалов.
+        \item Любые другие положительные ординалы можно так представить.
+    \end{enumerate}
 \end{enumerate}
 
 \pagebreak
