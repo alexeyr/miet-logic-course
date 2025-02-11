@@ -24,12 +24,17 @@
 \section{Деревья истинности для логики высказываний}
 Доказать или опровергнуть с помощью деревьев истинности:
 \begin{enumerate}
-    \item $p \to q \equiv \neg p \vee q$
-    \item $\neg (p \vee q) \equiv \neg p \wedge \neg q$
     \item $((p \to q) \to p) \to p$
-    \item $p \wedge q \to r \equiv (p \to r) \vee (q \to r)$
-    \item $p \wedge q \to r \equiv (p \to r) \wedge (q \to r)$
-    \item Сформулировать правила деревьев истинности для следующих операций: стрелка Пирса $\downarrow$, штрих Шеффера $\mid$, равносильность $\equiv$, сумма по модулю 2 $\oplus$ (она же исключающее или). Если какие-то из них незнакомы и не получится найти определение, напишите.
+    \item $p \land q, q \land r \vdash p \land r$
+    \item $p \lor q, q \lor r \vdash p \lor r$
+    \item $p \to q \equiv \neg p \lor q$
+    \item $\neg (p \to q) \equiv \neg p \to \neg q$
+    \item $\neg (p \lor q) \equiv \neg p \land \neg q$
+    \item $(p \land q) \lor (p \land \neg q) \lor (\neg p \land q) \lor (\neg p \land \neg q)$
+    \item $p \land q \to r \equiv (p \to r) \lor (q \to r)$
+    \item $p \land q \to r \equiv (p \to r) \land (q \to r)$
+    \item Сформулировать правила деревьев истинности для следующих операций: стрелка Пирса $\downarrow$, штрих Шеффера $\mid$, равносильность $\leftrightarrow$, сумма по модулю 2 $\oplus$ (она же исключающее или). Если какие-то из них незнакомы и не получится найти определение, напишите.
+    \item $(p \leftrightarrow q) \leftrightarrow r \equiv p \leftrightarrow (q \leftrightarrow r)$ (используйте правила из 8).
 \end{enumerate}
 
 \section{Натуральная дедукция для логики высказываний}
@@ -70,7 +75,7 @@
 Доказать или опровергнуть с помощью деревьев истинности:
 \begin{enumerate}
     \item $\exists x~(P(x) \to \forall y~P(y))$
-    \item $\forall x~(P(x) \vee Q(x)) \vdash (\exists x~P(X)) \vee (\forall x~Q(x))$
+    \item $\forall x~(P(x) \lor Q(x)) \vdash (\exists x~P(X)) \lor (\forall x~Q(x))$
     \item $\exists x~P(x), \forall x~(P(x) \to Q(x)) \vdash \exists x~Q(x)$
     \item $\neg \exists x~(P(x) \to Q(x)) \vdash (\exists x~A(x)) \land (\forall x~Q(x))$
     \item $\forall x \exists y~P(x,y), \exists x \forall y~Q(x,y) \vdash \exists x \exists y~(P(x,y) \land Q(x,y))$
@@ -81,7 +86,7 @@
     \item[] Задачи с равенством и с функциями:
     \item $\forall x \exists! y~f(x)=y$
     \item Эквивалентность двух формализаций $\exists! x~P(x)$:\\$\exists x~(P(x) \land \forall y~(P(y) \to x=y)) \equiv (\exists x~P(x)) \land \forall y \forall z~(P(y) \land P(z) \to y=z)$
-    \itemhard $\forall x \forall y~(P(f(x), y) \vee Q(x,y)),~\forall x \forall y~(\neg P(x,g(y)) \vee Q(x,y)) \vdash \exists x \exists y~Q(x,y)$
+    \itemhard $\forall x \forall y~(P(f(x), y) \lor Q(x,y)),~\forall x \forall y~(\neg P(x,g(y)) \lor Q(x,y)) \vdash \exists x \exists y~Q(x,y)$
 \end{enumerate}
 
 \section{Натуральная дедукция для логики предикатов}
@@ -91,7 +96,7 @@
     \item $\forall x~P(x), \exists x~(P(x) \to Q(x)) \vdash \exists x~Q(x)$
     \item $\neg \forall x~P(x) \equiv \exists x~\neg P(x)$.
     \item $\exists x~(P(x) \land Q(x)) \vdash (\exists x~P(x)) \land (\exists x~Q(x))$
-    \item $\forall x~(P(x) \vee Q(x)) \vdash (\exists x~P(x)) \vee (\forall x~Q(x))$
+    \item $\forall x~(P(x) \lor Q(x)) \vdash (\exists x~P(x)) \lor (\forall x~Q(x))$
     \item $\forall x \exists y~P(x,y),~\exists x \forall y~Q(x,y) \vdash \exists x \exists y~(P(x,y) \land Q(x,y))$
     \item Убедитесь, что $\exists x~P(x) \vdash \forall x~P(x)$ нельзя доказать и постройте контрмодель.
     \item $\exists x~P(f(x)) \vdash \exists x~P(x)$
