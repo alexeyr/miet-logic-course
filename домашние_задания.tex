@@ -33,22 +33,27 @@
     \item $(p \land q) \lor (p \land \neg q) \lor (\neg p \land q) \lor (\neg p \land \neg q)$
     \item $p \land q \to r \equiv (p \to r) \lor (q \to r)$
     \item $p \land q \to r \equiv (p \to r) \land (q \to r)$
-    \item Сформулировать правила деревьев истинности для следующих операций: стрелка Пирса $\downarrow$, штрих Шеффера $\mid$, равносильность $\leftrightarrow$, сумма по модулю 2 $\oplus$ (она же исключающее или). Если какие-то из них незнакомы и не получится найти определение, напишите.
-    \item $(p \leftrightarrow q) \leftrightarrow r \equiv p \leftrightarrow (q \leftrightarrow r)$ (используйте правила из 8).
+    \item \label{rules} Для каждой операции $op$ из следующего списка укажите, как в деревьях истинности разбирать уравнения видов $A~op~B = 1$ и $A~op~B = 0$: стрелка Пирса $\downarrow$, штрих Шеффера $\mid$, равносильность $\leftrightarrow$, сумма по модулю 2 $\oplus$ (она же исключающее или). Если какие-то из них незнакомы и не получится найти определение, напишите.
+    \item $(p \leftrightarrow q) \leftrightarrow r \equiv p \leftrightarrow (q \leftrightarrow r)$ (используйте правила из задания \ref*{rules}).
 \end{enumerate}
 
 \section{Натуральная дедукция для логики высказываний}
 Доказать с помощью натуральной дедукции:
 \begin{enumerate}
+    \item $(p \land q) \land r \equiv p \land (q \land r)$.
     \item $p \to q \equiv \neg q \to \neg p$.
     \item $p \to q \land r \equiv (p \to q) \land (p \to r)$.
     \item $p \equiv \neg \neg p$.
-    \itemhard $p \land q \to r \equiv (p \to r) \lor (q \to r)$.
+    \item $p \lor q \to r \equiv (p \to r) \land (q \to r)$.
     \item Законы де Моргана (2 в обоих направлениях).
     \item $\vdash p \lor \neg p$ (использовать RAA и закон де Моргана для отрицания дизъюнкции).
-    \item $p \to q \equiv \neg p \lor q$.
+    \item \label{to_equiv} $p \to q \equiv \neg p \lor q$.
+    \item $p \land (q \lor r) \vdash (p \land q) \lor r$.
     \itemhard \label{h21} $\vdash ((p \to q) \to p) \to p$ (есть \hyperref[hints]{подсказка}).
-    \itemhard Составить правила введения и исключения для равносильности, суммы по модулю 2, стрелки Пирса и штриха Шеффера.
+    \item \label{rules2} Составить правила введения и исключения для равносильности, суммы по модулю 2, стрелки Пирса и штриха Шеффера. Подсказка: выразите через операции, для которых эти правила уже знаете, и скомбинируйте их.
+    \item[] Используя эти правила:
+    \item $p \downarrow q \vdash p \mid q$.
+    \itemhard $(p \leftrightarrow q) \leftrightarrow r \equiv p \leftrightarrow (q \leftrightarrow r)$.
 \end{enumerate}
 
 \section{Формализация утверждений в логике предикатов}
@@ -193,7 +198,7 @@
 \section*{Подсказки}
 \label{hints}
 
-2.\ref{h21}: можно использовать задачу 7 или закон исключённого третьего.
+2.\ref{h21}: можно использовать задачу \ref{to_equiv} или закон исключённого третьего.
 
 5.\ref{h51}: можно использовать закон исключённого третьего для $\forall y~P(y)$.
 
