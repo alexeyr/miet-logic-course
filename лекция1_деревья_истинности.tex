@@ -138,74 +138,65 @@
 \begin{frame}
 \frametitle{Пример дерева истинности}
 \begin{itemize}
-    \item Начнём с примера. Нужно доказать $p \to (q \to p \land q)$:
+    \item Начнём с примера. Нужно доказать $p \land q \to q \land p$:
     \item[] 
 \only<1>{
     \begin{tableau}{
     }
-        [{p \to (q \to p \land q) = 0}, just=Дано]
+        [{p \land q \to q \land p = 0}, just=Дано]
     \end{tableau}
 }
 \only<2>{
     \begin{tableau}{
         }
-        [{p \to (q \to p \land q) = 0}, just=Дано, checked
-        [{p = 1}, just=1
-        [{q \to p \land q = 0}, just = 1
+        [{p \land q \to q \land p = 0}, just=Дано, checked
+        [{p \land q = 1}, just=1
+        [{q \land p = 0}, just=1
         ]]]
     \end{tableau}
 }
 \only<3>{
     \begin{tableau}{
         }
-        [{p \to (q \to p \land q) = 0}, just=Дано, checked
-        [{p = 1}, just=1, checked
-        [{q \to p \land q = 0}, just = 1
-        ]]]
+        [{p \land q \to q \land p = 0}, just=Дано, checked
+        [{p \land q = 1}, just=1, checked
+        [{q \land p = 0}, just=1
+        [{p = 1}, just=2, checked
+        [{q = 1}, just=2, checked
+        ]]]]]
     \end{tableau}
 }
 \only<4>{
     \begin{tableau}{
         }
-        [{p \to (q \to p \land q) = 0}, just=Дано, checked
-        [{p = 1}, just=1, checked
-        [{q \to p \land q = 0}, just = 1, checked
-        [{q = 1}, checked, just=3
-        [{p \land q = 0}, just=3
+        [{p \land q \to q \land p = 0}, just=Дано, checked
+        [{p \land q = 1}, just=1, checked
+        [{q \land p = 0}, just=1, checked
+        [{p = 1}, just=2, checked
+        [{q = 1}, just=2, checked
+        [{q = 0}, just=3, checked] [{p = 0}, just=3, checked]
         ]]]]]
     \end{tableau}
 }
 \only<5>{
     \begin{tableau}{
         }
-        [{p \to (q \to p \land q) = 0}, just=Дано, checked
-        [{p = 1}, just=1, checked
-        [{q \to p \land q = 0}, just = 1, checked
-        [{q = 1}, checked, just=3
-        [{p \land q = 0}, just=3, checked
-        [{p = 0}, just=5] [{q = 0}, just=5]
+        [{p \land q \to q \land p = 0}, just=Дано, checked
+        [{p \land q = 1}, just=1, checked
+        [{q \land p = 0}, just=1, checked
+        [{p = 1}, just=2, checked
+        [{q = 1}, just=2, checked
+        [{q = 0}, just=3, checked, close={5,6}] [{p = 0}, just=3, checked, close={4,6}]
         ]]]]]
     \end{tableau}
 }
-\only<6>{
-    \begin{tableau}{
-        }
-        [{p \to (q \to p \land q) = 0}, just=Дано, checked
-        [{p = 1}, just=1, checked
-        [{q \to p \land q = 0}, just = 1, checked
-        [{q = 1}, checked, just=3
-        [{p \land q = 0}, just=3, checked
-        [{p = 0}, just=5, checked, close={2,6}] [{q = 0}, just=5, checked, close={4,6}]
-        ]]]]]
-    \end{tableau}
-}
-\onslide<7->{
-    \item Пусть $p \to (q \to p \land q) = 0$. 
-\item Тогда $p = 1$ и $q \to p \land q = 0$.
-\item Тогда $q = 1$ и $p \land q = 0$.
-\item Отсюда $p = 0$ или $q = 0$. Но оба невозможны!
-\item Значит,  $p \to (q \to p \land q) = 0$ невозможно.
-\item $p \to (q \to p \land q)$ тождественно истинно!
+\onslide<6->{
+    \item Пусть $p \land q \to q \land p = 0$.
+\item Тогда $p \land q = 1$ и $q \land p = 0$.
+\item Тогда $p = 1$ и $q = 1$.
+\item Отсюда $q = 0$ или $p = 0$. Но оба невозможны!
+\item Значит, $p \land q \to q \land p = 0$ невозможно.
+\item $p \land q \to q \land p$ тождественно истинно!
 }
 
 \end{itemize}
@@ -301,36 +292,19 @@
 \begin{frame}
 \frametitle{Пример незакрытого дерева}
 \begin{itemize}
-    \item Проверим $(p \to r) \lor (q \to r) \to (p \lor q \to r)$:
-    {\footnotesize
+    \item Проверим $(p \to q) \to (\neg p \to \neg q)$:
     \begin{tableau}{}
-        [{(p \to r) \lor (q \to r) \to (p \lor q \to r) = 0}, checked, just=Дано
-        [{(p \to r) \lor (q \to r) = 1}, checked, just=1
-        [{p \lor q \to r = 0}, checked, just=1
-        [{p \lor q = 1}, checked, just=3
-        [{r = 0}, checked, just=3
-        [{p \to r = 1}, checked, just=2
-        [{p = 1}, checked, just=4
-        [{p=0}, checked, just=6, close={7,8}]
-        [{r=1}, checked, just=6, close={5,8}]
-        ]
-        [{q = 1}, checked, just=4
-        [\vdots]
-        ]
-        ]
-        [{q \to r = 1}, checked, just=2
-        [{p = 1}, checked, just=4
-        [{q=0}, checked, just=6]
-        [{r=1}, checked, just=6, close={5,8}]
-        ]
-        [{q = 1}, checked, just=4
-        [\vdots]
-        ]
-        ]
-        ]]]]]
+        [{(p \to q) \to (\neg p \to \neg q) = 0}, checked, just=Дано
+        [{p \to q = 1}, checked, just=1
+        [{\neg p \to \neg q = 0}, checked, just=1
+        [{\neg p = 1}, checked, just=3
+        [{\neg q = 0}, checked, just=3
+        [{p = 0}, checked, just=4
+        [{q = 1}, checked, just=5
+        [{p = 0}, checked, just=2] [{q = 1}, checked, just=2]
+        ]]]]]]]
     \end{tableau}
-    }
-    \item В законченной ветви $p=1,\,q=0,\,r=0$. На этом наборе строка 1 выполняется, значит, \pause формула не тождественно истинна.
+    \item Ни одна ветвь не закрылась. В каждой из них $p=0,\,q=1$: на этом наборе строка 1 выполняется, значит, \pause формула не тождественно истинна.
 \end{itemize}
 \end{frame}
 
