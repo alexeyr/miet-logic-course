@@ -80,9 +80,9 @@
 Доказать или опровергнуть с помощью деревьев истинности:
 \begin{enumerate}
     \item $\exists x~(P(x) \to \forall y~P(y))$
-    \item $\forall x~(P(x) \lor Q(x)) \vdash (\exists x~P(X)) \lor (\forall x~Q(x))$
+    \item $\forall x~(P(x) \lor Q(x)) \vdash (\exists x~P(x)) \lor (\forall x~Q(x))$
     \item $\exists x~P(x), \forall x~(P(x) \to Q(x)) \vdash \exists x~Q(x)$
-    \item $\neg \exists x~(P(x) \to Q(x)) \vdash (\exists x~A(x)) \land (\forall x~Q(x))$
+    \item $\neg \exists x~(P(x) \to Q(x)) \vdash (\exists x~P(x)) \land (\forall x~Q(x))$
     \item $\forall x \exists y~P(x,y), \exists x \forall y~Q(x,y) \vdash \exists x \exists y~(P(x,y) \land Q(x,y))$
     \item[] Следующие формализовать как секвенции с двумя посылками:
     \item Не все политики мошенники. Все мошенники умны. Значит, некоторые политики глупы.
@@ -126,9 +126,9 @@
             \item Если $f$ и $g$ вложения, то $g \circ f = x \mapsto g(f(x))$ вложение.
             \item Если $f$ и $g$ наложения, то $g \circ f$ наложение.
         \end{enumerate}
-    \item Пусть $A,B,C,D$ множества, $f: A \to B, g: C \to D$ вложения.
+    \item Пусть $A,B,C,D$ множества, $f: A \to C, g: B \to D$ вложения.
         \begin{enumerate}
-            \item Если $A \cup B = C \cup D = \varnothing$, найдите вложение $h: A \cup B \to C \cup D$. Что изменится без этого дополнительного условия?
+            \item Если $A \cap B = C \cap D = \varnothing$, найдите вложение $h: A \cup B \to C \cup D$. Что изменится без этого дополнительного условия?
             \item Найдите вложение $h: A \times B \to C \times D$.
             \item Покажите, что если $f$ и $g$ наложения (и не обязательно вложения), то $h$ из обоих предыдущих пунктов будут наложениями.
         \end{enumerate}

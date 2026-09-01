@@ -215,8 +215,8 @@
             \item Базовые функции: $O(x) = 0$, $S(x) = x+1$, $I_n^i(x_1, \ldots, x_n) = x_i$.
             \item Композиция: пусть $f$ функция $m$ аргументов, $g_1, \ldots, g_m$ функции $k$ аргументов, тогда $C(f, g_1, \ldots, g_m) = h$, где \\ $h(x_1, \ldots, x_k) = f(g_1(x_1, \ldots, x_k), \ldots, g_m(x_1, \ldots, x_k))$.
             \item Примитивная рекурсия: пусть $f$ функция $n$ аргументов, $g$ функция $n+2$ аргументов, тогда $R(f,g)=h$, где \\
-            $h(x_1, \ldots, x_m,0) = f(x_1, \ldots, x_m)$, \\
-            $h(x_1, \ldots, x_m,y+1) = g(x_1, \ldots, x_m, y, h(x_1, \ldots, x_m, y))$.
+            $h(x_1, \ldots, x_n,0) = f(x_1, \ldots, x_n)$, \\
+            $h(x_1, \ldots, x_n,y+1) = g(x_1, \ldots, x_n, y, h(x_1, \ldots, x_n, y))$.
         \end{itemize}
         \pause
         \item Частично рекурсивные функции получаются, если добавить оператор минимизации:

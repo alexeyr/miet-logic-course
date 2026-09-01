@@ -42,8 +42,8 @@
         \begin{itemize}
             \item \emph{Носитель} (или \emph{универсум}): \pause множество $\bar{M}$.
             \item Для каждого символа $c : Const_\Sigma$\only<2->{\footnote{Я пишу $:$ вместо $\in$ для объявления новой переменной.}}: \pause элемент $c_M : \bar{M}$.
-            \item Для $f: Fun_\Sigma$: \pause функция $f_M: M^{arity(f)} \to M$.
-            \item Для $P: Pred_\Sigma$: \pause предикат $P_M: M^{arity(P)} \to \{0,1\}$.
+            \item Для $f: Fun_\Sigma$: \pause функция $f_M: \bar{M}^{arity(f)} \to \bar{M}$.
+            \item Для $P: Pred_\Sigma$: \pause предикат $P_M: \bar{M}^{arity(P)} \to \{0,1\}$.
         \end{itemize}
         \item \emph{Оценка} "--- значение переменных в модели, $\sigma : Var \to \bar{M}$. Или $V \to \bar{M}$, где $V \subset Var$.
         \item Важно: символы сигнатуры сами по себе ничего не говорят об их интерпретации! $+_M$ может быть $-$ или $\cdot$ или $x,y \mapsto \int_{x}^{y} t dt$.
@@ -201,7 +201,7 @@
 %        \pause
 %        \item $\exists x ~ (x > 1 \land x^2 > x)$.
 %        \pause
-%        \item Убедитесь, что это работает, если заменить $x > 1$ и $x^2 > 1$ на любые другие \pause формулы.
+%        \item Убедитесь, что это работает, если заменить $x > 1$ и $x^2 > x$ на любые другие \pause формулы.
 %    \end{itemize}
 % \end{frame}
 
