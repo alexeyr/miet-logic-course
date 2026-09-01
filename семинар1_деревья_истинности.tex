@@ -95,7 +95,7 @@
         [{q \to p \land q = 0}, just = 1, checked
         [{q = 1}, checked, just=3
         [{p \land q = 0}, just=3, checked
-        [{p = 0}, just=5, close={2,6}] [{q = 0}, just=5, close={4,6}]
+        [{p = 0}, just=5, checked, close={2,6}] [{q = 0}, just=5, checked, close={4,6}]
         ]]]]]
     \end{tableau}
 }
@@ -168,13 +168,13 @@
     \item Чтобы проверить, следует ли $B$ из посылок $A_1,\, A_2,\,\ldots$, начинаем с \pause $A_1=1,\, A_2=1,\, \ldots,\, B=0$ (пишем их в столбик).
     \item Для эквивалентности $A \equiv B$ строим 2 дерева: \pause $A=1,\, B=0$ и $A=0,\, B=1$.
     \pause
-    \item[]
     \item На каждом шаге:
     \begin{itemize}
         \item Выбираем неразобранное уравнение (не отмечено \checkmark).
         \item Применяем правила с предыдущего слайда.
         \item Результаты дописываются в конец всех открытых ветвей под ним.
         \item Отмечаем как разобранное.
+        \item Атомарные отмечаем сразу: правил к ним нет.
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -242,12 +242,12 @@
         [{p \to \lnot r = 1}, just=Дано, checked
         [{q \to \lnot r = 1}, just=Дано, checked,name=last premise
         [{\lnot r = 0}, just=Дано,name=not conc
-        [{p = 1}, just={1}
-        [{p = 0}, close={:!u,!c}, just={2}]
+        [{p = 1}, just={1}, checked
+        [{p = 0}, close={:!u,!c}, just={2}, checked]
         [{\lnot r = 1}, close={:not conc,!c},just={2}]]
         [{q \vee \lnot r = 1}, just={1}, checked
-        [{q = 1}, move by=1, just={5}
-        [{q = 0}, close={:!u,!c}, just={3}]
+        [{q = 1}, move by=1, just={5}, checked
+        [{q = 0}, close={:!u,!c}, just={3}, checked]
         [{\lnot r = 1}, close={:not conc,!c},just={3}]]
         [{\lnot r = 1}, close={:not conc,!c},move by=1, just={5}]]]]]]
     \end{tableau}
