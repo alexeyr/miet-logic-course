@@ -87,7 +87,18 @@
 \begin{frame}
     \frametitle{Соглашения об опускании скобок}
     \begin{itemize}
-        \item TODO
+        \item Строго говоря, по определению надо писать $(p \to (q \to (p \land q)))$. Читать такое неудобно, поэтому часть скобок опускают.
+        \pause
+        \item Внешние скобки не пишем: вместо $(p \land q)$ пишем $p \land q$.
+        \pause
+        \item Приоритет связок, от высшего к низшему: $\neg$, $\land$, $\lor$, $\to$, $\leftrightarrow$.
+        \item Например, $\neg p \land q \to r \lor s$ "--- это $((\neg p) \land q) \to (r \lor s)$.
+        \pause
+        \item $\land$ и $\lor$ левоассоциативны: $p \lor q \lor r$ "--- это $(p \lor q) \lor r$.
+        \item $\to$ правоассоциативна: $p \to q \to r$ "--- это $p \to (q \to r)$.
+        \pause
+        \item Лишние скобки ставить можно, если так понятнее.
+        \item Но не все скобки лишние: в законе Пирса $((p \to q) \to p) \to p$ нельзя опустить ни одну пару.
     \end{itemize}
 \end{frame}
 
