@@ -59,13 +59,13 @@
 \section{Формализация утверждений в логике предикатов}
 Перевести на язык логики предикатов:
 \begin{enumerate}
-    \item Мне скучно.
+    \item Ивану скучно.
     \item Иванов и Петров играют в шахматы.
     \item Иванов и Петров слушают лекцию.
     \item Каждый, кто упорно работает, добивается успеха.
     \item Слон Бимбо больше собаки Ланды.
     \item Кошки бывают только белые и серые.
-    \item Среднее арифметическое любых двух чисел больше иx среднего геометрического (не используйте операции деления и извлечения корня, так как они не везде определены).
+    \item Среднее арифметическое любых двух чисел больше их среднего геометрического (не используйте операции деления и извлечения корня, так как они не везде определены).
     \item Уравнение $x^2 - 3x + 2 = 0$ не имеет решений.
     \item Функция $f$ непрерывна в точке $a$ (используйте определение предела через $\varepsilon$ и $\delta$).
     \item Точки $A, B, C$ являются вершинами равнобедренного треугольника.
@@ -109,7 +109,7 @@
     \item $\forall x \forall y~P(f(x), y),~\forall x \forall y~\neg P(x,g(y)) \vdash \bot$
     \itemhard Эквивалентность двух формализаций $\exists! x~P(x)$:\\$\exists x~(P(x) \land \forall y~(P(y) \to x=y)) \equiv (\exists x~P(x)) \land \forall y \forall z~(P(y) \land P(z) \to y=z)$
     \itemhard \label{h51} $\exists x~(P(x) \to \forall y~P(y))$
-    \itemhard \label{h52} $\forall x~(R(x,y) \to R(y,x)),~~\forall x \forall y \forall z~(R(x,y) \land R(y,z) \to R(x,z)),~~\forall x \exists y~R(x,y) \vdash \forall x~R(x,x)$
+    \itemhard \label{h52} $\forall x \forall y~(R(x,y) \to R(y,x)),~~\forall x \forall y \forall z~(R(x,y) \land R(y,z) \to R(x,z)),~~\forall x \exists y~R(x,y) \vdash \forall x~R(x,x)$
 \end{enumerate}
 Для~\ref*{h51} и~\ref*{h52} есть \hyperref[hints]{подсказки}.
 

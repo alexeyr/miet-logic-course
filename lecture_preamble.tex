@@ -20,6 +20,8 @@
 \usepackage{diagbox}
 \usepackage{verbatimbox}
 \usepackage{fitch}
+% fitch по умолчанию печатает эти правила как $\Rightarrow$I/E; в курсе импликация всюду $\to$.
+\gappto\ndrules{\def\ii{\by{$\to$I}}\def\ie{\by{$\to$E}}}
 %\usepackage[defaultsans]{droidsans}
 %\usepackage[defaultmono]{droidmono}
 %\makeatletter
@@ -47,7 +49,7 @@
 }
 \catcode\lq\'=\straightquote@code
 \catcode\lq\`=\backquote@code
-\makeatletter
+\makeatother
 
 \setbeamercovered{again covered={\opaqueness<1->{25}}}
 

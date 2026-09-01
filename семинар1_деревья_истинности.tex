@@ -82,7 +82,7 @@
         [{p = 1}, just=1, checked
         [{q \to p \land q = 0}, just = 1, checked
         [{q = 1}, checked, just=3
-        [{p \land q = 0}, just=3
+        [{p \land q = 0}, just=3, checked
         [{p = 0}, just=5] [{q = 0}, just=5]
         ]]]]]
     \end{tableau}
@@ -94,7 +94,7 @@
         [{p = 1}, just=1, checked
         [{q \to p \land q = 0}, just = 1, checked
         [{q = 1}, checked, just=3
-        [{p \land q = 0}, just=3
+        [{p \land q = 0}, just=3, checked
         [{p = 0}, just=5, close={2,6}] [{q = 0}, just=5, close={4,6}]
         ]]]]]
     \end{tableau}
@@ -242,13 +242,13 @@
         [{q \to \lnot r = 1}, just=Дано, checked,name=last premise
         [{\lnot r = 0}, just=Дано,name=not conc
         [{p = 1}, just={1}
-        [{p = 0}, close={:!u,!c}]
-        [{\lnot r = 1}, close={:not conc,!c},just={ 2}]]
-        [{q \vee \lnot r = 1}
-        [{q = 1}, move by=1
-        [{q = 0}, close={:!u,!c}]
+        [{p = 0}, close={:!u,!c}, just={2}]
+        [{\lnot r = 1}, close={:not conc,!c},just={2}]]
+        [{q \vee \lnot r = 1}, just={1}, checked
+        [{q = 1}, move by=1, just={5}
+        [{q = 0}, close={:!u,!c}, just={3}]
         [{\lnot r = 1}, close={:not conc,!c},just={3}]]
-        [{\lnot r = 1}, close={:not conc,!c},move by=1, just={7}]]]]]]
+        [{\lnot r = 1}, close={:not conc,!c},move by=1, just={5}]]]]]]
     \end{tableau}
     \item Дерево закрыто, значит, \pause контрпримера нет и секвенция тождественно истинна.
 \end{itemize}

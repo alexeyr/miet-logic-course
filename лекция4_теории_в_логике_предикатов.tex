@@ -16,7 +16,7 @@
     \item Примеры больших классов моделей: графы, линейные пространства и т.д.
     \item Такие классы часто задаются наборами аксиом.
     \item Натуральные числа (в логике обычно включая $0$) с операциями сложения и умножения "--- \enquote{стандартная модель} для сигнатуры арифметики.
-    \item Действительные "--- для мат.анализа.
+    \item Действительные "--- для мат.\,анализа.
     \item Для конкретных моделей можно поставить вопрос: есть ли набор аксиом, полностью описывающих эту модель?
 \end{itemize}
 \end{frame}
@@ -147,9 +147,9 @@
         \item $\forall x ~ S(x) \neq 0$
         \item $\forall x \forall y ~ S(x) = S(y) \to x = y$
         \item $\forall x ~ x + 0 = x$
-        \item $\forall x ~ x + S(y) = S(x+y)$
+        \item $\forall x \forall y ~ x + S(y) = S(x+y)$
         \item $\forall x ~ x \cdot 0 = 0$
-        \item $\forall x ~ x \cdot S(y) = x \cdot y + x$
+        \item $\forall x \forall y ~ x \cdot S(y) = x \cdot y + x$
         \item Схема индукции: для каждой формулы $A(x,y_1,\ldots,y_n)$ ($x,y_1,\ldots,y_n$ "--- все её свободные переменные): \\
         $\forall y_1 \ldots \forall y_n ~ (A(0,y_1,\ldots,y_n) \land \linebreak \forall x ~ (A(x,y_1,\ldots,y_n) \to A(S(x),y_1,\ldots,y_n)) \to \linebreak \forall x ~ A(x,y_1,\ldots,y_n))$
         \item[]

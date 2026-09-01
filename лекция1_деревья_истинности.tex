@@ -169,7 +169,7 @@
         [{p = 1}, just=1, checked
         [{q \to p \land q = 0}, just = 1, checked
         [{q = 1}, checked, just=3
-        [{p \land q = 0}, just=3
+        [{p \land q = 0}, just=3, checked
         [{p = 0}, just=5] [{q = 0}, just=5]
         ]]]]]
     \end{tableau}
@@ -181,7 +181,7 @@
         [{p = 1}, just=1, checked
         [{q \to p \land q = 0}, just = 1, checked
         [{q = 1}, checked, just=3
-        [{p \land q = 0}, just=3
+        [{p \land q = 0}, just=3, checked
         [{p = 0}, just=5, close={2,6}] [{q = 0}, just=5, close={4,6}]
         ]]]]]
     \end{tableau}
@@ -344,7 +344,7 @@
         \pause
         \item Лемма: если в дереве есть выполнимая ветвь, после применения правил такая ветвь тоже есть. Доказательство отдельно для правил $\neg$, $\alpha$ и $\beta$ (используя $\alpha \Leftrightarrow \alpha_1 \land \alpha_2$ и $\beta \Leftrightarrow \beta_1 \lor \beta_2$).
         \pause
-        \item Значит, сколько не применяем правила к исходному дереву, на каждом шаге есть выполнимая ветвь.
+        \item Значит, сколько ни применяем правила к исходному дереву, на каждом шаге есть выполнимая ветвь.
         \pause
         \item Закрытая ветвь не может быть выполнима, значит, на каждом шаге есть открытая ветвь.
         \item Значит, дерево не может быть закрыто.
