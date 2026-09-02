@@ -1,0 +1,117 @@
+\begin{frame}
+\frametitle{Что такое дерево истинности}
+\begin{itemize}
+    \item \emph{Формула со знаком} "--- запись вида $A=1$ или $A=0$, где $A$ "--- формула ЛВ.
+    \item Будем называть их и \emph{уравнениями}: мы ищем оценку, на которой они все верны.
+    \pause
+    \item \emph{Дерево истинности} "--- дерево, в каждой вершине которого стоит формула со знаком.
+    \item Вершина может быть отмечена как \emph{разобранная} (\checkmark).
+    \pause
+    \item \emph{Ветвь} "--- путь от корня до листа. Её формулы со знаком должны выполняться одновременно.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Правила деревьев истинности}
+\begin{itemize}
+    \item Формулы со знаком делятся на 4 типа:
+    \begin{itemize}
+        \item Атомарные (слева переменная).
+        \item Слева отрицание.
+        \item $\alpha$ ведут себя как \enquote{и}: $\alpha \Leftrightarrow \alpha_1 \land \alpha_2$.
+        \item $\beta$ ведут себя как \enquote{или}: $\beta \Leftrightarrow \beta_1 \lor \beta_2$.
+    \end{itemize}
+    \pause
+    \item[]
+    \item Правила:
+\begin{columns}
+    \begin{column}{0.18\textwidth}
+        \begin{center}
+            \begin{tableau}{not line numbering, single branches}
+                [{\neg A = 1} [{A = 0}]]
+            \end{tableau}
+        \end{center}
+    \end{column}
+    \begin{column}{0.18\textwidth}
+        \begin{center}
+            \begin{tableau}{not line numbering, single branches}
+                [{\neg A = 0} [{A = 1}]]
+            \end{tableau}
+        \end{center}
+    \end{column}
+    \begin{column}{0.04\textwidth}
+    \end{column}
+    \begin{column}{0.28\textwidth}
+        \begin{center}
+            \begin{tableau}{not line numbering, single branches}
+                [{\alpha} [{\genfrac{}{}{0pt}{}{\displaystyle \alpha_1}{\displaystyle \alpha_2}}]]
+            \end{tableau}
+        \end{center}
+    \end{column}
+    \begin{column}{0.28\textwidth}
+        \begin{center}
+            \begin{tableau}{not line numbering}
+                [\beta [\beta_1] [\beta_2]]
+            \end{tableau}
+        \end{center}
+    \end{column}
+\end{columns}
+    \vspace{1em}
+    \begin{tabular}{|c | c | c || c | c | c |}
+        \hline
+        $\alpha$ & $\alpha_1$ & $\alpha_2$ & $\beta$ & $\beta_1$ & $\beta_2$ \\
+        \hline
+        $A \land B = 1$ & $A = 1$ & $B = 1$ & $A \land B = 0$ & $A = 0$ & $B = 0$ \\
+        $A \lor B = 0$ & $A = 0$ & $B = 0$ & $A \lor B = 1$ & $A = 1$ & $B = 1$ \\
+        $A \to B = 0$ & $A = 1$ & $B = 0$ & $A \to B = 1$ & $A = 0$ & $B = 1$ \\
+        \hline
+    \end{tabular}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Закрытые и законченные ветви и деревья}
+\begin{itemize}
+    \item Ветвь \emph{закрыта}, если содержит $A=1$ и $A=0$ для какой-то формулы $A$; иначе она \emph{открыта}.
+    \item Дерево \emph{закрыто}, если закрыты все его ветви. Тогда исходные уравнения невыполнимы.
+    \pause
+    \item Открытая ветвь \emph{закончена}, если разобраны все её неатомарные уравнения.
+    \item Её атомарные уравнения задают решение; значения остальных переменных произвольны.
+    \pause
+    \item Дерево \emph{закончено}, если оно закрыто (решений нет) или имеет законченную открытую ветвь (решение найдено).
+    \item Для дерева с корнем $A=0$: закрытие доказывает $\vDash A$, а законченная открытая ветвь даёт контрпример.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Построение дерева истинности}
+\begin{itemize}
+    \item Начинаем с формул со знаками, совместную выполнимость которых хотим проверить.
+    \item Для проверки тождественной истинности формулы $A$ мы начинаем с уравнения $A=0$.
+    \item Для эквивалентности $A \equiv B$ строим 2 дерева: \pause $A=1,\, B=0$ и $A=0,\, B=1$.
+    \pause
+    \item Дальше повторяем, пока дерево не закончено:
+    \begin{itemize}
+        \item Выбираем неразобранное (не отмеченное \checkmark) уравнение в открытой ветви.
+        \item Применяем правила с предыдущего слайда.
+        \item Результаты дописываются в конец всех открытых ветвей под ним.
+        \item Если на ветви появились $A=1$ и $A=0$, закрываем её.
+        \item Отмечаем как разобранное.
+        \item Атомарные отмечаем сразу: правил к ним нет.
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Почему построение заканчивается}
+\begin{itemize}
+    \item \emph{Главная связка} "--- последняя связка при построении формулы. У $F = \neg p \lor (q \to r)$ это $\lor$.
+    \pause
+    \item Аргументы главной связки "--- \emph{непосредственные подформулы}. У $F$ это $\neg p$ и $q \to r$.
+    \item Повторяя переход к непосредственным подформулам, получаем все \emph{подформулы}. Все они, кроме исходной формулы, \emph{собственные}.
+    \pause
+    \item Каждое правило разбирает главную связку и добавляет только собственные подформулы со знаками.
+    \item Число разборов на ветви не больше числа вхождений связок в исходных формулах.
+    \item Правила создают не более двух продолжений, поэтому всё дерево конечно.
+\end{itemize}
+\end{frame}

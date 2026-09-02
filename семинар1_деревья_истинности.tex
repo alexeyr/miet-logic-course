@@ -100,100 +100,23 @@
     \end{tableau}
 }
 \onslide<7->{
-    \item Пусть $p \to (q \to p \land q) = 0$. 
-\item Тогда $p = 1$ и $q \to p \land q = 0$.
-\item Тогда $q = 1$ и $p \land q = 0$.
-\item Отсюда $p = 0$ или $q = 0$. Но оба невозможны!
-\item Значит,  $p \to (q \to p \land q) = 0$ невозможно.
-\item $p \to (q \to p \land q)$ тождественно истинно!
+    \item Все ветви закрыты, поэтому $p \to (q \to p \land q) = 0$ невыполнимо.
+    \item Значит, $p \to (q \to p \land q)$ тождественно истинно.
 }
 
 \end{itemize}
 \end{frame}
 
-\begin{frame}
-\frametitle{Правила деревьев истинности}
-\begin{itemize}
-    \item  Формулы со знаком ($A=0$ или $A=1$) делятся на 4 типа: 
-    \begin{itemize}
-        \item Атомарные (слева переменная).
-        \item Слева отрицание.
-        \item $\alpha$ ведут себя как \enquote{и}: $\alpha \Leftrightarrow \alpha_1 \land \alpha_2$.
-        \item $\beta$ ведут себя как \enquote{или}: $\beta \Leftrightarrow \beta_1 \lor \beta_2$.
-    \end{itemize}
-    \pause
-    \item[]
-    \item Правила:
-\begin{columns}
-    \begin{column}{0.33\textwidth}
-        \begin{center}
-            \begin{tableau}{not line numbering, single branches}
-                [{\neg A = 1(0)} [{~A = 0(1)}]]
-            \end{tableau}
-        \end{center}
-    \end{column}
-    \begin{column}{0.33\textwidth}
-        \begin{center}
-            \begin{tableau}{not line numbering, single branches}
-                [{\alpha} [{\genfrac{}{}{0pt}{}{\displaystyle \alpha_1}{\displaystyle \alpha_2}}]]
-            \end{tableau}
-        \end{center}
-    \end{column}
-    \begin{column}{0.33\textwidth}
-        \begin{center}
-            \begin{tableau}{not line numbering}
-                [\beta [\beta_1] [\beta_2]]
-            \end{tableau}
-        \end{center}
-    \end{column}
-\end{columns}
-    \vspace{1em}
-    \begin{tabular}{|c | c | c || c | c | c |}
-        \hline
-        $\alpha$ & $\alpha_1$ & $\alpha_2$ & $\beta$ & $\beta_1$ & $\beta_2$ \\
-        \hline
-        $A \land B = 1$ & $A = 1$ & $B = 1$ & $A \land B = 0$ & $A = 0$ & $B = 0$ \\
-        $A \lor B = 0$ & $A = 0$ & $B = 0$ & $A \lor B = 1$ & $A = 1$ & $B = 1$ \\
-        $A \to B = 0$ & $A = 1$ & $B = 0$ & $A \to B = 1$ & $A = 0$ & $B = 1$ \\
-        \hline
-    \end{tabular}
-\end{itemize}
-\end{frame}
+\input{деревья_истинности_основы.tex}
 
 \begin{frame}
-\frametitle{Построение дерева истинности}
+\frametitle{Следование и порядок применения правил}
 \begin{itemize}
-    \item Идея в поиске контрпримера для утверждения, которое хотим доказать.
-    \item Для доказательства формулы $A$ мы начинаем с уравнения $A=0$.
-    \item Чтобы проверить, следует ли $B$ из посылок $A_1,\, A_2,\,\ldots$, начинаем с \pause $A_1=1,\, A_2=1,\, \ldots,\, B=0$ (пишем их в столбик).
-    \item Для эквивалентности $A \equiv B$ строим 2 дерева: \pause $A=1,\, B=0$ и $A=0,\, B=1$.
+    \item Чтобы проверить, следует ли $B$ из посылок $A_1,\, A_2,\,\ldots$, начинаем с $A_1=1,\, A_2=1,\, \ldots,\, B=0$.
+    \item Ищем оценку, на которой все посылки истинны, а заключение ложно.
     \pause
-    \item На каждом шаге:
-    \begin{itemize}
-        \item Выбираем неразобранное уравнение (не отмечено \checkmark).
-        \item Применяем правила с предыдущего слайда.
-        \item Результаты дописываются в конец всех открытых ветвей под ним.
-        \item Отмечаем как разобранное.
-        \item Атомарные отмечаем сразу: правил к ним нет.
-    \end{itemize}
-\end{itemize}
-\end{frame}
-
-\begin{frame}
-\frametitle{Построение дерева истинности (2)}
-\begin{itemize}
-    \item Ветвь, в которой одновременно есть $A=1$ и $A=0$, называется закрытой.
-    \item В ней можно дальше ничего не писать.
-    \item[]
-    \item Если все ветви закрылись, то уравнения, с которых начали, не имеют решений! 
-    \item Значит, у исходного утверждения нет контрпримера и оно доказано.
-    \item[]
-    \pause
-    \item Если какая-то ветвь закончилась (нет неразобранных строк), но не закрылась, то мы нашли контрпример к исходной формуле и она \emph{не} тождественно истинна.
-    \item[]
-    \pause
-    \item Порядок применения влияет только на размер дерева, но не на результат.
-    \item Выгоднее сначала применять правила без ветвления.
+    \item Порядок применения правил влияет только на размер дерева, но не на результат.
+    \item Обычно выгоднее сначала применять правила без ветвления.
 \end{itemize}
 \end{frame}
 
