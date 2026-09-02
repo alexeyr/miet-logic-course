@@ -436,23 +436,21 @@
         \item Теорема: если $A$ тождественно истинна, то любое законченное дерево истинности для $A=0$ закрыто.
         \item Доказательство: снова от противного. 
         \pause
-        \item Пусть есть дерево с законченной открытой ветвью $\mathcal{B}$.
+        \item Пусть есть законченное дерево для $A=0$, которое не закрыто.
+        \item Тогда в нём будет открытая законченная ветвь $\mathcal{B}$.
         \pause
-        \item Так как $\mathcal{B}$ открыта, можем определить оценку 
-        \[ \sigma(v) = \left\{ \begin{array}{l}
-            1, \text{ если } v=1 \in \mathcal{B} \\
-            0, \text{ если } v=0 \in \mathcal{B} \\
-            0 \text{ иначе} 
-        \end{array} \right. \]
+        \item Определим $\sigma(v)=1$, если $v=1 \in \mathcal{B}$, и $\sigma(v)=0$ иначе.
+        \item Так как $\mathcal{B}$ открыта, то $v=0 \in \mathcal{B} \Rightarrow v=1 \not\in \mathcal{B} \Rightarrow \sigma(v)=0$.
         \pause
         \item Лемма: все уравнения в $\mathcal{B}$ выполняются на оценке $\sigma$.
         \pause
         \begin{itemize}
-        \item Доказательство по индукции: для переменных по определению $\sigma$, и для случаев $\neg$, $\alpha$ и $\beta$.
+        \item Докажем по индукции по сложности формулы: для переменных по определению $\sigma$, затем случаи $\neg$, $\alpha$ и $\beta$.
         \item Например, для $\beta$: $\beta \in \mathcal{B} \land \mathcal{B}$ закончена $\Rightarrow \beta_1 \in \mathcal{B} \lor \beta_2 \in \mathcal{B}$ $\Rightarrow$ на $\sigma$ выполняется $\beta_1$ или $\beta_2$ (по предположению индукции) $\Rightarrow$ выполняется и $\beta$.
         \end{itemize}
         \pause
-        \item В частности, $\sigma(A)=0$ и $A$ не тождественно истинна.
+        \item В частности, $\sigma(A)=0$.
+        \item Это противоречит тождественной истинности $A$.
     \end{itemize}
 \end{frame}
 
