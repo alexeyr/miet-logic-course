@@ -91,7 +91,7 @@
         \pause
         \item Внешние скобки не пишем: вместо $(p \land q)$ пишем $p \land q$.
         \pause
-        \item Приоритет связок, от высшего к низшему: $\neg$, $\land$, $\lor$, $\to$, $\leftrightarrow$.
+        \item Приоритет связок, от высшего к низшему: $\neg$, $\land$, $\lor$, $\to$.
         \item Например, $\neg p \land q \to r \lor s$ "--- это $((\neg p) \land q) \to (r \lor s)$.
         \pause
         \item $\land$ и $\lor$ левоассоциативны: $p \lor q \lor r$ "--- это $(p \lor q) \lor r$.
@@ -109,12 +109,46 @@
         \item \emph{Семантика} или \emph{интерпретация} формального языка описывает соответствие между объектами языка и тем, что они обозначают.
         \item У одного языка может быть много интерпретаций. Даже у такого простого, как язык ЛВ. Но мы посмотрим только на стандартную.
         \item Напомним, что высказывания могут быть истинны (обозначим как 1) или ложны (0). $\mathbb{B} = \{0, 1\}$ "--- множество значений истинности.
-        \item \emph{Оценка} $\sigma$ это функция $Var_{Prop} \to \mathbb{B}$. Каждую оценку можно продолжить на всё $Prop$ рекурсивно:
-        \begin{itemize}
-            \item $\sigma(\neg A) = \neg \sigma(A)$
-            \item $\ldots$
-        \end{itemize}
+        \item \emph{Оценка} $\sigma$ это функция $Var_{Prop} \to \mathbb{B}$. Каждую оценку можно продолжить на всё $Prop$ рекурсивно, используя таблицы истинности.
         \item Заметьте, что $\neg$/$\land$/$\ldots$ слева "--- символы языка ЛВ, а справа "--- операции булевой алгебры.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Таблицы истинности}
+    \begin{columns}[T,onlytextwidth]
+        \begin{column}{0.25\textwidth}
+            \centering
+            \textbf{Отрицание}
+            \[
+            \begin{array}{c|c}
+                x & \neg x \\
+                \hline
+                0 & 1 \\
+                1 & 0
+            \end{array}
+            \]
+        \end{column}
+        \pause
+        \begin{column}{0.68\textwidth}
+            \centering
+            \textbf{Бинарные связки}
+            \[
+            \begin{array}{cc|ccc}
+                x & y & x \land y & x \lor y & x \to y \\
+                \hline
+                0 & 0 & 0 & 0 & 1 \\
+                0 & 1 & 0 & 1 & 1 \\
+                1 & 0 & 0 & 1 & 0 \\
+                1 & 1 & 1 & 1 & 1
+            \end{array}
+            \]
+        \end{column}
+    \end{columns}
+    \pause
+    \begin{itemize}
+        \item $\lor$ понимается как неисключающее «или»: оно истинно и когда истинны оба аргумента.
+        \item Импликация $A \to B$ ложна только если $A$ истинна, а $B$ ложна.
     \end{itemize}
 \end{frame}
 
