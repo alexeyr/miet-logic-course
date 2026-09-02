@@ -225,7 +225,7 @@
         ]]]]]
     \end{tableau}
 }
-\only<5>{
+\only<5->{
     \begin{tableau}{
         }
         [{p \land q \to q \land p = 0}, just=Дано, checked
@@ -238,12 +238,8 @@
     \end{tableau}
 }
 \onslide<6->{
-    \item Пусть $p \land q \to q \land p = 0$.
-\item Тогда $p \land q = 1$ и $q \land p = 0$.
-\item Тогда $p = 1$ и $q = 1$.
-\item Отсюда $q = 0$ или $p = 0$. Но оба невозможны!
-\item Значит, $p \land q \to q \land p = 0$ невозможно.
-\item $p \land q \to q \land p$ тождественно истинно!
+    \item Все ветви закрыты, поэтому $p \land q \to q \land p = 0$ невыполнимо.
+    \item Значит, $p \land q \to q \land p$ тождественно истинно.
 }
 
 \end{itemize}
