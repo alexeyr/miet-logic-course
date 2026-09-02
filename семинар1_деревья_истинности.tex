@@ -178,4 +178,84 @@
 \end{itemize}
 \end{frame}
 
+\begin{frame}
+\frametitle{Деревья с $A$ и $\neg A$}
+\begin{itemize}
+    \item Вместо формул со знаками часто используют только формулы:
+    \[
+        A=1 \quad\rightsquigarrow\quad A,
+        \qquad
+        A=0 \quad\rightsquigarrow\quad \neg A.
+    \]
+    \item Для двойного отрицания получаем правило $\neg\neg A \Rightarrow A$; остальные правила:
+\end{itemize}
+\begin{center}
+    \begin{tabular}{|c | c | c || c | c | c |}
+        \hline
+        $\alpha$ & $\alpha_1$ & $\alpha_2$ & $\beta$ & $\beta_1$ & $\beta_2$ \\
+        \hline
+        $A \land B$ & $A$ & $B$ & $\neg(A \land B)$ & $\neg A$ & $\neg B$ \\
+        $\neg(A \lor B)$ & $\neg A$ & $\neg B$ & $A \lor B$ & $A$ & $B$ \\
+        $\neg(A \to B)$ & $A$ & $\neg B$ & $A \to B$ & $\neg A$ & $B$ \\
+        \hline
+    \end{tabular}
+\end{center}
+\begin{itemize}
+    \item Ветвь закрывается, если содержит $A$ и $\neg A$.
+    \item Это та же система деревьев: меняется только способ записи.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Пример: импликация как дизъюнкция}
+\begin{itemize}
+    \item Покажем, что $p \to q$ и $\neg p \lor q$ эквивалентны: проверим следование в обе стороны.
+\end{itemize}
+\begin{columns}[T,onlytextwidth]
+\column{0.49\textwidth}
+\centering
+$p \to q \vDash \neg p \lor q$
+{\footnotesize
+\begin{tableau}{}
+    [{p \to q}, just=Дано, checked
+    [{\neg(\neg p \lor q)}, just=Дано, checked
+    [{\neg\neg p}, just=2, checked
+    [{\neg q}, just=2
+    [{p}, just=3, checked
+    [{\neg p}, just=1, close={5,6}]
+    [{q}, just=1, close={4,6}]
+    ]]]]]
+\end{tableau}
+}
+\column{0.49\textwidth}
+\centering
+$\neg p \lor q \vDash p \to q$
+{\footnotesize
+\begin{tableau}{}
+    [{\neg p \lor q}, just=Дано, checked
+    [{\neg(p \to q)}, just=Дано, checked
+    [{p}, just=2
+    [{\neg q}, just=2
+    [{\neg p}, just=1, close={3,5}]
+    [{q}, just=1, close={4,5}]
+    ]]]]
+\end{tableau}
+}
+\end{columns}
+\begin{itemize}
+    \item Оба дерева закрыты, поэтому $p \to q$ и $\neg p \lor q$ эквивалентны.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Итоги}
+\begin{itemize}
+    \item Дерево истинности проверяет совместную выполнимость формул со знаками.
+    \item Закрытое дерево показывает, что решений нет; законченная открытая ветвь задаёт решение.
+    \item Для проверки тождественной истинности $A$ начинаем с $A=0$: дерево либо доказывает $\vDash A$, либо даёт контрпример.
+    \item Построение всегда заканчивается; порядок применения правил влияет только на размер дерева.
+    \item Записи $A=1,\,A=0$ и $A,\,\neg A$ задают эквивалентные варианты метода.
+\end{itemize}
+\end{frame}
+
 \end{document}
