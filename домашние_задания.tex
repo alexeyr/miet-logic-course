@@ -26,12 +26,12 @@
 Доказать или опровергнуть с помощью деревьев истинности:
 \begin{enumerate}
     \item $((p \to q) \to p) \to p$
-    \item $p \land q, q \land r \vdash p \land r$
-    \item $p \lor q, q \lor r \vdash p \lor r$
-    \item $p \to q \equiv \neg p \lor q$
-    \item $\neg (p \to q) \equiv \neg p \to \neg q$
-    \item $\neg (p \lor q) \equiv \neg p \land \neg q$
+    \item $((p \to q) \land (q \to r)) \to (p \to r)$
+    \item $((p \lor q) \land (q \lor r)) \to (p \lor r)$
     \item $(p \land q) \lor (p \land \neg q) \lor (\neg p \land q) \lor (\neg p \land \neg q)$
+    \item $p \to q \equiv \neg p \lor q$
+    \item $\neg (p \lor q) \equiv \neg p \land \neg q$
+    \item $\neg (p \to q) \equiv \neg p \to \neg q$
     \item $p \land q \to r \equiv (p \to r) \lor (q \to r)$
     \item $p \land q \to r \equiv (p \to r) \land (q \to r)$
     \item \label{rules} Для каждой операции $op$ из следующего списка укажите, как в деревьях истинности разбирать уравнения видов $A~op~B = 1$ и $A~op~B = 0$: стрелка Пирса $\downarrow$, штрих Шеффера $\mid$, равносильность $\leftrightarrow$, сумма по модулю 2 $\oplus$ (она же исключающее или). Если какие-то из них незнакомы и не получится найти определение, напишите.
