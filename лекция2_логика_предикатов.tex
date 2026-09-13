@@ -195,13 +195,12 @@
 \begin{frame}
     \frametitle{Подстановки с кванторами}
     \begin{itemize}
+        % \pause внутри \[...\] или сразу после \] даёт лишнюю пустую строку (см. \reveal в преамбуле).
         \item Для $\forall$ (для $\exists$ аналогично):
-        \[ (\forall v ~ A)[v \mapsto t] = \pause \forall v ~ A \]
-        \pause
-        \item При $u\ne v$ можно предположить
-        \[ (\forall u ~ A)[v \mapsto t] = \pause \forall u ~ (A[v \mapsto t]) \]
-        \pause
-        \item Формула $\exists y~x=2\cdot y$ означает «$x$ делится на $2$». Заменим $x$ на $y$: хотим получить \pause \enquote{$y$ делится на $2$}.
+        \[ (\forall v ~ A)[v \mapsto t] = \reveal<+(1)->{\forall v ~ A} \]
+        \item<+(1)-> При $u\ne v$ можно предположить
+        \[ (\forall u ~ A)[v \mapsto t] = \reveal<+(1)->{\forall u ~ (A[v \mapsto t])} \]
+        \item<+(1)-> Формула $\exists y~x=2\cdot y$ означает «$x$ делится на $2$». Заменим $x$ на $y$: хотим получить \pause \enquote{$y$ делится на $2$}.
         \item Но получаем \pause $\exists y~y=2\cdot y$: квантор связал $y$!
         \pause
         \item Сначала переименуем связанные переменные, мешающие подстановке, в свежие для $A$ и $t$:

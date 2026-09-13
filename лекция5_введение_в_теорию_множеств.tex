@@ -39,9 +39,9 @@
 \begin{frame}
     \frametitle{Операции над множествами}
     \begin{itemize}
-        \item Объединение: $A \cup B = \{x \mid \pause x \in A \lor x \in B\}$. \[\bigcup A = \bigcup_{B \in A} B = \pause \{x \mid \exists B \in A~x \in B\}.\]
-        \item Пересечение: $A \cap B = \{x \mid \pause x \in A \land x \in B\} = \{x : A \mid x \in B\}$. \[\bigcap A = \bigcap_{B \in A} B = \pause \{x \mid \forall B \in A~x \in B\}.\]
-        \item Множество всех подмножеств: $\mathcal{P}(A) = \{ B \mid B \subseteq A \}$ (также обозначается $2^A$).
+        \item Объединение: $A \cup B = \{x \mid \pause x \in A \lor x \in B\}$. \[\bigcup A = \bigcup_{B \in A} B = \reveal<+(1)->{\{x \mid \exists B \in A~x \in B\}}.\]
+        \item<.(1)-> Пересечение: $A \cap B = \{x \mid \pause x \in A \land x \in B\} = \{x : A \mid x \in B\}$. \[\bigcap A = \bigcap_{B \in A} B = \reveal<+(1)->{\{x \mid \forall B \in A~x \in B\}}.\]
+        \item<.(1)-> Множество всех подмножеств: $\mathcal{P}(A) = \{ B \mid B \subseteq A \}$ (также обозначается $2^A$).
     \end{itemize}
 \end{frame}
 
@@ -71,7 +71,7 @@
         \item Если есть пары, то можно задать и тройки: $(a_1, a_2, a_3) = \pause (a_1, (a_2, a_3))$ и так далее.
         \item Можно определить пары как множества. Например, определение Куратовского: $$(a, b) = \{\{a\}, \{a, b\}\}$$
         \item Упражнение: доказать основное свойство пар для этого определения.
-        \item Декартово произведение: $$A_1 \times \ldots \times A_n = \pause \{(a_1, \ldots, a_n) \mid a_1 : A_1, \ldots, a_n : A_n\}$$
+        \item Декартово произведение: $$A_1 \times \ldots \times A_n = \reveal<+(1)->{\{(a_1, \ldots, a_n) \mid a_1 : A_1, \ldots, a_n : A_n\}}$$
     \end{itemize}
 \end{frame}
 
