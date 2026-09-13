@@ -28,9 +28,9 @@
 \begin{frame}
     \frametitle{Сигнатуры и термы}
     \begin{itemize}
-        \item \emph{Сигнатура} $\Sigma$ задаёт конечные или счётные множества символов: констант $Const_\Sigma$, функций $Fun_\Sigma$ и предикатов $Pred_\Sigma$. Для функций и предикатов задана \emph{арность} (число аргументов).
-        \item \emph{Переменные} "--- $x,\,y,\,z_3,\,\ldots$. Обозначают \pause какие-то объекты (не истину/ложь, как $p,q,r$). Множество $Var$ не зависит от сигнатуры. \pause
-        \item \emph{Термы} обозначают объекты. Множество $Term_\Sigma$ задаётся по индукции:
+        \item \emph{Сигнатура} $\Sigma$ задаёт конечные или счётные множества символов: констант $\Const_\Sigma$, функций $\Fun_\Sigma$ и предикатов $\Pred_\Sigma$. Для функций и предикатов задана \emph{арность} (число аргументов).
+        \item \emph{Переменные} "--- $x,\,y,\,z_3,\,\ldots$. Обозначают \pause какие-то объекты (не истину/ложь, как $p,q,r$). Множество $\Var$ не зависит от сигнатуры. \pause
+        \item \emph{Термы} обозначают объекты. Множество $\Term_\Sigma$ задаётся по индукции:
         \begin{itemize}
             \item переменные и константные символы "--- термы;
             \item если $f$ имеет арность $n$, а $t_1,\ldots,t_n$ "--- термы, то $f(t_1,\ldots,t_n)$ "--- терм;
@@ -45,7 +45,7 @@
 \begin{frame}
     \frametitle{Формулы и область действия кванторов}
     \begin{itemize}
-        \item Множество формул $Form_\Sigma$ задаётся по индукции:
+        \item Множество формул $\Frm_\Sigma$ задаётся по индукции:
         \begin{itemize}
             \item если $P$ имеет арность $n$, а $t_1,\ldots,t_n$ "--- термы, то $P(t_1,\ldots,t_n)$ "--- атомарная формула;
             \item если $A,B$ "--- формулы, то $\neg A$, $(A\land B)$, $(A\lor B)$, $(A\to B)$ "--- формулы;
@@ -66,12 +66,12 @@
         \item \emph{Модель} $M$ сигнатуры $\Sigma$ состоит из:
         \begin{itemize}
             \item \emph{Носитель} (или \emph{универсум}): \pause непустое множество $\bar{M}$.
-            \item Для каждого символа $c : Const_\Sigma$\only<2->{\footnote{Я пишу $:$ вместо $\in$ для объявления новой переменной.}}: \pause элемент $c_M : \bar{M}$.
-            \item Для $f: Fun_\Sigma$: \pause функция $f_M: \bar{M}^{arity(f)} \to \bar{M}$.
-            \item Для $P: Pred_\Sigma$: \pause предикат $P_M: \bar{M}^{arity(P)} \to \{0,1\}$.
+            \item Для каждого символа $c : \Const_\Sigma$\only<2->{\footnote{Я пишу $:$ вместо $\in$ для объявления новой переменной.}}: \pause элемент $c_M : \bar{M}$.
+            \item Для $f: \Fun_\Sigma$: \pause функция $f_M: \bar{M}^{\arity(f)} \to \bar{M}$.
+            \item Для $P: \Pred_\Sigma$: \pause предикат $P_M: \bar{M}^{\arity(P)} \to \{0,1\}$.
         \end{itemize}
-        \item \emph{Оценка} $\sigma : Var \to \bar{M}$ задаёт значение каждой переменной в модели.
-        \item Важно: символы сигнатуры сами по себе ничего не говорят об их интерпретации! $+_M$ может быть $-$ или $\cdot$ или $x,y \mapsto \int_{x}^{y} t dt$.
+        \item \emph{Оценка} $\sigma : \Var \to \bar{M}$ задаёт значение каждой переменной в модели.
+        \item Важно: символы сигнатуры сами по себе ничего не говорят об их интерпретации! $+_M$ может быть $-$ или $\cdot$ или $x,y \mapsto \int_{x}^{y} t\,dt$.
         \pause 
         \item Одно исключение: если есть $=$, то $=_M$ это равенство на $\bar{M}$.
     \end{itemize}
@@ -80,7 +80,7 @@
 \begin{frame}
     \frametitle{Значения термов и формул}
     \begin{itemize}
-        \item $\sigma$ расширяется на \only<1>{$Term_\Sigma \to ~ ???$ и на $Form_\Sigma \to ~ ???$}\only<2->{$Term_\Sigma \to \bar{M}$ и на $Form_\Sigma \to \{0,1\}$} по индукции: \pause 
+        \item $\sigma$ расширяется на \only<1>{$\Term_\Sigma \to ~ ???$ и на $\Frm_\Sigma \to ~ ???$}\only<2->{$\Term_\Sigma \to \bar{M}$ и на $\Frm_\Sigma \to \{0,1\}$} по индукции: \pause 
         \item $\sigma(c) = c_M$.
         \item $\sigma(f(t_1,\ldots,t_n)) = f_M(\sigma(t_1),\ldots,\sigma(t_n))$.
         \pause
@@ -142,21 +142,19 @@
             Q(x) & 1 & 0 & 1
         \end{tabular}
         \item Истинна ли формула? \pause Да. \pause
-        \item Попробуем другую формулу на той же модели:  $\exists x ~ (P(x) \land Q(x)) \land \exists x ~ \neg P(x)$. Истинна ли она? \pause Да. \pause
+        \item Попробуем другую формулу на той же модели:  $(\exists x ~ P(x) \land Q(x)) \land \exists x ~ \neg P(x)$. Истинна ли она? \pause Да. \pause
         \item Как насчёт незамкнутой формулы $P(x) \to \forall x ~ Q(x)$? \pause Истинна при $\sigma(x) = 0,~\sigma(x) = 1$, ложна при $\sigma(x) = 2$. \pause
         \item Для простоты можно писать $x = 0$ вместо $\sigma(x) = 0$. \pause
         \item Переименование объектов $0,1,2$ в $a,b,c$ не изменит ответов.
     \end{itemize}
 \end{frame}
 
-
-
 \begin{frame}
    \frametitle{Формализация}
    \begin{itemize}
        \item Часто возникает задача: дано утверждение (математическое или в терминах \enquote{реального мира}), нужно записать его в виде формулы данной сигнатуры.
-       \item Пример: \enquote{Кто-то любит всех на свете}. Универсум: люди, предикат $Loves(x, y)$ для \enquote{$x$ любит $y$}.
-       \item Кто-то любит всех на свете $\equiv \exists x $ $x$ любит всех на свете \pause $\equiv \exists x ~ \forall y $ $x$ любит $y$ \pause $\equiv \exists x ~ \forall y ~ Loves(x, y)$. \pause
+       \item Пример: \enquote{Кто-то любит всех на свете}. Универсум: люди, предикат $\ident{Loves}(x, y)$ для \enquote{$x$ любит $y$}.
+       \item Кто-то любит всех на свете $\equiv \exists x $ $x$ любит всех на свете \pause $\equiv \exists x ~ \forall y $ $x$ любит $y$ \pause $\equiv \exists x ~ \forall y ~ \ident{Loves}(x, y)$.
    \end{itemize}
 \end{frame}
 

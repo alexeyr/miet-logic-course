@@ -34,7 +34,7 @@
             Q(x) & 1 & 0 & 1
         \end{tabular}
         \item Истинна ли формула? \pause Да. \pause
-        \item Попробуем другую формулу на той же модели:  $\exists x ~ (P(x) \land Q(x)) \land \exists x ~ \neg P(x)$. Истинна ли она? \pause Да. \pause
+        \item Попробуем другую формулу на той же модели:  $(\exists x ~ P(x) \land Q(x)) \land \exists x ~ \neg P(x)$. Истинна ли она? \pause Да. \pause
         \item Как насчёт незамкнутой формулы $P(x) \to \forall x ~ Q(x)$? \pause Истинна при $\sigma(x) = 0,~\sigma(x) = 1$, ложна при $\sigma(x) = 2$. \pause
         \item Для простоты можно писать $x = 0$ вместо $\sigma(x) = 0$. \pause
         \item Переименование объектов $0,1,2$ в $a,b,c$ не изменит ответов.
@@ -64,12 +64,12 @@
     \frametitle{Формализация}
     \begin{itemize}
         \item Формализация: записать утверждение формулой данной сигнатуры.
-        \item Пример: \enquote{Кто-то любит всех на свете}. Универсум: люди, предикат $Loves(x, y)$ для \enquote{$x$ любит $y$}.
-        \item Кто-то любит всех на свете $\equiv \pause \exists x $ $x$ любит всех на свете $\equiv \pause \exists x ~ \forall y $ $x$ любит $y$ $\equiv \pause \exists x ~ \forall y ~ Loves(x, y)$. \pause
+        \item Пример: \enquote{Кто-то любит всех на свете}. Универсум: люди, предикат $\ident{Loves}(x, y)$ для \enquote{$x$ любит $y$}.
+        \item Кто-то любит всех на свете $\equiv \pause \exists x $ $x$ любит всех на свете $\equiv \pause \exists x ~ \forall y $ $x$ любит $y$ $\equiv \pause \exists x ~ \forall y ~ \ident{Loves}(x, y)$. \pause
         \item А «Каждого кто-то любит»?
-        \item Ответ: \pause $\forall y\,\exists x\,Loves(x,y)$. Здесь $x$ может зависеть от $y$; в первой формуле один $x$ подходит всем. \pause
+        \item Ответ: \pause $\forall y\,\exists x\,\ident{Loves}(x,y)$. Здесь $x$ может зависеть от $y$; в первой формуле один $x$ подходит всем. \pause
         \item Ещё пример в той же сигнатуре: \enquote{Всякая любовь взаимна}.
-        \item Ответ: \pause $\forall x ~ \forall y ~ (Loves(x, y) \to Loves(y,x))$ или \pause $\forall x ~ \forall y ~ (Loves(x, y) \leftrightarrow Loves(y,x))$. \pause
+        \item Ответ: \pause $\forall x ~ \forall y ~ (\ident{Loves}(x, y) \to \ident{Loves}(y,x))$ или \pause $\forall x ~ \forall y ~ (\ident{Loves}(x, y) \leftrightarrow \ident{Loves}(y,x))$.
     \end{itemize}
 \end{frame}
 
@@ -82,7 +82,7 @@
         \item Более того, если $/$ "--- функциональный символ, то он должен иметь значение в нашем универсуме для любых аргументов. Есть варианты логики, которые снимают это ограничение, но мы их не изучаем. \pause
         \item Ответ (возможный): \pause $\exists y ~ x = 2 \cdot y$. \pause
         \item Можно ли то же самое записать без $\cdot$? \pause Да! $\exists y ~ x = y + y$. \pause
-        \item А \enquote{$x$ делится на $y$} с помощью только $+$, $=$ и числовых констант выразить нельзя (без доказательства). \pause
+        \item А \enquote{$x$ делится на $y$} с помощью только $+$, $=$ и числовых констант выразить нельзя (без доказательства).
     \end{itemize}
  \end{frame}
 
@@ -163,15 +163,15 @@
     \begin{itemize}
         \item Два сорта: $S$ "--- студенты, $T$ "--- задачи.
         \item Каждому студенту назначена ровно одна задача:
-        \[ task:S\to T. \]
-        \item Предикат $Solved(s,t)$: студент $s:S$ решил задачу $t:T$.
+        \[ \ident{task}:S\to T. \]
+        \item Предикат $\ident{Solved}(s,t)$: студент $s:S$ решил задачу $t:T$.
         \pause
         \item Формализуем: «Каждый студент решил назначенную ему задачу».
         \pause
-        \[ \forall s:S\;Solved(s,task(s)). \]
-        \item Здесь $task(s)$ имеет сорт $T$, поэтому подходит вторым аргументом $Solved$.
+        \[ \forall s:S\;\ident{Solved}(s,\ident{task}(s)). \]
+        \item Здесь $\ident{task}(s)$ имеет сорт $T$, поэтому подходит вторым аргументом $Solved$.
         \pause
-        \item При $s:S$, $t:T$ записи $task(t)$ и $Solved(t,s)$ недопустимы: сорта аргументов не подходят.
+        \item При $s:S$, $t:T$ записи $\ident{task}(t)$ и $\ident{Solved}(t,s)$ недопустимы: сорта аргументов не подходят.
         \pause
         \item Упражнение: «Всем студентам назначили разные задачи».
     \end{itemize}

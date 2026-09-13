@@ -101,7 +101,7 @@
                 \neg A \\
                 \rvdots \\
                 \bot
-        \end{matrix}}}{A}\ RAA
+        \end{matrix}}}{A}\ \RAA
         \qquad \qquad 
         \frac{A}{A}\ R
         \]
@@ -197,7 +197,7 @@
 \begin{frame}
     \frametitle{Пример: снятие двойного отрицания}
     \begin{itemize}
-        \item Докажем $\neg\neg p\vdash p$ с помощью $RAA$.
+        \item Докажем $\neg\neg p\vdash p$ с помощью $\RAA$.
         \item<2-> Предположим отрицание цели: $\neg p$.
     \end{itemize}
     {\footnotesize
@@ -208,13 +208,13 @@
                 \hypo{r2}{\neg p} \by{Допущение}{} \onslide<2->
                 \have{r3}{\bot} \by{$\neg E$}{r1,r2} \onslide<3->
             \close
-            \have{r4}{p} \byon{3-}{$RAA$}{r2-r3} \onslide<1->
+            \have{r4}{p} \byon{3-}{$\RAA$}{r2-r3} \onslide<1->
         \end{nd}
     \end{align*}
     }
     \onslide<4->
     \begin{itemize}
-        \item $\neg I$ для $2\!\!-\!\!3$ дало бы $\neg\neg p$. Именно $RAA$ позволяет заключить $p$.
+        \item $\neg I$ для $2\!\!-\!\!3$ дало бы $\neg\neg p$. Именно $\RAA$ позволяет заключить $p$.
     \end{itemize}
 \end{frame}
 
