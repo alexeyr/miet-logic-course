@@ -103,9 +103,45 @@
 \end{frame}
 
 \begin{frame}
+    \frametitle{Пример значения формулы в модели}
+    \begin{itemize}
+        \item Формула: $\forall x ~ (P(x) \to Q(x))$.
+        \item Возьмём модель с носителем $\bar{M} = \{0,1,2\}$ и предикатами \pause
+        \item[] \begin{tabular}{c | c c c}
+            x & 0 & 1 & 2 \\ \hline
+            P(x) & 0 & 0 & 1 \\
+            Q(x) & 1 & 0 & 1
+        \end{tabular}
+        \item Истинна ли формула? \pause По определению: $\sigma_{x \mapsto a}(P(x) \to Q(x)) = 1$ для всех $a : \bar{M}$, то есть
+        \[ \begin{array}{l}
+            (P(0) \to Q(0)) \land (P(1) \to Q(1)) \land (P(2) \to Q(2)) = \\
+            \reveal<+(1)->{(0 \to 1) \land (0 \to 0) \land (1 \to 1) = 1.}
+        \end{array} \]
+        \item<+(1)-> Переименование объектов $0,1,2$ в $a,b,c$ не изменит ответа.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Пример значения формулы в модели (2)}
+    \begin{itemize}
+        \item Та же модель:
+        \item[] \begin{tabular}{c | c c c}
+            x & 0 & 1 & 2 \\ \hline
+            P(x) & 0 & 0 & 1 \\
+            Q(x) & 1 & 0 & 1
+        \end{tabular}
+        \item Как насчёт формулы $P(x) \to \forall x ~ Q(x)$? \pause
+        \item $\forall x ~ Q(x)$ не зависит от $\sigma(x)$: это $Q(0) \land Q(1) \land Q(2) = \pause 1 \land 0 \land 1 = 0$.
+        \item Значит, формула означает $P(x) \to 0$, то есть $\neg P(x)$: \pause истинна при $\sigma(x) = 0,~\sigma(x) = 1$, ложна при $\sigma(x) = 2$.
+        \item Для простоты можно писать $x = 0$ вместо $\sigma(x) = 0$. \pause
+        \item Почему здесь значение формулы зависит от значения $x$, а в первой формуле "--- нет? Ответ на следующем слайде.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
     \frametitle{Свободные и связанные переменные}
     \begin{itemize}
-        \item \emph{Связанное вхождение переменной} "--- \pause $v$ под квантором по этой же переменной $\forall v/\exists v$.
+        \item \emph{Связанное вхождение переменной} "--- \pause $v$ в области действия квантора по этой же переменной $\forall v/\exists v$.
         \item \emph{Свободное вхождение переменной} "--- \pause любое другое.
         \item Переменная свободна в формуле, если имеет какие-то свободные вхождения.
         \item \emph{Замкнутая формула} (или \emph{предложение}) "--- формула без свободных переменных.
@@ -127,25 +163,6 @@
         \item В математике переменные могут связываться не только кванторами: \pause
         \[ \lim_{x \to \ldots} \ldots \qquad \int_{\ldots}^{\ldots} \ldots dx \qquad \{x|\ldots\} \]
         все связывают $x$.
-    \end{itemize}
-\end{frame}
-
-\begin{frame}
-    \frametitle{Примеры}
-    \begin{itemize}
-        \item Формула (замкнутая): $\forall x ~ (P(x) \to Q(x))$.
-        \item Возьмём модель с носителем $\bar{M} = \{0,1,2\}$.
-        \item Как можно задать предикаты $P$ и $Q$? \pause
-        \item[] \begin{tabular}{c | c c c}
-            x & 0 & 1 & 2 \\ \hline
-            P(x) & 0 & 0 & 1 \\
-            Q(x) & 1 & 0 & 1
-        \end{tabular}
-        \item Истинна ли формула? \pause Да. \pause
-        \item Попробуем другую формулу на той же модели:  $(\exists x ~ P(x) \land Q(x)) \land \exists x ~ \neg P(x)$. Истинна ли она? \pause Да. \pause
-        \item Как насчёт незамкнутой формулы $P(x) \to \forall x ~ Q(x)$? \pause Истинна при $\sigma(x) = 0,~\sigma(x) = 1$, ложна при $\sigma(x) = 2$. \pause
-        \item Для простоты можно писать $x = 0$ вместо $\sigma(x) = 0$. \pause
-        \item Переименование объектов $0,1,2$ в $a,b,c$ не изменит ответов.
     \end{itemize}
 \end{frame}
 
@@ -200,10 +217,11 @@
         \[ (\forall v ~ A)[v \mapsto t] = \reveal<+(1)->{\forall v ~ A} \]
         \item<+(1)-> При $u\ne v$ можно предположить
         \[ (\forall u ~ A)[v \mapsto t] = \reveal<+(1)->{\forall u ~ (A[v \mapsto t])} \]
-        \item<+(1)-> Формула $\exists y~x=2\cdot y$ означает «$x$ делится на $2$». Заменим $x$ на $y$: хотим получить \pause \enquote{$y$ делится на $2$}.
+        \item<+(1)-> Но это не всегда правильно. Формула $\exists y~x=2\cdot y$ означает «$x$ делится на $2$». Замена $x$ на $y$ должна дать \pause \enquote{$y$ делится на $2$}.
         \item Но получаем \pause $\exists y~y=2\cdot y$: квантор связал $y$!
         \pause
-        \item Сначала переименуем связанные переменные, мешающие подстановке, в свежие для $A$ и $t$:
+        \item Правило выше работает, только если $u$ не входит свободно в $t$.
+        \item Если входит, нужно сначала переименовать её:
         \[ (\exists y~x=2\cdot y)[x\mapsto y]
              = (\exists y'~x=2\cdot y')[x\mapsto y]
              = \exists y'~y=2\cdot y'. \]
