@@ -1,6 +1,9 @@
 \documentclass[10pt]{beamer}
 \input{lecture_preamble.tex}
 
+% Скрываем обоснование целиком, сохраняя его место в доказательстве.
+\newcommand{\byon}[3]{\by{\uncover<#1>{#2, \ndref{#3}}}{}}
+
 \title{Натуральная дедукция (естественный вывод)}
 \date{\today}
 
@@ -111,13 +114,13 @@
     \frametitle{Пример}
     \begin{align*}
         \begin{nd}
-            \hypo{1}{(p \land q) \land r} \by{Дано}{}
-            \have{2}{p \land q} \ae{1}
-            \have[n][-4]{5}{q} \ae{2}
-            \have[n][-3]{3}{r} \ae{1}
-            \have[n][-2]{4}{p} \ae{2}
-            \have[n][-1]{6}{q \land r} \ai{5,3}
-            \have{n}{p \land (q \land r)} \ai{4,6}
+            \hypo{1}{(p \land q) \land r} \by{Дано}{} \onslide<1->
+            \have{2}{p \land q} \ae{1} \onslide<4->
+            \have[n][-4]{5}{q} \byon{4-}{$\land E$}{2} \onslide<3->
+            \have[n][-3]{3}{r} \ae{1} \onslide<3->
+            \have[n][-2]{4}{p} \byon{4-}{$\land E$}{2} \onslide<2->
+            \have[n][-1]{6}{q \land r} \byon{3-}{$\land I$}{5,3} \onslide<2->
+            \have{n}{p \land (q \land r)} \byon{2-}{$\land I$}{4,6} \onslide<1->
         \end{nd}
     \end{align*}
 \end{frame}
@@ -132,11 +135,116 @@
             \onslide<3->        \hypo{hyp}{q} \by{Дано}{}
             \onslide<3->    \have{reit}{p} \r{prem}
                 \close
-            \onslide<2->    \have[n][-1]{cond}{q \rightarrow p} \ii{hyp-reit}
+            \onslide<2->    \have[n][-1]{cond}{q \rightarrow p} \byon{3-}{$\to I$}{hyp-reit}
             \close
-            \onslide<1-> \have[n]{conc}{p \rightarrow (q \rightarrow p)} \ii{prem-(cond)}
+            \onslide<1-> \have[n]{conc}{p \rightarrow (q \rightarrow p)} \byon{3-}{$\to I$}{prem-(cond)}
         \end{nd}
     \end{align*}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Пример: транзитивность импликации}
+    \begin{itemize}
+        \item Докажем $p\to q,\ q\to r\vdash p\to r$.
+        \item<2-> Для введения $\to$ предположим $p$ и выведем $r$.
+    \end{itemize}
+    {\footnotesize
+    \begin{align*}
+        \begin{nd}
+            \hypo{t1}{p\to q} \by{Дано}{} \onslide<1->
+            \hypo{t2}{q\to r} \by{Дано}{} \onslide<1->
+            \open
+                \hypo{t3}{p} \by{Допущение}{} \onslide<2->
+                \have{t4}{q} \ie{t1,t3} \onslide<4->
+                \have{t5}{r} \byon{4-}{$\to E$}{t2,t4} \onslide<3->
+            \close
+            \have{t6}{p\to r} \byon{4-}{$\to I$}{t3-t5} \onslide<1->
+        \end{nd}
+    \end{align*}
+    }
+    \onslide<5->
+    \begin{itemize}
+        \item Допущение $p$ снято; посылки $p\to q$ и $q\to r$ остались.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Пример: введение отрицания}
+    \begin{itemize}
+        \item Докажем $p\to q,\ \neg q\vdash\neg p$.
+        \item<2-> Чтобы получить $\neg p$, предположим $p$ и выведем $\bot$.
+    \end{itemize}
+    {\footnotesize
+    \begin{align*}
+        \begin{nd}
+            \hypo{n1}{p\to q} \by{Дано}{} \onslide<1->
+            \hypo{n2}{\neg q} \by{Дано}{} \onslide<1->
+            \open
+                \hypo{n3}{p} \by{Допущение}{} \onslide<2->
+                \have{n4}{q} \ie{n1,n3} \onslide<4->
+                \have{n5}{\bot} \byon{4-}{$\neg E$}{n2,n4} \onslide<3->
+            \close
+            \have{n6}{\neg p} \byon{4-}{$\neg I$}{n3-n5} \onslide<1->
+        \end{nd}
+    \end{align*}
+    }
+    \onslide<5->
+    \begin{itemize}
+        \item Снимая допущение $p$, получаем $\neg p$.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Пример: снятие двойного отрицания}
+    \begin{itemize}
+        \item Докажем $\neg\neg p\vdash p$ с помощью $RAA$.
+        \item<2-> Предположим отрицание цели: $\neg p$.
+    \end{itemize}
+    {\footnotesize
+    \begin{align*}
+        \begin{nd}
+            \hypo{r1}{\neg\neg p} \by{Дано}{} \onslide<1->
+            \open
+                \hypo{r2}{\neg p} \by{Допущение}{} \onslide<2->
+                \have{r3}{\bot} \by{$\neg E$}{r1,r2} \onslide<3->
+            \close
+            \have{r4}{p} \byon{3-}{$RAA$}{r2-r3} \onslide<1->
+        \end{nd}
+    \end{align*}
+    }
+    \onslide<4->
+    \begin{itemize}
+        \item $\neg I$ для $2\!\!-\!\!3$ дало бы $\neg\neg p$. Именно $RAA$ позволяет заключить $p$.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Пример: разбор случаев}
+    \begin{itemize}
+        \item Докажем $p\lor q,\ \neg p\vdash q$.
+    \end{itemize}
+    {\footnotesize
+    \begin{align*}
+        \begin{nd}
+            \hypo{d1}{p\lor q} \by{Дано}{} \onslide<1->
+            \hypo{d2}{\neg p} \by{Дано}{} \onslide<1->
+            \open
+                \hypo{d3}{p} \by{Допущение}{} \onslide<2->
+                \have{d4}{\bot} \by{$\neg E$}{d2,d3} \onslide<4->
+                \have{d5}{q} \byon{4-}{$\bot E$}{d4} \onslide<3->
+            \close
+            \open
+                \hypo{d6}{q} \by{Допущение}{} \onslide<5->
+                \have{d7}{q} \r{d6} \onslide<5->
+            \close
+            \have{d8}{q} \byon{5-}{$\lor E$}{d1,d3-d5,d6-d7} \onslide<1->
+        \end{nd}
+    \end{align*}
+    }
+    \onslide<6->
+    \begin{itemize}
+        \item $q$ получено в обоих случаях; оба допущения сняты.
+    \end{itemize}
 \end{frame}
 
 \begin{frame}
