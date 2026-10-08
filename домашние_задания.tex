@@ -92,9 +92,9 @@
     \item $(\exists x~P(x))\land(\forall x~Q(x))\to\exists x~(P(x)\land Q(x))$
     \item $(\exists x~P(x))\land(\exists x~Q(x))\to\exists x~(P(x)\land Q(x))$
     \item $\exists x~(P(x) \to \forall y~P(y))$
-    \item $(\forall x~(P(x)\lor Q(x)))\to(\exists x~P(x))\lor(\forall x~Q(x))$
-    \item $(\exists x~P(x))\land(\forall x~(P(x)\to Q(x)))\to\exists x~Q(x)$
-    \item $(\neg\exists x~(P(x)\to Q(x)))\to(\exists x~P(x))\land(\forall x~Q(x))$
+    \item $(\forall x~P(x)\to Q(x))\equiv(\forall x~P(x))\to(\forall x~Q(x))$
+    \item $(\exists x~P(x))\land(\forall x~P(x)\to Q(x))\to\exists x~Q(x)$
+    \item $\neg(\exists x~P(x)\to Q(x))\to(\exists x~P(x))\land(\forall x~Q(x))$
     \item $(\forall x~\exists y~P(x,y))\land(\exists x~\forall y~Q(x,y))\to\exists x~\exists y~(P(x,y)\land Q(x,y))$
     \item[] Следующие рассуждения формализовать как импликации:\\ конъюнкция посылок должна влечь заключение.
     \item Не все политики мошенники. Все мошенники умны. Значит, некоторые политики глупы.
@@ -105,8 +105,8 @@
     \item $\forall x \exists! y~f(x)=y$
     \item Эквивалентность двух формализаций $\exists! x~P(x)$:\\$\exists x~(P(x) \land \forall y~(P(y) \to x=y)) \equiv (\exists x~P(x)) \land \forall y \forall z~(P(y) \land P(z) \to y=z)$
     \itemhard $\begin{aligned}
-        &(\forall x~\forall y~(P(f(x),y)\lor Q(x,y)))\\
-        &\quad\land(\forall x~\forall y~(\neg P(x,g(y))\lor Q(x,y)))\to\exists x~\exists y~Q(x,y)
+        &(\forall x~\forall y~P(f(x),y)\lor Q(x,y))\\
+        &\quad\land(\forall x~\forall y~\neg P(x,g(y))\lor Q(x,y))\to\exists x~\exists y~Q(x,y)
     \end{aligned}$
 \end{enumerate}
 

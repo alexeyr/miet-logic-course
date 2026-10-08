@@ -147,12 +147,12 @@
 \begin{framefont}{\small}
 \frametitle{Пример дерева истинности (2)}
 \begin{itemize}
-    \item Проверим $F=(\forall x\,(P(x)\land Q(x)))\to(\forall x\,P(x))\land(\forall x\,Q(x))$.
+    \item Проверим $F=(\forall x\,P(x)\land Q(x))\to(\forall x\,P(x))\land(\forall x\,Q(x))$.
     \item[] 
     \only<+>{
         \begin{tableau}{}
         [{F=0}, just=Дано, checked
-[{(\forall x\,(P(x)\land Q(x)))=1}, just=1
+[{(\forall x\,P(x)\land Q(x))=1}, just=1
             [{(\forall x ~ P(x)) \land (\forall x ~ Q(x)) = 0}, just=1]]
         ]
     \end{tableau}
@@ -160,7 +160,7 @@
     \only<+>{
     \begin{tableau}{}
         [{F=0}, just=Дано, checked
-[{(\forall x\,(P(x)\land Q(x)))=1}, just=1
+[{(\forall x\,P(x)\land Q(x))=1}, just=1
         [{(\forall x ~ P(x)) \land (\forall x ~ Q(x)) = 0}, just=1, checked
         [{\forall x ~ P(x) = 0}, just = 3
         ]
@@ -172,7 +172,7 @@
     \only<+>{
         \begin{tableau}{}
         [{F=0}, just=Дано, checked
-[{(\forall x\,(P(x)\land Q(x)))=1}, just=1
+[{(\forall x\,P(x)\land Q(x))=1}, just=1
         [{(\forall x ~ P(x)) \land (\forall x ~ Q(x)) = 0}, just=1, checked
         [{\forall x ~ P(x) = 0}, just = 3, checked=a_1
         [{P(a_1) = 0}, just=4, checked
@@ -187,7 +187,7 @@
     \only<+>{
         \begin{tableau}{}
         [{F=0}, just=Дано, checked
-[{(\forall x\,(P(x)\land Q(x)))=1}, just=1, subs=a_1
+[{(\forall x\,P(x)\land Q(x))=1}, just=1, subs=a_1
         [{(\forall x ~ P(x)) \land (\forall x ~ Q(x)) = 0}, just=1, checked
         [{\forall x ~ P(x) = 0}, just = 3, checked=a_1
         [{P(a_1) = 0}, just=4, checked
@@ -204,7 +204,7 @@
     \only<+->{
     \begin{tableau}{}
         [{F=0}, just=Дано, checked
-[{(\forall x\,(P(x)\land Q(x)))=1}, just=1, subs=a_1
+[{(\forall x\,P(x)\land Q(x))=1}, just=1, subs=a_1
         [{(\forall x ~ P(x)) \land (\forall x ~ Q(x)) = 0}, just=1, checked
         [{\forall x ~ P(x) = 0}, just=3, checked=a_1
         [{P(a_1) = 0}, just=4, checked
@@ -233,12 +233,12 @@
 \begin{framefont}{\footnotesize}
 \frametitle{Пример дерева истинности (3)}
 \begin{itemize}
-    \item $F=(\forall x\,(P(x)\lor Q(x)))\to(\forall x\,P(x))\lor(\forall x\,Q(x))$. \\ Тождественно истинна ли эта формула?
+    \item $F=(\forall x\,P(x)\lor Q(x))\to(\forall x\,P(x))\lor(\forall x\,Q(x))$. \\ Тождественно истинна ли эта формула?
     
     \only<+>{
         \begin{tableau}{}
         [{F=0}, just=Дано, checked
-[{(\forall x\,(P(x)\lor Q(x)))=1}, just=1
+[{(\forall x\,P(x)\lor Q(x))=1}, just=1
             [{(\forall x ~ P(x)) \lor (\forall x ~ Q(x)) = 0}, just=1
             ]]
         ]
@@ -248,7 +248,7 @@
     \only<+>{
         \begin{tableau}{}
         [{F=0}, just=Дано, checked
-[{(\forall x\,(P(x)\lor Q(x)))=1}, just=1
+[{(\forall x\,P(x)\lor Q(x))=1}, just=1
             [{(\forall x ~ P(x)) \lor (\forall x ~ Q(x)) = 0}, just=1, checked
             [{\forall x ~ P(x) = 0}, just = 3
             [{\forall x ~ Q(x) = 0}, just = 3
@@ -260,7 +260,7 @@
     \only<+>{
         \begin{tableau}{}
         [{F=0}, just=Дано, checked
-[{(\forall x\,(P(x)\lor Q(x)))=1}, just=1
+[{(\forall x\,P(x)\lor Q(x))=1}, just=1
             [{(\forall x ~ P(x)) \lor (\forall x ~ Q(x)) = 0}, just=1, checked
             [{\forall x ~ P(x) = 0}, just = 3, checked=a_1
             [{\forall x ~ Q(x) = 0}, just = 3, checked=a_2
@@ -274,7 +274,7 @@
         \only<+>{
         \begin{tableau}{}
         [{F=0}, just=Дано, checked
-[{(\forall x\,(P(x)\lor Q(x)))=1}, just=1, subs={a_1}
+[{(\forall x\,P(x)\lor Q(x))=1}, just=1, subs={a_1}
             [{(\forall x ~ P(x)) \lor (\forall x ~ Q(x)) = 0}, just=1, checked
             [{\forall x ~ P(x) = 0}, just = 3, checked=a_1
             [{\forall x ~ Q(x) = 0}, just = 3, checked=a_2
@@ -289,7 +289,7 @@
     \only<+>{
     \begin{tableau}{}
         [{F=0}, just=Дано, checked
-[{(\forall x\,(P(x)\lor Q(x)))=1}, just=1, subs={a_1}
+[{(\forall x\,P(x)\lor Q(x))=1}, just=1, subs={a_1}
         [{(\forall x ~ P(x)) \lor (\forall x ~ Q(x)) = 0}, just=1, checked
         [{\forall x ~ P(x) = 0}, just = 3, checked=a_1
         [{\forall x ~ Q(x) = 0}, just = 3, checked=a_2
@@ -307,7 +307,7 @@
     \only<+>{
         \begin{tableau}{}
         [{F=0}, just=Дано, checked
-[{(\forall x\,(P(x)\lor Q(x)))=1}, just=1, subs={a_1,a_2}
+[{(\forall x\,P(x)\lor Q(x))=1}, just=1, subs={a_1,a_2}
 [{(\forall x ~ P(x)) \lor (\forall x ~ Q(x)) = 0}, just=1, checked
 [{\forall x ~ P(x) = 0}, just = 3, checked=a_1
 [{\forall x ~ Q(x) = 0}, just = 3, checked=a_2
@@ -326,7 +326,7 @@
     \only<+->{
     \begin{tableau}{}
         [{F=0}, just=Дано, checked
-[{(\forall x\,(P(x)\lor Q(x)))=1}, just=1, subs={a_1,a_2}
+[{(\forall x\,P(x)\lor Q(x))=1}, just=1, subs={a_1,a_2}
         [{(\forall x ~ P(x)) \lor (\forall x ~ Q(x)) = 0}, just=1, checked
         [{\forall x ~ P(x) = 0}, just = 3, checked=a_1
         [{\forall x ~ Q(x) = 0}, just = 3, checked=a_2
