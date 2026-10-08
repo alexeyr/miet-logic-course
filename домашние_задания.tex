@@ -38,28 +38,6 @@
     \item $(p \leftrightarrow q) \leftrightarrow r \equiv p \leftrightarrow (q \leftrightarrow r)$ (используйте правила из задания \ref*{rules}).
 \end{enumerate}
 
-\section{Натуральная дедукция для логики высказываний}
-Доказать с помощью натуральной дедукции.
-Можно использовать доказанные на семинаре секвенции как допустимые правила.
-Для равносильностей требуется доказать оба направления.
-\begin{enumerate}
-    \item $p \land q \equiv q \land p$.
-    \item $p \vdash \neg \neg p$.
-    \item $p \to q \equiv \neg q \to \neg p$.
-    \item $p \to q \land r \equiv (p \to q) \land (p \to r)$.
-    \item $p \lor q \to r \equiv (p \to r) \land (q \to r)$.
-    \item $(p \lor q) \lor r \equiv p \lor (q \lor r)$.
-    \item Законы де Моргана (2 в обоих направлениях).
-    \item $\vdash p \lor \neg p$ (использовать RAA и закон де Моргана для отрицания дизъюнкции).
-    \item \label{to_equiv} $p \to q \equiv \neg p \lor q$.
-    \item $p \land (q \lor r) \vdash (p \land q) \lor r$.
-    \itemhard \label{h21} $\vdash ((p \to q) \to p) \to p$ (есть \hyperref[hints]{подсказка}).
-    \item \label{rules2} Составить правила введения и исключения для равносильности, суммы по модулю 2, стрелки Пирса и штриха Шеффера. Подсказка: выразите через операции, для которых эти правила уже знаете, и скомбинируйте их.
-    \item[] Используя эти правила:
-    \item $p \downarrow q \vdash p \mid q$.
-    \itemhard $(p \leftrightarrow q) \leftrightarrow r \equiv p \leftrightarrow (q \leftrightarrow r)$.
-\end{enumerate}
-
 \section{Истинность и формализация в логике предикатов}
 \begin{enumerate}
     \item В модели с универсумом $\{a,b,c\}$ предикаты заданы таблицей:
@@ -91,9 +69,11 @@
         \item $\exists y\,\forall x\,R(x,y)$;
         \item $\exists x\,\exists y\,(R(x,y)\land R(y,x))$.
     \end{enumerate}
+    \begin{samepage}
     \item[] Следующие утверждения переведите на язык логики предикатов. Укажите универсум (или сорта) и смысл используемых символов. Формализуйте утверждение независимо от того, истинно ли оно.
     \item Иванов и Петров играют в шахматы.
     \item Иванов и Петров слушают лекцию.
+    \end{samepage}
     \item Каждый, кто упорно работает, добивается успеха.
     \item Слон Бимбо больше собаки Ланды.
     \item Все слоны больше всех собак.
@@ -116,7 +96,7 @@
     \item $(\exists x~P(x))\land(\forall x~(P(x)\to Q(x)))\to\exists x~Q(x)$
     \item $(\neg\exists x~(P(x)\to Q(x)))\to(\exists x~P(x))\land(\forall x~Q(x))$
     \item $(\forall x~\exists y~P(x,y))\land(\exists x~\forall y~Q(x,y))\to\exists x~\exists y~(P(x,y)\land Q(x,y))$
-    \item[] Следующие рассуждения формализовать как импликации: конъюнкция посылок должна влечь заключение.
+    \item[] Следующие рассуждения формализовать как импликации:\\ конъюнкция посылок должна влечь заключение.
     \item Не все политики мошенники. Все мошенники умны. Значит, некоторые политики глупы.
     \item Те, кто что-то учил, решили некоторые задачи. Андрей не решил ни одной. Значит, он не учил ничего.
     \item Если бинарное отношение транзитивно и симметрично, то оно рефлексивно (здесь квантора по бинарным отношениям нет, просто обозначьте его как $R(x,y)$).
@@ -128,6 +108,29 @@
         &(\forall x~\forall y~(P(f(x),y)\lor Q(x,y)))\\
         &\quad\land(\forall x~\forall y~(\neg P(x,g(y))\lor Q(x,y)))\to\exists x~\exists y~Q(x,y)
     \end{aligned}$
+\end{enumerate}
+
+\section{Натуральная дедукция для логики высказываний}
+\label{hw_propositional_nd}
+Доказать с помощью натуральной дедукции.
+Можно использовать доказанные на семинаре секвенции как допустимые правила.
+Для равносильностей требуется доказать оба направления.
+\begin{enumerate}
+    \item $p \land q \equiv q \land p$.
+    \item $p \vdash \neg \neg p$.
+    \item $p \to q \equiv \neg q \to \neg p$.
+    \item $p \to q \land r \equiv (p \to q) \land (p \to r)$.
+    \item $p \lor q \to r \equiv (p \to r) \land (q \to r)$.
+    \item $(p \lor q) \lor r \equiv p \lor (q \lor r)$.
+    \item Законы де Моргана (2 в обоих направлениях).
+    \item $\vdash p \lor \neg p$ (использовать RAA и закон де Моргана для отрицания дизъюнкции).
+    \item \label{to_equiv} $p \to q \equiv \neg p \lor q$.
+    \item $p \land (q \lor r) \vdash (p \land q) \lor r$.
+    \itemhard \label{h21} $\vdash ((p \to q) \to p) \to p$ (есть \hyperref[hints]{подсказка}).
+    \item \label{rules2} Составить правила введения и исключения для равносильности, суммы по модулю 2, стрелки Пирса и штриха Шеффера. Подсказка: выразите через операции, для которых эти правила уже знаете, и скомбинируйте их.
+    \item[] Используя эти правила:
+    \item $p \downarrow q \vdash p \mid q$.
+    \itemhard $(p \leftrightarrow q) \leftrightarrow r \equiv p \leftrightarrow (q \leftrightarrow r)$.
 \end{enumerate}
 
 \section{Натуральная дедукция для логики предикатов}
@@ -234,7 +237,7 @@
 \section*{Подсказки}
 \label{hints}
 
-2.\ref{h21}: можно использовать задачу \ref{to_equiv} или закон исключённого третьего.
+\ref*{hw_propositional_nd}.\ref{h21}: можно использовать задачу \ref{to_equiv} или закон исключённого третьего.
 
 5.\ref{h51}: можно использовать закон исключённого третьего для $\forall y~P(y)$.
 
