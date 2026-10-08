@@ -144,194 +144,215 @@
 
 
 \begin{frame}
+\begin{framefont}{\small}
 \frametitle{Пример дерева истинности (2)}
 \begin{itemize}
-    \item Ещё пример: $\forall x ~ P(x) \land Q(x) \vdash (\forall x ~ P(x)) \land (\forall x ~ Q(x))$. \\ Как думаете, тождественно истинна или нет?
+    \item Проверим $F=(\forall x\,(P(x)\land Q(x)))\to(\forall x\,P(x))\land(\forall x\,Q(x))$.
     \item[] 
     \only<+>{
-        \begin{tableau}{
-            }
-            [{\forall x ~ P(x) \land Q(x) = 1}, just=Дано
-            [{(\forall x ~ P(x)) \land (\forall x ~ Q(x)) = 0}, just=Дано]]
-        \end{tableau}
-    }
-    \only<+>{
-    \begin{tableau}{
-        }
-        [{\forall x ~ P(x) \land Q(x) = 1}, just=Дано
-        [{(\forall x ~ P(x)) \land (\forall x ~ Q(x)) = 0}, just=Дано, checked
-        [{\forall x ~ P(x) = 0}, just = 2
+        \begin{tableau}{}
+        [{F=0}, just=Дано, checked
+[{(\forall x\,(P(x)\land Q(x)))=1}, just=1
+            [{(\forall x ~ P(x)) \land (\forall x ~ Q(x)) = 0}, just=1]]
         ]
-        [{\forall x ~ Q(x) = 0}, just = 2
-        ]]]
-        \end{tableau}
-    }
-    \only<+>{
-        \begin{tableau}{
-            }
-        [{\forall x ~ P(x) \land Q(x) = 1}, just=Дано
-        [{(\forall x ~ P(x)) \land (\forall x ~ Q(x)) = 0}, just=Дано, checked
-        [{\forall x ~ P(x) = 0}, just = 2, checked=a_1
-        [{P(a_1) = 0}, just=3, checked
-        ]]
-        [{\forall x ~ Q(x) = 0}, just = 2, checked=a_1
-        [{Q(a_1) = 0}, just=3, checked
-        ]
-        ]]]
-        \end{tableau}
-    }
-    \only<+>{
-        \begin{tableau}{
-            }
-        [{\forall x ~ P(x) \land Q(x) = 1}, just=Дано, subs=a_1
-        [{(\forall x ~ P(x)) \land (\forall x ~ Q(x)) = 0}, just=Дано, checked
-        [{\forall x ~ P(x) = 0}, just = 2, checked=a_1
-        [{P(a_1) = 0}, just=3, checked
-        [{P(a_1) \land Q(a_1) = 1}, just=1
-        ]]]
-        [{\forall x ~ Q(x) = 0}, just = 2, checked=a_1
-        [{Q(a_1) = 0}, just=3, checked
-        [{P(a_1) \land Q(a_1) = 1}, just=1
-        ]]
-        ]]]
-        \end{tableau}
-    }
-    \onslide<+->
-    \begin{tableau}{
-        }
-        [{\forall x ~ P(x) \land Q(x) = 1}, just=Дано, subs=a_1
-        [{(\forall x ~ P(x)) \land (\forall x ~ Q(x)) = 0}, just=Дано, checked
-        [{\forall x ~ P(x) = 0}, just=2, checked=a_1
-        [{P(a_1) = 0}, just=3, checked
-        [{P(a_1) \land Q(a_1) = 1}, just=1, checked
-        [{P(a_1) = 1}, just=5, checked, close={4,6}
-        ]]]]
-        [{\forall x ~ Q(x) = 0}, just=2, checked=a_1
-        [{Q(a_1) = 0}, just=3, checked
-        [{P(a_1) \land Q(a_1) = 1}, just=1, checked
-        [{Q(a_1) = 1}, just=5, checked, close={4,6}
-        ]]]
-        ]]]
     \end{tableau}
-    \item Дерево закрылось, значит секвенция \onslide<+-> тождественно истинна. \onslide<3->
-    \item В строке 3 можем использовать $a_1$ в обеих ветвях. \onslide<4->
-    \item Когда раскрываем строку 1, под ней две открытые ветви, результат пишем в обе.
+    }
+    \only<+>{
+    \begin{tableau}{}
+        [{F=0}, just=Дано, checked
+[{(\forall x\,(P(x)\land Q(x)))=1}, just=1
+        [{(\forall x ~ P(x)) \land (\forall x ~ Q(x)) = 0}, just=1, checked
+        [{\forall x ~ P(x) = 0}, just = 3
+        ]
+        [{\forall x ~ Q(x) = 0}, just = 3
+        ]]]
+        ]
+    \end{tableau}
+    }
+    \only<+>{
+        \begin{tableau}{}
+        [{F=0}, just=Дано, checked
+[{(\forall x\,(P(x)\land Q(x)))=1}, just=1
+        [{(\forall x ~ P(x)) \land (\forall x ~ Q(x)) = 0}, just=1, checked
+        [{\forall x ~ P(x) = 0}, just = 3, checked=a_1
+        [{P(a_1) = 0}, just=4, checked
+        ]]
+        [{\forall x ~ Q(x) = 0}, just = 3, checked=a_1
+        [{Q(a_1) = 0}, just=4, checked
+        ]
+        ]]]
+        ]
+    \end{tableau}
+    }
+    \only<+>{
+        \begin{tableau}{}
+        [{F=0}, just=Дано, checked
+[{(\forall x\,(P(x)\land Q(x)))=1}, just=1, subs=a_1
+        [{(\forall x ~ P(x)) \land (\forall x ~ Q(x)) = 0}, just=1, checked
+        [{\forall x ~ P(x) = 0}, just = 3, checked=a_1
+        [{P(a_1) = 0}, just=4, checked
+        [{P(a_1) \land Q(a_1) = 1}, just=2
+        ]]]
+        [{\forall x ~ Q(x) = 0}, just = 3, checked=a_1
+        [{Q(a_1) = 0}, just=4, checked
+        [{P(a_1) \land Q(a_1) = 1}, just=2
+        ]]
+        ]]]
+        ]
+    \end{tableau}
+    }
+    \only<+->{
+    \begin{tableau}{}
+        [{F=0}, just=Дано, checked
+[{(\forall x\,(P(x)\land Q(x)))=1}, just=1, subs=a_1
+        [{(\forall x ~ P(x)) \land (\forall x ~ Q(x)) = 0}, just=1, checked
+        [{\forall x ~ P(x) = 0}, just=3, checked=a_1
+        [{P(a_1) = 0}, just=4, checked
+        [{P(a_1) \land Q(a_1) = 1}, just=2, checked
+        [{P(a_1) = 1}, just=6, checked
+        [{Q(a_1) = 1}, just=6, checked, close={5,7}
+        ]]]]]
+        [{\forall x ~ Q(x) = 0}, just=3, checked=a_1
+        [{Q(a_1) = 0}, just=4, checked
+        [{P(a_1) \land Q(a_1) = 1}, just=2, checked
+        [{P(a_1) = 1}, just=6, checked
+        [{Q(a_1) = 1}, just=6, checked, close={5,8}
+        ]]]]
+        ]]]
+        ]
+    \end{tableau}
+}
+    \item<6-> Дерево закрыто: формула тождественно истинна.
+    \item<3-> В строке 4 можем использовать $a_1$ в обеих ветвях.
+    \item<4-> Строку 2 раскрываем в обеих открытых ветвях под ней.
 \end{itemize}
+\end{framefont}
 \end{frame}
 
 \begin{frame}
+\begin{framefont}{\footnotesize}
 \frametitle{Пример дерева истинности (3)}
 \begin{itemize}
-    \item $\forall x ~ P(x) \lor Q(x) \vdash (\forall x ~ P(x)) \lor (\forall x ~ Q(x))$. \\ Как думаете, тождественно истинна или нет?
+    \item $F=(\forall x\,(P(x)\lor Q(x)))\to(\forall x\,P(x))\lor(\forall x\,Q(x))$. \\ Тождественно истинна ли эта формула?
     
     \only<+>{
-        \begin{tableau}{
-            }
-            [{\forall x ~ P(x) \lor Q(x) = 1}, just=Дано
-            [{(\forall x ~ P(x)) \lor (\forall x ~ Q(x)) = 0}, just=Дано
+        \begin{tableau}{}
+        [{F=0}, just=Дано, checked
+[{(\forall x\,(P(x)\lor Q(x)))=1}, just=1
+            [{(\forall x ~ P(x)) \lor (\forall x ~ Q(x)) = 0}, just=1
             ]]
-        \end{tableau}
+        ]
+    \end{tableau}
     }
     
     \only<+>{
-        \begin{tableau}{
-            }
-            [{\forall x ~ P(x) \lor Q(x) = 1}, just=Дано
-            [{(\forall x ~ P(x)) \lor (\forall x ~ Q(x)) = 0}, just=Дано, checked
-            [{\forall x ~ P(x) = 0}, just = 2
-            [{\forall x ~ Q(x) = 0}, just = 2
+        \begin{tableau}{}
+        [{F=0}, just=Дано, checked
+[{(\forall x\,(P(x)\lor Q(x)))=1}, just=1
+            [{(\forall x ~ P(x)) \lor (\forall x ~ Q(x)) = 0}, just=1, checked
+            [{\forall x ~ P(x) = 0}, just = 3
+            [{\forall x ~ Q(x) = 0}, just = 3
             ]]]]
-        \end{tableau}
+        ]
+    \end{tableau}
     }
     
     \only<+>{
-        \begin{tableau}{
-            }
-            [{\forall x ~ P(x) \lor Q(x) = 1}, just=Дано
-            [{(\forall x ~ P(x)) \lor (\forall x ~ Q(x)) = 0}, just=Дано, checked
-            [{\forall x ~ P(x) = 0}, just = 2, checked=a_1
-            [{\forall x ~ Q(x) = 0}, just = 2, checked=a_2
-            [{P(a_1) = 0}, just=3, checked
-            [{Q(a_2) = 0}, just=4, checked
+        \begin{tableau}{}
+        [{F=0}, just=Дано, checked
+[{(\forall x\,(P(x)\lor Q(x)))=1}, just=1
+            [{(\forall x ~ P(x)) \lor (\forall x ~ Q(x)) = 0}, just=1, checked
+            [{\forall x ~ P(x) = 0}, just = 3, checked=a_1
+            [{\forall x ~ Q(x) = 0}, just = 3, checked=a_2
+            [{P(a_1) = 0}, just=4, checked
+            [{Q(a_2) = 0}, just=5, checked
             ]]]]]]
-        \end{tableau}
+        ]
+    \end{tableau}
     }
     
         \only<+>{
-        \begin{tableau}{
-            }
-            [{\forall x ~ P(x) \lor Q(x) = 1}, just=Дано, subs={a_1}
-            [{(\forall x ~ P(x)) \lor (\forall x ~ Q(x)) = 0}, just=Дано, checked
-            [{\forall x ~ P(x) = 0}, just = 2, checked=a_1
-            [{\forall x ~ Q(x) = 0}, just = 2, checked=a_2
-            [{P(a_1) = 0}, just=3, checked
-            [{Q(a_2) = 0}, just=4, checked
-            [{P(a_1) \lor Q(a_1) = 1}, just=1
+        \begin{tableau}{}
+        [{F=0}, just=Дано, checked
+[{(\forall x\,(P(x)\lor Q(x)))=1}, just=1, subs={a_1}
+            [{(\forall x ~ P(x)) \lor (\forall x ~ Q(x)) = 0}, just=1, checked
+            [{\forall x ~ P(x) = 0}, just = 3, checked=a_1
+            [{\forall x ~ Q(x) = 0}, just = 3, checked=a_2
+            [{P(a_1) = 0}, just=4, checked
+            [{Q(a_2) = 0}, just=5, checked
+            [{P(a_1) \lor Q(a_1) = 1}, just=2
             ]]]]]]]
-        \end{tableau}
+        ]
+    \end{tableau}
     }
 
     \only<+>{
-    \begin{tableau}{
-        }
-        [{\forall x ~ P(x) \lor Q(x) = 1}, just=Дано, subs={a_1}
-        [{(\forall x ~ P(x)) \lor (\forall x ~ Q(x)) = 0}, just=Дано, checked
-        [{\forall x ~ P(x) = 0}, just = 2, checked=a_1
-        [{\forall x ~ Q(x) = 0}, just = 2, checked=a_2
-        [{P(a_1) = 0}, just=3, checked
-        [{Q(a_2) = 0}, just=4, checked
-        [{P(a_1) \lor Q(a_1) = 1}, just=1, checked
-        [{P(a_1) = 1}, just={7 (ветвь закончена?)}, checked, close={5,8}
+    \begin{tableau}{}
+        [{F=0}, just=Дано, checked
+[{(\forall x\,(P(x)\lor Q(x)))=1}, just=1, subs={a_1}
+        [{(\forall x ~ P(x)) \lor (\forall x ~ Q(x)) = 0}, just=1, checked
+        [{\forall x ~ P(x) = 0}, just = 3, checked=a_1
+        [{\forall x ~ Q(x) = 0}, just = 3, checked=a_2
+        [{P(a_1) = 0}, just=4, checked
+        [{Q(a_2) = 0}, just=5, checked
+        [{P(a_1) \lor Q(a_1) = 1}, just=2, checked
+        [{P(a_1) = 1}, just={8 (ветвь закончена?)}, checked, close={6,9}
         ]
-        [{Q(a_1) = 1}, just={7 (ветвь закончена?)}, checked
+        [{Q(a_1) = 1}, just={8 (ветвь закончена?)}, checked
         ]]]]]]]]
+        ]
     \end{tableau}
 }
 
     \only<+>{
-        \begin{tableau}{
-            }
-        [{\forall x ~ P(x) \lor Q(x) = 1}, just=Дано, subs={a_1,a_2}
-[{(\forall x ~ P(x)) \lor (\forall x ~ Q(x)) = 0}, just=Дано, checked
-[{\forall x ~ P(x) = 0}, just = 2, checked=a_1
-[{\forall x ~ Q(x) = 0}, just = 2, checked=a_2
-[{P(a_1) = 0}, just=3, checked
-[{Q(a_2) = 0}, just=4, checked
-[{P(a_1) \lor Q(a_1) = 1}, just=1, checked
-[{P(a_1) = 1}, just=7, checked, close={5,8}
+        \begin{tableau}{}
+        [{F=0}, just=Дано, checked
+[{(\forall x\,(P(x)\lor Q(x)))=1}, just=1, subs={a_1,a_2}
+[{(\forall x ~ P(x)) \lor (\forall x ~ Q(x)) = 0}, just=1, checked
+[{\forall x ~ P(x) = 0}, just = 3, checked=a_1
+[{\forall x ~ Q(x) = 0}, just = 3, checked=a_2
+[{P(a_1) = 0}, just=4, checked
+[{Q(a_2) = 0}, just=5, checked
+[{P(a_1) \lor Q(a_1) = 1}, just=2, checked
+[{P(a_1) = 1}, just=8, checked, close={6,9}
 ]
-[{Q(a_1) = 1}, just=7, checked
-[{P(a_2) \lor Q(a_2) = 1}, just=1
+[{Q(a_1) = 1}, just=8, checked
+[{P(a_2) \lor Q(a_2) = 1}, just=2
 ]]]]]]]]]
-        \end{tableau}
+        ]
+    \end{tableau}
     }
 
-    \onslide<+->
-    \begin{tableau}{
-        }
-        [{\forall x ~ P(x) \lor Q(x) = 1}, just=Дано, subs={a_1,a_2}
-        [{(\forall x ~ P(x)) \lor (\forall x ~ Q(x)) = 0}, just=Дано, checked
-        [{\forall x ~ P(x) = 0}, just = 2, checked=a_1
-        [{\forall x ~ Q(x) = 0}, just = 2, checked=a_2
-        [{P(a_1) = 0}, just=3, checked
-        [{Q(a_2) = 0}, just=4, checked
-        [{P(a_1) \lor Q(a_1) = 1}, just=1, checked
-        [{P(a_1) = 1}, just=7, checked, close={5,8}
+    \only<+->{
+    \begin{tableau}{}
+        [{F=0}, just=Дано, checked
+[{(\forall x\,(P(x)\lor Q(x)))=1}, just=1, subs={a_1,a_2}
+        [{(\forall x ~ P(x)) \lor (\forall x ~ Q(x)) = 0}, just=1, checked
+        [{\forall x ~ P(x) = 0}, just = 3, checked=a_1
+        [{\forall x ~ Q(x) = 0}, just = 3, checked=a_2
+        [{P(a_1) = 0}, just=4, checked
+        [{Q(a_2) = 0}, just=5, checked
+        [{P(a_1) \lor Q(a_1) = 1}, just=2, checked
+        [{P(a_1) = 1}, just=8, checked, close={6,9}
         ]
-        [{Q(a_1) = 1}, just=7, checked
-        [{P(a_2) \lor Q(a_2) = 1}, just=1, checked
-        [{P(a_2) = 1}, just=9, checked
+        [{Q(a_1) = 1}, just=8, checked
+        [{P(a_2) \lor Q(a_2) = 1}, just=2, checked
+        [{P(a_2) = 1}, just=10, checked
         ]
-        [{Q(a_2) = 1}, just=9, checked, close={6,10}
+        [{Q(a_2) = 1}, just=10, checked, close={7,11}
         ]
         ]]]]]]]]]
+        ]
     \end{tableau}
-    \item Дерево не закрылось!
+}
+    \item<7-> Дерево не закрылось!
 \end{itemize}
+\end{framefont}
 \end{frame}
 
 \begin{frame}
-\frametitle{Пример дерева истинности (3)}
+\begin{framefont}{\footnotesize}
+\frametitle{Контрмодель из законченной ветви}
 \begin{itemize}
     \item Получили открытую ветвь, в которой: 
     \begin{itemize}
@@ -352,72 +373,79 @@
     \end{tabular} \pause
     \item Что делать, если бы в ветви не было атома с $P(a_1)$ (например)? \pause
     \item Можем поставить туда любое значение. \pause
-    \item Снова видим, что $x$, связанные разными кванторами, по сути разные переменные (строки 5-6).
+    \item Снова видим, что $x$, связанные разными кванторами, по сути разные переменные (строки 6-7).
 \end{itemize}
+\end{framefont}
 \end{frame}
 
 \begin{frame}
+\begin{framefont}{\small}
 \frametitle{Пример дерева истинности (4)}
 \begin{itemize}
-    \item $\forall x \exists y ~ P(x, y) \vdash \exists y \forall x ~ P(x, y)$. \\ Как думаете, тождественно истинна или нет?
+    \item $F=(\forall x\,\exists y\,P(x,y))\to(\exists y\,\forall x\,P(x,y))$. \\ Тождественно истинна ли эта формула?
     \item[] 
 \only<+>{
-    \begin{tableau}{
-        }
-        [{\forall x \exists y ~ P(x, y) = 1}, just=Дано
-        [{\exists y \forall x ~ P(x, y) = 0}, just=Дано
+    \begin{tableau}{}
+        [{F=0}, just=Дано, checked
+[{\forall x \exists y ~ P(x, y) = 1}, just=1
+        [{\exists y \forall x ~ P(x, y) = 0}, just=1
         ]]
+        ]
     \end{tableau}
 }
 
     \only<+>{
-    \begin{tableau}{
-        }
-        [{\forall x \exists y ~ P(x, y) = 1}, just=Дано, subs={a_1}
-        [{\exists y \forall x ~ P(x, y) = 0}, just=Дано
-        [{\exists y ~ P(a_1, y) = 1}, just=1, checked=a_2
-        [{P(a_1, a_2) = 1}, just=3, checked
+    \begin{tableau}{}
+        [{F=0}, just=Дано, checked
+[{\forall x \exists y ~ P(x, y) = 1}, just=1, subs={a_1}
+        [{\exists y \forall x ~ P(x, y) = 0}, just=1
+        [{\exists y ~ P(a_1, y) = 1}, just=2, checked=a_2
+        [{P(a_1, a_2) = 1}, just=4, checked
         ]]]]
+        ]
     \end{tableau}
 }
 
     \only<+>{
-\begin{tableau}{
-    }
-    [{\forall x \exists y ~ P(x, y) = 1}, just=Дано, subs={a_1}
-    [{\exists y \forall x ~ P(x, y) = 0}, just=Дано, subs={a_2}
-    [{\exists y ~ P(a_1, y) = 1}, just=1, checked=a_2
-    [{P(a_1, a_2) = 1}, just=3, checked
-    [{\forall x ~ P(x, a_2) = 0}, just=2, checked=a_3
-    [{P(a_3, a_2) = 0}, just={5 (ветвь закончена?)}, checked
+\begin{tableau}{}
+        [{F=0}, just=Дано, checked
+[{\forall x \exists y ~ P(x, y) = 1}, just=1, subs={a_1}
+    [{\exists y \forall x ~ P(x, y) = 0}, just=1, subs={a_2}
+    [{\exists y ~ P(a_1, y) = 1}, just=2, checked=a_2
+    [{P(a_1, a_2) = 1}, just=4, checked
+    [{\forall x ~ P(x, a_2) = 0}, just=3, checked=a_3
+    [{P(a_3, a_2) = 0}, just={6 (ветвь закончена?)}, checked
     ]]]]]]
-\end{tableau}
+        ]
+    \end{tableau}
 }
 
-    \onslide<+->
-    \begin{tableau}{
-        }
-        [{\forall x \exists y ~ P(x, y) = 1}, just=Дано, subs={a_1,a_3,\ldots}
-        [{\exists y \forall x ~ P(x, y) = 0}, just=Дано, subs={a_2,\ldots}
-        [{\exists y ~ P(a_1, y) = 1}, just=1, checked=a_2
-        [{P(a_1, a_2) = 1}, just=3, checked
-        [{\forall x ~ P(x, a_2) = 0}, just=2, checked=a_3
-        [{P(a_3, a_2) = 0}, just=5, checked
-        [{\exists y ~ P(a_3, y) = 1}, just=1, checked=a_4
+    \only<+->{
+    \begin{tableau}{}
+        [{F=0}, just=Дано, checked
+[{\forall x \exists y ~ P(x, y) = 1}, just=1, subs={a_1,a_3,\ldots}
+        [{\exists y \forall x ~ P(x, y) = 0}, just=1, subs={a_2,\ldots}
+        [{\exists y ~ P(a_1, y) = 1}, just=2, checked=a_2
+        [{P(a_1, a_2) = 1}, just=4, checked
+        [{\forall x ~ P(x, a_2) = 0}, just=3, checked=a_3
+        [{P(a_3, a_2) = 0}, just=6, checked
+        [{\exists y ~ P(a_3, y) = 1}, just=2, checked=a_4
         [{\ldots}
         ]]]]]]]]
+        ]
     \end{tableau}
+}
     \onslide<+->
-    \item На этот раз ситуация сложнее предыдущей.
-    \item Противоречия нет, но и законченной ветви (в смысле прошлого слайда) тоже.
-    \item По крайней мере после любого конечного числа шагов.
+    \item После любого конечного числа шагов ветвь открыта, но ещё не закончена: появляются новые параметры и подстановки.
     \onslide<+->
-    \item Наверное, легко \emph{увидеть}, что противоречия так и не получим, но как это \emph{доказать}?
+    \item Чтобы опровергнуть формулу, построим контрмодель.
 \end{itemize}
+\end{framefont}
 \end{frame}
 
 \begin{frame}
-\frametitle{Бесконечные контрмодели}
+\begin{framefont}{\small}
+\frametitle{Условия на контрмодель}
 \begin{itemize}
     \item В нашей ветви видны некоторые значения предиката:
     \item[] \begin{tabular}{c | c c c c c}
@@ -435,12 +463,14 @@
         \item[] Помните, что это $(\exists y \forall x ~ P(x, y)) = 0$, а не $\exists y \forall x ~ (P(x, y) = 0)$!
     \end{itemize}
 \end{itemize}
+\end{framefont}
 \end{frame}
 
 \begin{frame}
-\frametitle{Бесконечные контрмодели}
+\begin{framefont}{\small}
+\frametitle{Бесконечная и конечная контрмодели}
 \begin{itemize}
-    \item Видно, что расставить 0 и 1 на место ? произвольно нельзя, но вот вариант:
+    \item Возьмём $P(a_i,a_j)=1$ ровно при $j=i+1$:
     \item[] {\small \begin{tabular}{c | c c c c c}
         \diagbox[height=1.5\line]{x}{y} & $a_1$ & $a_2$ & $a_3$ & $a_4$ & \ldots \\ \hline
         $a_1$ & 0 & 1 & 0 & 0 & \\
@@ -450,18 +480,18 @@
         \ldots & & & & & \\ 
     \end{tabular}}
     \pause
-    \item[]
-    \item Мы нашли бесконечный контрпример для этой секвенции, а есть ли конечный? Напомню условия:
+    \item А есть ли конечная контрмодель? Условия те же:
     \item В каждой строке есть 1; нет столбца, где все 1. 
     \pause
     \item Конечно, есть. Например:
-    \item[] {\small \begin{tabular}{c | c c |}
+    \item[] {\small \begin{tabular}{c|cc}
         \diagbox[height=1.5\line]{x}{y} & $a_1$ & $a_2$ \\ \hline
         $a_1$ & 1 & 0 \\
         $a_2$ & 0 & 1 \\
         \hline
     \end{tabular}}
 \end{itemize}
+\end{framefont}
 \end{frame}
 
 \begin{frame}

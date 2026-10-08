@@ -1,0 +1,931 @@
+\documentclass[10pt]{beamer}
+\input{lecture_preamble.tex}
+
+\title{Деревья истинности\\для логики предикатов}
+\date{\today}
+
+\begin{document}
+\begin{frame}[plain]
+    \maketitle
+\end{frame}
+
+\begin{frame}
+\frametitle{С чего начинаем}
+\begin{itemize}
+    \item Дерево проверяет совместную выполнимость уравнений (формул со знаками) $A=1$, $A=0$.
+    \item Для тождественной истинности $A$ начинаем с $A=0$.
+    \item Для эквивалентности строим два дерева: $A=1,B=0$ и $A=0,B=1$.
+    \pause
+    \item Ветвь закрыта, если на ней есть $C=1$ и $C=0$; закрытую ветвь не продолжаем.
+    \item Если все ветви закрыты, исходные уравнения невыполнимы.
+    \item Сначала рассматриваем замкнутые формулы без равенства, константных и функциональных символов.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Правила деревьев истинности}
+\small
+\setlength{\parskip}{0pt}
+\begin{center}
+    $\dfrac{\neg A=1}{A=0},\qquad \dfrac{\neg A=0}{A=1}$.
+
+    \medskip
+    \begin{tabular}{|c|c|c||c|c|c|}
+        \hline
+        $\alpha$ & $\alpha_1$ & $\alpha_2$ & $\beta$ & $\beta_1$ & $\beta_2$ \\
+        \hline
+        $A\land B=1$ & $A=1$ & $B=1$ & $A\land B=0$ & $A=0$ & $B=0$ \\
+        $A\lor B=0$ & $A=0$ & $B=0$ & $A\lor B=1$ & $A=1$ & $B=1$ \\
+        $A\to B=0$ & $A=1$ & $B=0$ & $A\to B=1$ & $A=0$ & $B=1$ \\
+        \hline
+    \end{tabular}
+
+    \smallskip
+    $\alpha$: выполняются оба уравнения; $\beta$: хотя бы одно.\\
+    Для $\alpha$: обе строки в одной ветви; для $\beta$: две ветви.
+    \pause
+
+    \medskip
+    \begin{tabular}{|c|c||c|c|}
+        \hline
+        $\gamma$ & $\gamma(t)$ & $\delta$ & $\delta(a)$ \\
+        \hline
+        $\forall v\,A(v)=1$ & $A(t)=1$ & $\forall v\,A(v)=0$ & $A(a)=0$ \\
+        $\exists v\,A(v)=0$ & $A(t)=0$ & $\exists v\,A(v)=1$ & $A(a)=1$ \\
+        \hline
+    \end{tabular}
+
+    \smallskip
+    $\gamma$: $t$ --- замкнутый терм; правило можно повторять.\\
+    $\delta$: $a$ --- новый для ветви параметр.
+
+    \smallskip
+    Раскрывая вершину, продолжаем \textbf{все открытые ветви},\\
+    проходящие через неё; результаты дописываем в их конец.
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Деревья без знаков: напоминание}
+\begin{itemize}
+    \item Вместо формул со знаками можно писать только формулы:
+    \[
+        A=1\ \rightsquigarrow\ A,
+        \qquad A=0\ \rightsquigarrow\ \neg A.
+    \]
+    \item Ветвь закрывается, если содержит $A$ и $\neg A$.
+    \pause
+    \item Правила для кванторов:
+\end{itemize}
+\begin{center}
+    \begin{tabular}{|c|c||c|c|}
+        \hline
+        $\gamma$ & $\gamma(t)$ & $\delta$ & $\delta(a)$ \\
+        \hline
+        $\forall x\,A(x)$ & $A(t)$ & $\exists x\,A(x)$ & $A(a)$ \\
+        $\neg\exists x\,A(x)$ & $\neg A(t)$ & $\neg\forall x\,A(x)$ & $\neg A(a)$ \\
+        \hline
+    \end{tabular}
+\end{center}
+\begin{itemize}
+    \item Условия те же: $t$ --- замкнутый терм, $a$ --- новый для ветви параметр; $\gamma$ можно раскрывать повторно.
+    \item Правила для связок те же; например $\dfrac{\neg\neg A}{A}$.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Параметры и повторное раскрытие}
+\begin{itemize}
+    \item Параметры $a_1,a_2,\ldots$ обозначают объекты модели.
+    \item $A(t)$ означает подстановку терма $t$ вместо свободных вхождений переменной $v$ в $A(v)$.
+    \item В наших примерах замкнутые термы --- параметры.
+    \pause
+    \item Для $\delta$ берём параметр, ещё не встречавшийся на ветви. Разные имена не требуют разных объектов.
+    \item Для $\gamma$ записываем использованные параметры, но не ставим $\checkmark$: могут понадобиться новые подстановки.
+    \pause
+    \item Если параметров ещё нет, вводим $a_1$: универсум непуст.
+    \item Запись $\forall x\,A(x)=0$ означает $(\forall x\,A(x))=0$, не $\forall x\,(A(x)=0)$.
+    \item Без знаков различие видно явно: $\neg\forall x\,A(x)$ и $\forall x\,\neg A(x)$.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Пример дерева истинности}
+\begin{itemize}
+    \item Первый пример: одно из правил де Моргана для кванторов, $\neg (\forall x ~ P(x)) \to (\exists x ~ \neg P(x))$.
+    \item[] 
+\only<+>{
+    \begin{tableau}{
+    }
+    [{\neg (\forall x ~ P(x)) \to (\exists x ~ \neg P(x)) = 0}, just=Дано]
+    \end{tableau}
+}
+\only<+>{
+    \begin{tableau}{
+    }
+    [{\neg (\forall x ~ P(x)) \to (\exists x ~ \neg P(x)) = 0}, just=Дано, checked
+    [{\neg (\forall x ~ P(x)) = 1}, just=1, checked
+    [{\exists x ~ \neg P(x) = 0}, just = 1
+    [{\forall x ~ P(x) = 0}, just=2
+    ]]]]
+    \end{tableau}
+}
+\only<+>{
+    \begin{tableau}{
+        }
+        [{\neg (\forall x ~ P(x)) \to (\exists x ~ \neg P(x)) = 0}, just=Дано, checked
+        [{\neg (\forall x ~ P(x)) = 1}, just=1, checked
+        [{\exists x ~ \neg P(x) = 0}, just = 1
+        [{\forall x ~ P(x) = 0}, just=2, checked=a_1
+        [{P(a_1) = 0}, just=4, checked
+        ]]]]]
+    \end{tableau}
+}
+\only<+->{
+    \begin{tableau}{
+        }
+        [{\neg (\forall x ~ P(x)) \to (\exists x ~ \neg P(x)) = 0}, just=Дано, checked
+        [{\neg (\forall x ~ P(x)) = 1}, just=1, checked
+        [{\exists x ~ \neg P(x) = 0}, just = 1, subs=a_1
+        [{\forall x ~ P(x) = 0}, just=2, checked=a_1
+        [{P(a_1) = 0}, just=4, checked
+        [{\neg P(a_1) = 0}, just=3, checked
+        [{P(a_1) = 1}, just=6, checked, close={5,7}
+        ]]]]]]]
+    \end{tableau}
+}
+\item<5-> Дерево закрылось, значит формула $\neg (\forall x ~ P(x)) \to (\exists x ~ \neg P(x))$ тождественно истинна.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Порядок применения правил}
+\begin{itemize}
+    \item Раскрывая вершину, дописываем результат в конец \textbf{всех открытых ветвей}, проходящих через неё.
+    \item Если сначала применить $\gamma$ к $a_1$, правило $\delta$ потребует новый $a_2$. Придётся повторить $\gamma$ с $a_2$.
+    \pause
+    \item Обычно удобно сначала раскрывать $\neg$, $\alpha$ и $\delta$, затем $\beta$, затем $\gamma$.
+    \item После появления новых параметров возвращаемся к $\gamma$-формулам.
+    \pause
+    \item Не откладываем другие формулы, бесконечно раскрывая одну $\gamma$-формулу. При бесконечном построении нужна систематическая процедура.
+    \item При ветвлении следим за подстановками и свежестью параметров отдельно в каждой ветви.
+\end{itemize}
+\end{frame}
+
+
+
+
+\begin{frame}
+\begin{framefont}{\small}
+\frametitle{Пример дерева истинности (2)}
+\begin{itemize}
+    \item Проверим $F=(\forall x\,(P(x)\land Q(x)))\to(\forall x\,P(x))\land(\forall x\,Q(x))$.
+    \item[] 
+    \only<+>{
+        \begin{tableau}{}
+        [{F=0}, just=Дано, checked
+[{(\forall x\,(P(x)\land Q(x)))=1}, just=1
+            [{(\forall x ~ P(x)) \land (\forall x ~ Q(x)) = 0}, just=1]]
+        ]
+    \end{tableau}
+    }
+    \only<+>{
+    \begin{tableau}{}
+        [{F=0}, just=Дано, checked
+[{(\forall x\,(P(x)\land Q(x)))=1}, just=1
+        [{(\forall x ~ P(x)) \land (\forall x ~ Q(x)) = 0}, just=1, checked
+        [{\forall x ~ P(x) = 0}, just = 3
+        ]
+        [{\forall x ~ Q(x) = 0}, just = 3
+        ]]]
+        ]
+    \end{tableau}
+    }
+    \only<+>{
+        \begin{tableau}{}
+        [{F=0}, just=Дано, checked
+[{(\forall x\,(P(x)\land Q(x)))=1}, just=1
+        [{(\forall x ~ P(x)) \land (\forall x ~ Q(x)) = 0}, just=1, checked
+        [{\forall x ~ P(x) = 0}, just = 3, checked=a_1
+        [{P(a_1) = 0}, just=4, checked
+        ]]
+        [{\forall x ~ Q(x) = 0}, just = 3, checked=a_1
+        [{Q(a_1) = 0}, just=4, checked
+        ]
+        ]]]
+        ]
+    \end{tableau}
+    }
+    \only<+>{
+        \begin{tableau}{}
+        [{F=0}, just=Дано, checked
+[{(\forall x\,(P(x)\land Q(x)))=1}, just=1, subs=a_1
+        [{(\forall x ~ P(x)) \land (\forall x ~ Q(x)) = 0}, just=1, checked
+        [{\forall x ~ P(x) = 0}, just = 3, checked=a_1
+        [{P(a_1) = 0}, just=4, checked
+        [{P(a_1) \land Q(a_1) = 1}, just=2
+        ]]]
+        [{\forall x ~ Q(x) = 0}, just = 3, checked=a_1
+        [{Q(a_1) = 0}, just=4, checked
+        [{P(a_1) \land Q(a_1) = 1}, just=2
+        ]]
+        ]]]
+        ]
+    \end{tableau}
+    }
+    \only<+->{
+    \begin{tableau}{}
+        [{F=0}, just=Дано, checked
+[{(\forall x\,(P(x)\land Q(x)))=1}, just=1, subs=a_1
+        [{(\forall x ~ P(x)) \land (\forall x ~ Q(x)) = 0}, just=1, checked
+        [{\forall x ~ P(x) = 0}, just=3, checked=a_1
+        [{P(a_1) = 0}, just=4, checked
+        [{P(a_1) \land Q(a_1) = 1}, just=2, checked
+        [{P(a_1) = 1}, just=6, checked
+        [{Q(a_1) = 1}, just=6, checked, close={5,7}
+        ]]]]]
+        [{\forall x ~ Q(x) = 0}, just=3, checked=a_1
+        [{Q(a_1) = 0}, just=4, checked
+        [{P(a_1) \land Q(a_1) = 1}, just=2, checked
+        [{P(a_1) = 1}, just=6, checked
+        [{Q(a_1) = 1}, just=6, checked, close={5,8}
+        ]]]]
+        ]]]
+        ]
+    \end{tableau}
+}
+    \item<6-> Дерево закрылось, значит формула тождественно истинна.
+    \item<3-> В строке 4 можем использовать $a_1$ в обеих ветвях.
+    \item<4-> Строку 2 раскрываем в обеих открытых ветвях под ней.
+\end{itemize}
+\end{framefont}
+\end{frame}
+
+\begin{frame}
+\begin{framefont}{\footnotesize}
+\frametitle{Пример дерева истинности (3)}
+\begin{itemize}
+    \item $F=(\forall x\,(P(x)\lor Q(x)))\to(\forall x\,P(x))\lor(\forall x\,Q(x))$. \\ Тождественно истинна ли эта формула?
+    
+    \only<+>{
+        \begin{tableau}{}
+        [{F=0}, just=Дано, checked
+[{(\forall x\,(P(x)\lor Q(x)))=1}, just=1
+            [{(\forall x ~ P(x)) \lor (\forall x ~ Q(x)) = 0}, just=1
+            ]]
+        ]
+    \end{tableau}
+    }
+    
+    \only<+>{
+        \begin{tableau}{}
+        [{F=0}, just=Дано, checked
+[{(\forall x\,(P(x)\lor Q(x)))=1}, just=1
+            [{(\forall x ~ P(x)) \lor (\forall x ~ Q(x)) = 0}, just=1, checked
+            [{\forall x ~ P(x) = 0}, just = 3
+            [{\forall x ~ Q(x) = 0}, just = 3
+            ]]]]
+        ]
+    \end{tableau}
+    }
+    
+    \only<+>{
+        \begin{tableau}{}
+        [{F=0}, just=Дано, checked
+[{(\forall x\,(P(x)\lor Q(x)))=1}, just=1
+            [{(\forall x ~ P(x)) \lor (\forall x ~ Q(x)) = 0}, just=1, checked
+            [{\forall x ~ P(x) = 0}, just = 3, checked=a_1
+            [{\forall x ~ Q(x) = 0}, just = 3, checked=a_2
+            [{P(a_1) = 0}, just=4, checked
+            [{Q(a_2) = 0}, just=5, checked
+            ]]]]]]
+        ]
+    \end{tableau}
+    }
+    
+        \only<+>{
+        \begin{tableau}{}
+        [{F=0}, just=Дано, checked
+[{(\forall x\,(P(x)\lor Q(x)))=1}, just=1, subs={a_1}
+            [{(\forall x ~ P(x)) \lor (\forall x ~ Q(x)) = 0}, just=1, checked
+            [{\forall x ~ P(x) = 0}, just = 3, checked=a_1
+            [{\forall x ~ Q(x) = 0}, just = 3, checked=a_2
+            [{P(a_1) = 0}, just=4, checked
+            [{Q(a_2) = 0}, just=5, checked
+            [{P(a_1) \lor Q(a_1) = 1}, just=2
+            ]]]]]]]
+        ]
+    \end{tableau}
+    }
+
+    \only<+>{
+    \begin{tableau}{}
+        [{F=0}, just=Дано, checked
+[{(\forall x\,(P(x)\lor Q(x)))=1}, just=1, subs={a_1}
+        [{(\forall x ~ P(x)) \lor (\forall x ~ Q(x)) = 0}, just=1, checked
+        [{\forall x ~ P(x) = 0}, just = 3, checked=a_1
+        [{\forall x ~ Q(x) = 0}, just = 3, checked=a_2
+        [{P(a_1) = 0}, just=4, checked
+        [{Q(a_2) = 0}, just=5, checked
+        [{P(a_1) \lor Q(a_1) = 1}, just=2, checked
+        [{P(a_1) = 1}, just={8 (ветвь закончена?)}, checked, close={6,9}
+        ]
+        [{Q(a_1) = 1}, just={8 (ветвь закончена?)}, checked
+        ]]]]]]]]
+        ]
+    \end{tableau}
+}
+
+    \only<+>{
+        \begin{tableau}{}
+        [{F=0}, just=Дано, checked
+[{(\forall x\,(P(x)\lor Q(x)))=1}, just=1, subs={a_1,a_2}
+[{(\forall x ~ P(x)) \lor (\forall x ~ Q(x)) = 0}, just=1, checked
+[{\forall x ~ P(x) = 0}, just = 3, checked=a_1
+[{\forall x ~ Q(x) = 0}, just = 3, checked=a_2
+[{P(a_1) = 0}, just=4, checked
+[{Q(a_2) = 0}, just=5, checked
+[{P(a_1) \lor Q(a_1) = 1}, just=2, checked
+[{P(a_1) = 1}, just=8, checked, close={6,9}
+]
+[{Q(a_1) = 1}, just=8, checked
+[{P(a_2) \lor Q(a_2) = 1}, just=2
+]]]]]]]]]
+        ]
+    \end{tableau}
+    }
+
+    \only<+->{
+    \begin{tableau}{}
+        [{F=0}, just=Дано, checked
+[{(\forall x\,(P(x)\lor Q(x)))=1}, just=1, subs={a_1,a_2}
+        [{(\forall x ~ P(x)) \lor (\forall x ~ Q(x)) = 0}, just=1, checked
+        [{\forall x ~ P(x) = 0}, just = 3, checked=a_1
+        [{\forall x ~ Q(x) = 0}, just = 3, checked=a_2
+        [{P(a_1) = 0}, just=4, checked
+        [{Q(a_2) = 0}, just=5, checked
+        [{P(a_1) \lor Q(a_1) = 1}, just=2, checked
+        [{P(a_1) = 1}, just=8, checked, close={6,9}
+        ]
+        [{Q(a_1) = 1}, just=8, checked
+        [{P(a_2) \lor Q(a_2) = 1}, just=2, checked
+        [{P(a_2) = 1}, just=10, checked
+        ]
+        [{Q(a_2) = 1}, just=10, checked, close={7,11}
+        ]
+        ]]]]]]]]]
+        ]
+    \end{tableau}
+}
+    \item<7-> Дерево не закрылось!
+\end{itemize}
+\end{framefont}
+\end{frame}
+
+\begin{frame}
+\frametitle{Контрмодель из законченной ветви}
+\begin{itemize}
+    \item Ветвь закончена: раскрыты все $\neg$-, $\alpha$-, $\beta$- и $\delta$-формулы, а все $\gamma$ --- со всеми параметрами ветви (хотя бы с одним).
+    \pause
+    \item Возьмём универсум $\{a_1,a_2\}$; атомы ветви задают таблицу:
+    \item[] \begin{tabular}{|c|cc|}
+        \hline
+        $x$ & $a_1$ & $a_2$ \\ \hline
+        $P(x)$ & $0$ & $1$ \\ \hline
+        $Q(x)$ & $1$ & $0$ \\ \hline
+    \end{tabular}
+    \pause
+    \item Если какого-то атома в законченной ветви нет, его значение можно выбрать произвольно.
+    \pause
+    \item Проверим: $\forall x\,(P(x)\lor Q(x))$ истинна.
+    \item Но $\forall x\,P(x)$ и $\forall x\,Q(x)$ ложны. Значит, заключение ложно и это контрмодель.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\begin{framefont}{\small}
+\frametitle{Пример дерева истинности (4)}
+\begin{itemize}
+    \item $F=(\forall x\,\exists y\,P(x,y))\to(\exists y\,\forall x\,P(x,y))$. \\ Тождественно истинна ли эта формула?
+    \item[] 
+\only<+>{
+    \begin{tableau}{}
+        [{F=0}, just=Дано, checked
+[{\forall x \exists y ~ P(x, y) = 1}, just=1
+        [{\exists y \forall x ~ P(x, y) = 0}, just=1
+        ]]
+        ]
+    \end{tableau}
+}
+
+    \only<+>{
+    \begin{tableau}{}
+        [{F=0}, just=Дано, checked
+[{\forall x \exists y ~ P(x, y) = 1}, just=1, subs={a_1}
+        [{\exists y \forall x ~ P(x, y) = 0}, just=1
+        [{\exists y ~ P(a_1, y) = 1}, just=2, checked=a_2
+        [{P(a_1, a_2) = 1}, just=4, checked
+        ]]]]
+        ]
+    \end{tableau}
+}
+
+    \only<+>{
+\begin{tableau}{}
+        [{F=0}, just=Дано, checked
+[{\forall x \exists y ~ P(x, y) = 1}, just=1, subs={a_1}
+    [{\exists y \forall x ~ P(x, y) = 0}, just=1, subs={a_2}
+    [{\exists y ~ P(a_1, y) = 1}, just=2, checked=a_2
+    [{P(a_1, a_2) = 1}, just=4, checked
+    [{\forall x ~ P(x, a_2) = 0}, just=3, checked=a_3
+    [{P(a_3, a_2) = 0}, just={6 (ветвь закончена?)}, checked
+    ]]]]]]
+        ]
+    \end{tableau}
+}
+
+    \only<+->{
+    \begin{tableau}{}
+        [{F=0}, just=Дано, checked
+[{\forall x \exists y ~ P(x, y) = 1}, just=1, subs={a_1,a_3,\ldots}
+        [{\exists y \forall x ~ P(x, y) = 0}, just=1, subs={a_2,\ldots}
+        [{\exists y ~ P(a_1, y) = 1}, just=2, checked=a_2
+        [{P(a_1, a_2) = 1}, just=4, checked
+        [{\forall x ~ P(x, a_2) = 0}, just=3, checked=a_3
+        [{P(a_3, a_2) = 0}, just=6, checked
+        [{\exists y ~ P(a_3, y) = 1}, just=2, checked=a_4
+        [{\ldots}
+        ]]]]]]]]
+        ]
+    \end{tableau}
+}
+    \onslide<+->
+    \item После любого конечного числа шагов ветвь открыта, но ещё не закончена: появляются новые параметры и подстановки.
+    \onslide<+->
+    \item Чтобы опровергнуть формулу, построим контрмодель.
+\end{itemize}
+\end{framefont}
+\end{frame}
+
+\begin{frame}
+\begin{framefont}{\small}
+\frametitle{Условия на контрмодель}
+\begin{itemize}
+    \item В нашей ветви видны некоторые значения предиката:
+    \item[] \begin{tabular}{c | c c c c c}
+        \diagbox[height=1.5\line]{x}{y} & $a_1$ & $a_2$ & $a_3$ & $a_4$ & \ldots \\ \hline
+        $a_1$ & ? & 1 & ? & ? & \\
+        $a_2$ & ? & ? & ? & ? & \\
+        $a_3$ & ? & 0 & ? & 1 & \\
+        $a_4$ & ? & ? & ? & ? & \\
+        \ldots & & & & & \\ 
+    \end{tabular}
+    \item Как в терминах этой таблицы выглядят:
+    \begin{itemize}
+        \item $\forall x \exists y ~ P(x, y) = 1$? \pause В каждой строке есть 1. \pause
+        \item $\exists y \forall x ~ P(x, y) = 0$? \pause Нет столбца, где все 1. 
+        \item[] Помните, что это $(\exists y \forall x ~ P(x, y)) = 0$, а не $\exists y \forall x ~ (P(x, y) = 0)$!
+    \end{itemize}
+\end{itemize}
+\end{framefont}
+\end{frame}
+
+\begin{frame}
+\begin{framefont}{\small}
+\frametitle{Бесконечная и конечная контрмодели}
+\begin{itemize}
+    \item Расставить значения произвольно нельзя. Возьмём $P(a_i,a_j)=1$ ровно при $j=i+1$:
+    \item[] {\small \begin{tabular}{c | c c c c c}
+        \diagbox[height=1.5\line]{x}{y} & $a_1$ & $a_2$ & $a_3$ & $a_4$ & \ldots \\ \hline
+        $a_1$ & 0 & 1 & 0 & 0 & \\
+        $a_2$ & 0 & 0 & 1 & 0 & \\
+        $a_3$ & 0 & 0 & 0 & 1 & \\
+        $a_4$ & 0 & 0 & 0 & 0 & \\
+        \ldots & & & & & \\ 
+    \end{tabular}}
+    \pause
+    \item А есть ли конечная контрмодель? Условия те же:
+    \item В каждой строке есть 1; нет столбца, где все 1. 
+    \pause
+    \item Конечно, есть. Например:
+    \item[] {\small \begin{tabular}{c|cc}
+        \diagbox[height=1.5\line]{x}{y} & $a_1$ & $a_2$ \\ \hline
+        $a_1$ & 1 & 0 \\
+        $a_2$ & 0 & 1 \\
+        \hline
+    \end{tabular}}
+\end{itemize}
+\end{framefont}
+\end{frame}
+
+\begin{frame}
+\frametitle{Когда можно остановиться}
+\begin{itemize}
+    \item Закрытое дерево доказывает невыполнимость исходных уравнений.
+    \item Для контрмодели нужна законченная открытая ветвь:
+    \begin{itemize}
+        \item раскрыты все $\neg$-, $\alpha$-, $\beta$- и $\delta$-формулы;
+        \item каждая $\gamma$-формула раскрыта со всеми параметрами ветви, хотя бы с одним.
+    \end{itemize}
+    \pause
+    \item В наших примерах параметры такой ветви можно взять за объекты модели; атомы задают значения предикатов.
+    \item Проверяем в построенной модели все посылки и ложность заключения.
+    \pause
+    \item Просто открытая ветвь ещё не даёт контрмодель. Построение может продолжаться бесконечно, даже если есть конечный контрпример.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Константы и функциональные символы}
+\begin{itemize}
+    \item Теперь разрешим в сигнатуре константы и функции. Замкнутые термы: $c$, $a_1$, $f(a_1)$, $g(c,f(a_2))$,\ldots
+    \item В правиле $\gamma$ можно использовать любой такой терм $t$:
+    \[
+        \dfrac{\forall x\,A(x)=1}{A(t)=1},
+        \qquad\text{например:}\quad
+        \dfrac{\forall x\,P(x)=1}{P(f(a_1))=1}.
+    \]
+    \pause
+    \item В правиле $\delta$ по-прежнему нужен новый параметр, а не произвольный терм.
+    \item Отдельного правила раскрытия $f(t)$ нет: это терм, а не формула.
+    \pause
+    \item Для законченной ветви $\gamma$-формулы должны быть раскрыты со всеми замкнутыми термами из символов сигнатуры и параметров ветви, даже если терм ещё не записан в ветви.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Пример с функциональным символом}
+\begin{itemize}
+    \item Проверим $F=(\forall x\,P(x))\to(\forall x\,P(f(x)))$.
+    \item[]
+    \only<1>{
+        \begin{tableau}{}
+        [{F=0}, just=Дано, checked
+[{\forall x\,P(x)=1}, just=1
+            [{\forall x\,P(f(x))=0}, just=1]]
+        ]
+    \end{tableau}
+    }
+    \only<2>{
+        \begin{tableau}{}
+        [{F=0}, just=Дано, checked
+[{\forall x\,P(x)=1}, just=1
+            [{\forall x\,P(f(x))=0}, just=1, checked=a_1
+            [{P(f(a_1))=0}, just=3, checked]]]
+        ]
+    \end{tableau}
+    }
+    \only<3->{
+        \begin{tableau}{}
+        [{F=0}, just=Дано, checked
+[{\forall x\,P(x)=1}, just=1, subs={f(a_1)}
+            [{\forall x\,P(f(x))=0}, just=1, checked=a_1
+            [{P(f(a_1))=0}, just=3, checked
+            [{P(f(a_1))=1}, just=2, close={4,5}, checked]]]]
+        ]
+    \end{tableau}
+    }
+    \item<2-> $\delta$ вводит $a_1$, а $\gamma$ применяем к терму $f(a_1)$.
+    \item<3-> Дерево закрыто: формула тождественно истинна.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\begin{framefont}{\small}
+\frametitle{Повторное раскрытие с разными термами}
+\begin{itemize}
+    \item $F=(\forall x\,(P(x)\to P(f(x))))\to(\forall x\,(P(x)\to P(f(f(x)))))$.
+    \item[]
+\only<1>{
+{\footnotesize
+\begin{tableau}{}
+[{F=0}, just=Дано, checked
+  [{\forall x\,(P(x)\to P(f(x)))=1}, just=1
+    [{\forall x\,(P(x)\to P(f(f(x))))=0}, just=1]
+  ]
+]
+\end{tableau}
+}
+}
+\only<2>{
+{\footnotesize
+\begin{tableau}{}
+[{F=0}, just=Дано, checked
+  [{\forall x\,(P(x)\to P(f(x)))=1}, just=1
+    [{\forall x\,(P(x)\to P(f(f(x))))=0}, just=1, checked=a_1
+      [{P(a_1)\to P(f(f(a_1)))=0}, just=3, checked
+        [{P(a_1)=1}, just=4, checked
+          [{P(f(f(a_1)))=0}, just=4, checked]
+        ]
+      ]
+    ]
+  ]
+]
+\end{tableau}
+}
+}
+\only<3>{
+{\footnotesize
+\begin{tableau}{}
+[{F=0}, just=Дано, checked
+  [{\forall x\,(P(x)\to P(f(x)))=1}, just=1, subs={a_1}
+    [{\forall x\,(P(x)\to P(f(f(x))))=0}, just=1, checked=a_1
+      [{P(a_1)\to P(f(f(a_1)))=0}, just=3, checked
+        [{P(a_1)=1}, just=4, checked
+          [{P(f(f(a_1)))=0}, just=4, checked
+            [{P(a_1)\to P(f(a_1))=1}, just=2, checked
+              [{P(a_1)=0}, just=7, close={5,8}, checked]
+              [{P(f(a_1))=1}, just=7, checked]
+            ]
+          ]
+        ]
+      ]
+    ]
+  ]
+]
+\end{tableau}
+}
+}
+\only<4>{
+{\footnotesize
+\begin{tableau}{}
+[{F=0}, just=Дано, checked
+  [{\forall x\,(P(x)\to P(f(x)))=1}, just=1, subs={a_1,f(a_1)}
+    [{\forall x\,(P(x)\to P(f(f(x))))=0}, just=1, checked=a_1
+      [{P(a_1)\to P(f(f(a_1)))=0}, just=3, checked
+        [{P(a_1)=1}, just=4, checked
+          [{P(f(f(a_1)))=0}, just=4, checked
+            [{P(a_1)\to P(f(a_1))=1}, just=2, checked
+              [{P(a_1)=0}, just=7, close={5,8}, checked]
+              [{P(f(a_1))=1}, just=7, checked
+                [{P(f(a_1))\to P(f(f(a_1)))=1}, just=2]
+              ]
+            ]
+          ]
+        ]
+      ]
+    ]
+  ]
+]
+\end{tableau}
+}
+}
+\only<5->{
+{\footnotesize
+\begin{tableau}{}
+[{F=0}, just=Дано, checked
+  [{\forall x\,(P(x)\to P(f(x)))=1}, just=1, subs={a_1,f(a_1)}
+    [{\forall x\,(P(x)\to P(f(f(x))))=0}, just=1, checked=a_1
+      [{P(a_1)\to P(f(f(a_1)))=0}, just=3, checked
+        [{P(a_1)=1}, just=4, checked
+          [{P(f(f(a_1)))=0}, just=4, checked
+            [{P(a_1)\to P(f(a_1))=1}, just=2, checked
+              [{P(a_1)=0}, just=7, close={5,8}, checked]
+              [{P(f(a_1))=1}, just=7, checked
+                [{P(f(a_1))\to P(f(f(a_1)))=1}, just=2, checked
+                  [{P(f(a_1))=0}, just=9, close={8,10}, checked]
+                  [{P(f(f(a_1)))=1}, just=9, close={6,10}, checked]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+    ]
+  ]
+]
+\end{tableau}
+}
+}
+    \item<4-> Строку 2 раскрыли сначала с $a_1$, затем с $f(a_1)$.
+    \item<5-> Все ветви закрыты: формула тождественно истинна.
+\end{itemize}
+\end{framefont}
+\end{frame}
+
+% Правила равенства: https://builds.openlogicproject.org/content/first-order-logic/tableaux/identity.pdf
+\begin{frame}
+\frametitle{Правила для равенства}
+\begin{itemize}
+    \item $s$ и $t$ --- замкнутые термы. Равенство обозначает совпадение объектов, а не произвольный предикат.
+    \item Рефлексивность и замена равных:
+    \[
+        \dfrac{}{(t=t)=1}
+        \qquad
+        \dfrac{(s=t)=1\quad A[s]=i}{A[t]=i},\quad i\in\{0,1\}.
+    \]
+    \item $A[t]$ получается из $A[s]$ заменой выбранных вхождений терма $s$ на $t$; можно заменять и в обратную сторону.
+    \pause
+    \item Заменять можно и внутри термов: например, $P(f(s))=0$ даёт $P(f(t))=0$ при $(s=t)=1$.
+    \item Атомы можно повторно использовать в правилах равенства даже с $\checkmark$: раскрывать в них нечего.
+    \pause
+    \item Ветвь с $(t=t)=0$ сразу закрывается. Из $(s=t)=0$ правило замены применять нельзя.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\begin{framefont}{\small}
+\frametitle{Правила Ривза (Reeves): предикаты}
+% https://staff.science.uva.nl/u.endriss/teaching/ilcs/2006/slides/more-fol-tableaux-4up.pdf
+\begin{itemize}
+    \item $t_1,\ldots,t_n,s_1,\ldots,s_n$ --- замкнутые термы, $n\ge1$. Две исходные формулы должны быть на одной ветви.
+    \begin{center}
+        \begin{tableau}{not line numbering, for tree={l sep=3mm}}
+            [{P(t_1,\ldots,t_n)=1}
+            [{P(s_1,\ldots,s_n)=0}
+                [{(t_1=s_1)=0}]
+                [{\cdots}]
+                [{(t_n=s_n)=0}]
+            ]]
+        \end{tableau}
+    \end{center}
+    \pause
+    \item Если значения одного предиката различны, хотя бы одна пара соответствующих аргументов различна.
+    \item Сразу создаём $n$ ветвей: в ветви $i$ добавляем $(t_i=s_i)=0$.
+    \item $P$ здесь может быть и предикатом равенства.
+    \pause
+    \item Замена равных может породить бесконечно много формул: при $f(a)=a$ из $P(a)$ получаем $P(f(a))$, $P(f(f(a)))$,\ldots
+    \item Ривз работает с атомами одного предиката с противоположными знаками: меньше лишних замен, но ветвление может увеличить дерево.
+\end{itemize}
+\end{framefont}
+\end{frame}
+
+\begin{frame}
+\begin{framefont}{\small}
+\frametitle{Правила Ривза: функции и равенство}
+\begin{itemize}
+    \item Для одного и того же $n$-местного функционального символа:
+    \begin{center}
+        \begin{tableau}{not line numbering, for tree={l sep=3mm}}
+            [{(f(t_1,\ldots,t_n)=f(s_1,\ldots,s_n))=0}
+                [{(t_1=s_1)=0}]
+                [{\cdots}]
+                [{(t_n=s_n)=0}]
+            ]
+        \end{tableau}
+    \end{center}
+    \item Разные результаты требуют хотя бы одной пары разных аргументов. Для $n=1$ получаем $(t_1=s_1)=0$ без ветвления.
+    \pause
+    \item Дополняем правила симметричностью:
+    \[ \dfrac{(s=t)=1}{(t=s)=1}. \]
+    \item Сохраняем обычное закрытие ветви и закрытие при $(t=t)=0$.
+    \pause
+    \item Эти правила можно использовать вместо замены равных. Применения можно повторять для новых пар атомов и новых неравенств.
+\end{itemize}
+\end{framefont}
+\end{frame}
+
+\begin{frame}
+\frametitle{Пример: равенство аргументов функции}
+\begin{itemize}
+    \item Проверим $F=(c=d)\to(f(c)=f(d))$.
+    \item[]
+    \only<1>{
+        \begin{tableau}{}
+        [{F=0}, just=Дано, checked
+[{(c=d)=1}, just=1, checked
+            [{(f(c)=f(d))=0}, just=1, checked]]
+        ]
+    \end{tableau}
+    }
+    \only<2>{
+        \begin{tableau}{}
+        [{F=0}, just=Дано, checked
+[{(c=d)=1}, just=1, checked
+            [{(f(c)=f(d))=0}, just=1, checked
+            [{(f(c)=f(c))=1}, just=рефл., checked]]]
+        ]
+    \end{tableau}
+    }
+    \only<3->{
+        \begin{tableau}{}
+        [{F=0}, just=Дано, checked
+[{(c=d)=1}, just=1, checked
+            [{(f(c)=f(d))=0}, just=1, checked
+            [{(f(c)=f(c))=1}, just=рефл., checked
+            [{(f(c)=f(d))=1}, just={=, 2, 4}, close={3,5}, checked]]]]
+        ]
+    \end{tableau}
+    }
+    \item<3-> В строке 4 заменили $c$ на $d$ только в правой части. Дерево закрыто.
+    \item<4-> Обратная импликация неверна без инъективности $f$: разные аргументы могут иметь одинаковые значения.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\begin{framefont}{\small}
+\frametitle{Тот же пример по правилам Ривза}
+\begin{itemize}
+    \item Проверим $F=(c=d)\to(f(c)=f(d))$.
+    \item[]
+    \only<1>{
+        \begin{tableau}{}
+            [{F=0}, just=Дано, checked
+            [{(c=d)=1}, just=1, checked
+            [{(f(c)=f(d))=0}, just=1, checked]]]
+        \end{tableau}
+    }
+    \only<2->{
+        \begin{tableau}{}
+            [{F=0}, just=Дано, checked
+            [{(c=d)=1}, just=1, checked
+            [{(f(c)=f(d))=0}, just=1, checked
+            [{(c=d)=0}, just={Ривз, 3}, close={2,4}, checked]]]]
+        \end{tableau}
+    }
+    \item<2-> Разные значения $f(c)$ и $f(d)$ требуют $c\ne d$, что противоречит строке 2. Ветвь закрыта.
+    \item<2-> Для этого примера достаточно одного применения нового правила; добавлять $f(c)=f(c)$ не понадобилось.
+\end{itemize}
+\end{framefont}
+\end{frame}
+
+\begin{frame}
+\begin{framefont}{\small}
+\frametitle{Контрмодели с функциями и равенством}
+\begin{itemize}
+    \item Для законченной ветви учитываем все замкнутые термы и все нужные следствия правил равенства.
+    \item При построении модели берём термы за имена объектов. Термы, равенство которых следует из ветви, объединяем в один класс $[t]$.
+    \pause
+    \item Константа $c$ обозначает $[c]$, а функцию задаём так:
+    \[ f^M([t_1],\ldots,[t_n])=[f(t_1,\ldots,t_n)]. \]
+    \item Равные аргументы должны давать одинаковые значения функций и предикатов; $(s=t)=0$ требует разных классов.
+    \pause
+    \item Замкнутых термов может быть бесконечно много: $a$, $f(a)$, $f(f(a))$,\ldots
+    \item Иногда проще предложить конечную модель напрямую. Проверяем в ней все исходные уравнения, включая равенства и неравенства.
+\end{itemize}
+\end{framefont}
+\end{frame}
+
+\begin{frame}
+\begin{framefont}{\small}
+\frametitle{Обратная импликация: дерево}
+\begin{itemize}
+    \item Проверим обратную к формуле из примера с функциональным символом:
+    \[ F=(\forall x\,P(f(x)))\to(\forall x\,P(x)). \]
+    \item[]
+    \only<1>{
+        \begin{tableau}{}
+            [{F=0}, just=Дано, checked
+            [{\forall x\,P(f(x))=1}, just=1
+            [{\forall x\,P(x)=0}, just=1]]]
+        \end{tableau}
+    }
+    \only<2>{
+        \begin{tableau}{}
+            [{F=0}, just=Дано, checked
+            [{\forall x\,P(f(x))=1}, just=1
+            [{\forall x\,P(x)=0}, just=1, checked=a_1
+            [{P(a_1)=0}, just=3, checked]]]]
+        \end{tableau}
+    }
+    \only<3->{
+        \begin{tableau}{}
+            [{F=0}, just=Дано, checked
+            [{\forall x\,P(f(x))=1}, just=1, subs={a_1,f(a_1),\ldots}
+            [{\forall x\,P(x)=0}, just=1, checked=a_1
+            [{P(a_1)=0}, just=3, checked
+            [{P(f(a_1))=1}, just=2, checked
+            [{P(f(f(a_1)))=1}, just=2, checked
+            [{\ldots}]]]]]]]
+        \end{tableau}
+    }
+    \item<3-> Ветвь открыта, но ещё не закончена: есть всё новые термы для раскрытия строки 2.
+    \item<3-> Предложим конечную модель и проверим в ней $F=0$.
+\end{itemize}
+\end{framefont}
+\end{frame}
+
+\begin{frame}
+\frametitle{Обратная импликация: контрмодель}
+\begin{itemize}
+    \item Возьмём универсум $\{a,b\}$:
+    \item[] {\setlength{\tabcolsep}{1em}
+    \begin{tabular}{c|c|c}
+        $x$ & $a$ & $b$ \\ \hline
+        $f(x)$ & $b$ & $b$ \\
+        $P(x)$ & $0$ & $1$
+    \end{tabular}}
+    \pause
+    \item Для каждого $x$ имеем $f(x)=b$ и $P(b)=1$. Поэтому $\forall x\,P(f(x))$ истинна.
+    \item Но $P(a)=0$, поэтому $\forall x\,P(x)$ ложна.
+    \pause
+    \item Значит, импликация $(\forall x\,P(f(x)))\to(\forall x\,P(x))$ не тождественно истинна.
+    \item При $a_1=a$ все термы $f(a_1)$, $f(f(a_1))$,\ldots\ обозначают один объект $b$.
+    \item Формула $\forall x\,P(f(x))$ проверяет $P$ только на значениях функции $f$, а они могут не охватывать весь универсум.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Итоги}
+\begin{itemize}
+    \item Пропозициональные правила сохраняются; для кванторов добавляются $\gamma$ и $\delta$.
+    \item $\delta$ вводит нового свидетеля; $\gamma$ проверяет формулу для выбранного объекта и может применяться снова.
+    \item Новые параметры и замкнутые термы требуют новых подстановок в $\gamma$-формулы.
+    \item Равенство позволяет заменять равные термы, сохраняя знак формулы; $(t=t)=0$ закрывает ветвь.
+    \item Все ветви закрыты --- контрпримера нет.
+    \item Законченная открытая ветвь даёт контрмодель; незаконченная требует продолжения.
+    \item В отличие от логики высказываний, построение не обязано закончиться за конечное число шагов.
+\end{itemize}
+\end{frame}
+
+\end{document}

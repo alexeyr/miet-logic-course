@@ -26,8 +26,8 @@
 Доказать или опровергнуть с помощью деревьев истинности:
 \begin{enumerate}
     \item $((p \to q) \to p) \to p$
-    \item $((p \to q) \land (q \to r)) \to (p \to r)$
-    \item $((p \lor q) \land (q \lor r)) \to (p \lor r)$
+    \item $(p \to q) \land (q \to r) \to (p \to r)$
+    \item $(p \lor q) \land (q \lor r) \to (p \lor r)$
     \item $(p \land q) \lor (p \land \neg q) \lor (\neg p \land q) \lor (\neg p \land \neg q)$
     \item $p \to q \equiv \neg p \lor q$
     \item $\neg (p \lor q) \equiv \neg p \land \neg q$
@@ -109,19 +109,25 @@
 \section{Деревья истинности для логики предикатов}
 Доказать или опровергнуть с помощью деревьев истинности:
 \begin{enumerate}
+    \item $(\exists x~P(x))\land(\forall x~Q(x))\to\exists x~(P(x)\land Q(x))$
+    \item $(\exists x~P(x))\land(\exists x~Q(x))\to\exists x~(P(x)\land Q(x))$
     \item $\exists x~(P(x) \to \forall y~P(y))$
-    \item $\forall x~(P(x) \lor Q(x)) \vdash (\exists x~P(x)) \lor (\forall x~Q(x))$
-    \item $\exists x~P(x), \forall x~(P(x) \to Q(x)) \vdash \exists x~Q(x)$
-    \item $\neg \exists x~(P(x) \to Q(x)) \vdash (\exists x~P(x)) \land (\forall x~Q(x))$
-    \item $\forall x \exists y~P(x,y), \exists x \forall y~Q(x,y) \vdash \exists x \exists y~(P(x,y) \land Q(x,y))$
-    \item[] Следующие формализовать как секвенции с двумя посылками:
+    \item $(\forall x~(P(x)\lor Q(x)))\to(\exists x~P(x))\lor(\forall x~Q(x))$
+    \item $(\exists x~P(x))\land(\forall x~(P(x)\to Q(x)))\to\exists x~Q(x)$
+    \item $(\neg\exists x~(P(x)\to Q(x)))\to(\exists x~P(x))\land(\forall x~Q(x))$
+    \item $(\forall x~\exists y~P(x,y))\land(\exists x~\forall y~Q(x,y))\to\exists x~\exists y~(P(x,y)\land Q(x,y))$
+    \item[] Следующие рассуждения формализовать как импликации: конъюнкция посылок должна влечь заключение.
     \item Не все политики мошенники. Все мошенники умны. Значит, некоторые политики глупы.
     \item Те, кто что-то учил, решили некоторые задачи. Андрей не решил ни одной. Значит, он не учил ничего.
     \item Если бинарное отношение транзитивно и симметрично, то оно рефлексивно (здесь квантора по бинарным отношениям нет, просто обозначьте его как $R(x,y)$).
     \item[] Задачи с равенством и с функциями:
+    \item $\forall x~\forall y~\forall z~(x=y\land y=z\to x=z)$ (транзитивность равенства).
     \item $\forall x \exists! y~f(x)=y$
     \item Эквивалентность двух формализаций $\exists! x~P(x)$:\\$\exists x~(P(x) \land \forall y~(P(y) \to x=y)) \equiv (\exists x~P(x)) \land \forall y \forall z~(P(y) \land P(z) \to y=z)$
-    \itemhard $\forall x \forall y~(P(f(x), y) \lor Q(x,y)),~\forall x \forall y~(\neg P(x,g(y)) \lor Q(x,y)) \vdash \exists x \exists y~Q(x,y)$
+    \itemhard $\begin{aligned}
+        &(\forall x~\forall y~(P(f(x),y)\lor Q(x,y)))\\
+        &\quad\land(\forall x~\forall y~(\neg P(x,g(y))\lor Q(x,y)))\to\exists x~\exists y~Q(x,y)
+    \end{aligned}$
 \end{enumerate}
 
 \section{Натуральная дедукция для логики предикатов}
