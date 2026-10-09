@@ -27,6 +27,7 @@
 \small
 \setlength{\parskip}{0pt}
 \begin{center}
+    \vspace*{0.5em}
     $\dfrac{\neg A=1}{A=0},\qquad \dfrac{\neg A=0}{A=1}$.
 
     \medskip
@@ -41,7 +42,7 @@
     \end{tabular}
 
     \smallskip
-    $\alpha$: выполняются оба уравнения; $\beta$: хотя бы одно.\\
+    $\alpha$: выполняются $\alpha_1$ и $\alpha_2$; $\beta$: хотя бы одно из $\beta_1$, $\beta_2$.\\
     Для $\alpha$: обе строки в одной ветви; для $\beta$: две ветви.
     \pause
 
@@ -56,6 +57,7 @@
     \end{tabular}
 
     \smallskip
+    $v$ --- любая переменная.\\
     $\gamma$: $t$ --- замкнутый терм; правило можно повторять.\\
     $\delta$: $a$ --- новый для ветви параметр.
 
@@ -82,8 +84,8 @@
         \hline
         $\gamma$ & $\gamma(t)$ & $\delta$ & $\delta(a)$ \\
         \hline
-        $\forall x\,A(x)$ & $A(t)$ & $\exists x\,A(x)$ & $A(a)$ \\
-        $\neg\exists x\,A(x)$ & $\neg A(t)$ & $\neg\forall x\,A(x)$ & $\neg A(a)$ \\
+        $\forall v\,A(v)$ & $A(t)$ & $\exists v\,A(v)$ & $A(a)$ \\
+        $\neg\exists v\,A(v)$ & $\neg A(t)$ & $\neg\forall v\,A(v)$ & $\neg A(a)$ \\
         \hline
     \end{tabular}
 \end{center}
@@ -454,8 +456,9 @@
         [{\forall x ~ P(x, a_2) = 0}, just=3, checked=a_3
         [{P(a_3, a_2) = 0}, just=6, checked
         [{\exists y ~ P(a_3, y) = 1}, just=2, checked=a_4
+        [{P(a_3, a_4) = 1}, just=8, checked
         [{\ldots}
-        ]]]]]]]]
+        ]]]]]]]]]
         ]
     \end{tableau}
 }
@@ -600,8 +603,8 @@
 {\footnotesize
 \begin{tableau}{}
 [{F=0}, just=Дано, checked
-  [{\forall x\,(P(x)\to P(f(x)))=1}, just=1
-    [{\forall x\,(P(x)\to P(f(f(x))))=0}, just=1]
+  [{(\forall x\,P(x)\to P(f(x)))=1}, just=1
+    [{(\forall x\,P(x)\to P(f(f(x))))=0}, just=1]
   ]
 ]
 \end{tableau}
@@ -611,8 +614,8 @@
 {\footnotesize
 \begin{tableau}{}
 [{F=0}, just=Дано, checked
-  [{\forall x\,(P(x)\to P(f(x)))=1}, just=1
-    [{\forall x\,(P(x)\to P(f(f(x))))=0}, just=1, checked=a_1
+  [{(\forall x\,P(x)\to P(f(x)))=1}, just=1
+    [{(\forall x\,P(x)\to P(f(f(x))))=0}, just=1, checked=a_1
       [{P(a_1)\to P(f(f(a_1)))=0}, just=3, checked
         [{P(a_1)=1}, just=4, checked
           [{P(f(f(a_1)))=0}, just=4, checked]
@@ -628,8 +631,8 @@
 {\footnotesize
 \begin{tableau}{}
 [{F=0}, just=Дано, checked
-  [{\forall x\,(P(x)\to P(f(x)))=1}, just=1, subs={a_1}
-    [{\forall x\,(P(x)\to P(f(f(x))))=0}, just=1, checked=a_1
+  [{(\forall x\,P(x)\to P(f(x)))=1}, just=1, subs={a_1}
+    [{(\forall x\,P(x)\to P(f(f(x))))=0}, just=1, checked=a_1
       [{P(a_1)\to P(f(f(a_1)))=0}, just=3, checked
         [{P(a_1)=1}, just=4, checked
           [{P(f(f(a_1)))=0}, just=4, checked
@@ -650,8 +653,8 @@
 {\footnotesize
 \begin{tableau}{}
 [{F=0}, just=Дано, checked
-  [{\forall x\,(P(x)\to P(f(x)))=1}, just=1, subs={a_1,f(a_1)}
-    [{\forall x\,(P(x)\to P(f(f(x))))=0}, just=1, checked=a_1
+  [{(\forall x\,P(x)\to P(f(x)))=1}, just=1, subs={a_1,f(a_1)}
+    [{(\forall x\,P(x)\to P(f(f(x))))=0}, just=1, checked=a_1
       [{P(a_1)\to P(f(f(a_1)))=0}, just=3, checked
         [{P(a_1)=1}, just=4, checked
           [{P(f(f(a_1)))=0}, just=4, checked
@@ -674,8 +677,8 @@
 {\footnotesize
 \begin{tableau}{}
 [{F=0}, just=Дано, checked
-  [{\forall x\,(P(x)\to P(f(x)))=1}, just=1, subs={a_1,f(a_1)}
-    [{\forall x\,(P(x)\to P(f(f(x))))=0}, just=1, checked=a_1
+  [{(\forall x\,P(x)\to P(f(x)))=1}, just=1, subs={a_1,f(a_1)}
+    [{(\forall x\,P(x)\to P(f(f(x))))=0}, just=1, checked=a_1
       [{P(a_1)\to P(f(f(a_1)))=0}, just=3, checked
         [{P(a_1)=1}, just=4, checked
           [{P(f(f(a_1)))=0}, just=4, checked
@@ -807,7 +810,7 @@
         ]
     \end{tableau}
     }
-    \item<3-> В строке 4 заменили $c$ на $d$ только в правой части. Дерево закрыто.
+    \item<3-> Строка 5: в формуле строки 4 заменили $c$ на $d$ только в правой части. Дерево закрыто.
     \item<4-> Обратная импликация неверна без инъективности $f$: разные аргументы могут иметь одинаковые значения.
 \end{itemize}
 \end{frame}
