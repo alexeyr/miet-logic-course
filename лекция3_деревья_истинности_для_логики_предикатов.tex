@@ -33,10 +33,10 @@
 \begin{itemize}
     \item Правила для $\land$/$\lor$/$\to$/$\neg$ (типы $\alpha$ и $\beta$) сохраняются.
     \item Добавляются правила для формул с кванторами.
-    \item Есть несколько способов, рассмотрим простейший.
+    \item Пока рассматриваем формулы без равенства.
     \item Добавляется бесконечное множество \emph{параметров} $a_1,a_2,\ldots$, не зависящих от сигнатуры.
     \item Два новых типа формул: \pause
-    \addvbuffer[0.5em 0.5em]{
+    \addvbuffer[0.25em 0.25em]{
     \begin{tabular}{|c | c || c | c |}
     \hline
     $\gamma$ & $\gamma(t)$ & $\delta$ & $\delta(t)$ \\
@@ -46,13 +46,14 @@
     \hline
     \end{tabular}}
     \item Правила для них: \pause
+\vspace{-0.5em}
 \begin{columns}
     \begin{column}{0.5\textwidth}
         \begin{center}
             \begin{tableau}{not line numbering, single branches}
                 [{\gamma} [\gamma(t)]]
             \end{tableau}\\
-            \vspace{0.5em}
+            \vspace{0.25em}
             $t$ --- замкнутый терм,\\ можно раскрыть много раз
         \end{center}
     \end{column} \pause
@@ -61,7 +62,7 @@
             \begin{tableau}{not line numbering, single branches}
                 [{\delta} [\delta(a)]]
             \end{tableau}\\
-        \vspace{0.5em}
+        \vspace{0.25em}
         $a$ --- новый (для ветви) параметр
         \end{center}
     \end{column}
@@ -427,37 +428,44 @@
 \end{frame}
 
 \begin{frame}
+\begin{framefont}{\small}
     \frametitle{Множества и лемма Хинтикки}
     \begin{itemize}
-        \item Перейдём к теореме о полноте.
-        \item Для упрощения ограничимся случаем, когда в сигнатуре есть только предикатные символы, нет константных и функциональных.
+        \item Для доказательства полноты: только предикатные символы, без равенства, констант и функций.
         \pause
-        \item Множество уравнений $H$ "--- \emph{множество Хинтикки}, если есть множество параметров $U$ такое, что
+        \item $H$ --- множество уравнений с замкнутыми формулами.
+        \begin{itemize}
+            \item $U_H$ --- множество всех параметров из $H$.
+            \item Если их нет, берём $U_H=\{a_1\}$.
+        \end{itemize}
+        \item $H$ --- \emph{множество Хинтикки}, если:
         \begin{enumerate}
-            \item $P(a_{i_1},\ldots,a_{i_k})=1 \notin H \lor P(a_{i_1},\ldots,a_{i_k})=0 \notin H$ для любого предикатного символа $P$ и параметров $a_{i_1},\ldots,a_{i_k}$ из $U$.
+            \item Ни для одного атома $C$ нет одновременно $C=1\in H$ и $C=0\in H$.
+            \item $\neg A=i\in H \Rightarrow A=1-i\in H$, $i\in\{0,1\}$.
             \item $\alpha \in H \Rightarrow \alpha_1 \in H \land \alpha_2 \in H$.
             \item $\beta \in H \Rightarrow \beta_1 \in H \lor \beta_2 \in H$.
-            \item $\gamma \in H \Rightarrow \forall a_i \in U ~ \gamma(a_i) \in H$.
-            \item $\delta \in H \Rightarrow \exists a_i \in U ~ \delta(a_i) \in H$.
+            \item $\gamma \in H \Rightarrow \forall a_i \in U_H ~ \gamma(a_i) \in H$.
+            \item $\delta \in H \Rightarrow \exists a_i \in U_H ~ \delta(a_i) \in H$.
         \end{enumerate}
         \pause
-        \item Лемма Хинтикки для логики первого порядка: любое множество Хинтикки имеет модель, носителем которой является $U$.
+        \item Лемма Хинтикки: $H$ имеет модель с носителем $U_H$.
     \end{itemize}
+\end{framefont}
 \end{frame}
 
 \begin{frame}
+\begin{framefont}{\small}
     \frametitle{Лемма Хинтикки (доказательство)}
     \begin{itemize}
         \item Как и для логики высказываний, задаём
         \[ P^M(a_{i_1},\ldots,a_{i_k}) = \left\{ \begin{array}{l}
             1, \text{ если } P(a_{i_1},\ldots,a_{i_k})=1 \in H \\
-            0, \text{ если } P(a_{i_1},\ldots,a_{i_k})=0 \in H \\
             0 \text{ иначе} 
         \end{array} \right. \]
         \item Атомарные уравнения из $H$ истинны в $M$ по определению. 
         \pause
         \item Индукцией по сложности покажем, что все остальные тоже.
-        \item $\alpha$ и $\beta$ как в логике высказываний.
+        \item Случаи $\neg$, $\alpha$ и $\beta$ --- как в логике высказываний.
         \pause
         \item Пусть $\gamma \in H$ имеет вид $\forall v ~ A(v)=1$. Тогда все $A(a_i)=1 \in H$. Их сложность меньше, и они истинны в $M$ по предположению индукции. Значит, $\forall v ~ A(v)=1$ истинно в $M$. 
         \pause
@@ -465,6 +473,7 @@
         \pause
         \item Для $\delta$ тоже разбираем отдельно $\exists v ~ A(v)=1$ и $\forall v ~ A(v)=0$.
     \end{itemize}
+\end{framefont}
 \end{frame}
 
 \begin{frame}
@@ -472,7 +481,7 @@
     \begin{itemize}
         \item В отличие от логики высказываний, порядок раскрытия уравнений в логике предикатов важен.
         \item То есть может оказаться, что в зависимости от этого порядка ветвь закроется или нет.
-        \item Нужен способ гарантировать, что если противоречие есть, мы его найдём
+        \item Нужен способ гарантировать, что если противоречие есть, мы его найдём.
         \item А если нет, то получим множество Хинтикки.
         \item Этот способ "--- систематические деревья.
         \pause
@@ -550,8 +559,8 @@
     \item Есть варианты правил деревьев, которые позволят найти конечный контрпример в последнем примере, но их сложнее объяснить и понять.
     \item Краткое изложение \href{https://en.wikipedia.org/wiki/Method_of_analytic_tableaux\#First-order_tableau_with_unification}{в английской Википедии}. \pause
     \item[]
-    \item Пока мы не можем это доказать, но логика предикатов неразрешима: нет алгоритма, который для любой формулы скажет, тождественно истинна ли она.
-    \item Значит, в любой системе доказательств надо что-то придумывать (для некоторых формул), чисто механических действий недостаточно.
+    \item В этом курсе не докажем, но логика предикатов неразрешима: нет алгоритма, который для любой формулы скажет, тождественно истинна ли она.
+    \item Систематический поиск найдёт доказательство любой тождественно истинной формулы, но для остальных формул может не закончиться.
 \end{itemize}
 \end{frame}
 
