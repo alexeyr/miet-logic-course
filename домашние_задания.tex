@@ -97,17 +97,14 @@
     \item $(\exists y~\forall x~P(x,y))\to(\forall x~\exists y~P(x,y))$
     \item $(\forall x~\exists y~P(x,y))\land(\exists x~\forall y~Q(x,y))\to\exists x~\exists y~(P(x,y)\land Q(x,y))$
     \item[] Следующие рассуждения формализовать как импликации:\\ конъюнкция посылок должна влечь заключение.
-    \item Не все политики мошенники. Все мошенники умны. Значит, некоторые политики глупы.
-    \item Те, кто что-то учил, решили некоторые задачи. Андрей не решил ни одной. Значит, он не учил ничего.
+    \item Каждый студент решил хотя бы одну задачу. Ни один студент не решил все задачи. Значит, каждую задачу решил хотя бы один студент.
+    \item Все студенты, решившие хотя бы одну задачу, получили зачёт. Некоторые студенты не получили зачёт. Значит, некоторые студенты не решили ни одной задачи.
     \item Если бинарное отношение транзитивно и симметрично, то оно рефлексивно (здесь квантора по бинарным отношениям нет, просто обозначьте его как $R(x,y)$).
     \item[] Задачи с равенством и с функциями:
     \item $\forall x~\forall y~\forall z~(x=y\land y=z\to x=z)$ (транзитивность равенства).
+    \item $\forall x~\forall y~(f(x)=f(y)\to x=y)$
     \item $\forall x \exists! y~f(x)=y$
-    \item Эквивалентность двух формализаций $\exists! x~P(x)$:\\$\exists x~(P(x) \land \forall y~(P(y) \to x=y)) \equiv (\exists x~P(x)) \land \forall y \forall z~(P(y) \land P(z) \to y=z)$
-    \itemhard $\begin{aligned}
-        &(\forall x~\forall y~P(f(x),y)\lor Q(x,y))\\
-        &\quad\land(\forall x~\forall y~\neg P(x,g(y))\lor Q(x,y))\to\exists x~\exists y~Q(x,y)
-    \end{aligned}$
+    \itemhard Эквивалентность двух формализаций $\exists! x~P(x)$:\\$\exists x~(P(x) \land \forall y~(P(y) \to x=y)) \equiv (\exists x~P(x)) \land \forall y \forall z~(P(y) \land P(z) \to y=z)$
 \end{enumerate}
 
 \section{Натуральная дедукция для логики высказываний}
