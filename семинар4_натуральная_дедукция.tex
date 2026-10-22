@@ -334,6 +334,20 @@
 \end{frame}
 
 \begin{frame}
+    \frametitle{Как доказать дизъюнкцию}
+    \begin{itemize}
+        \item Чтобы доказать $A\lor B$, достаточно доказать $A$ или $B$ и применить $\lor I$. \pause
+        \item Если неясно, какой дизъюнкт удастся доказать, можно использовать $\lor I'$:
+        \begin{itemize}
+            \item предположить $\neg A$ и вывести $B$;
+            \item либо предположить $\neg B$ и вывести $A$.
+        \end{itemize} \pause
+        \item Другой вариант: предположить $\neg(A\lor B)$, получить $\bot$ и применить $\RAA$. \pause
+        \item Дизъюнкция может быть выводима, хотя ни один дизъюнкт по отдельности из тех же посылок не выводим.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
     \frametitle{Пример: коммутативность дизъюнкции}
     \begin{itemize}
         \item Докажем $p\lor q\vdash q\lor p$.
@@ -384,24 +398,21 @@
     \frametitle{Допустимость $\lor I'$}
     \begin{itemize}
         \item Дан подвывод $\Pi$: из допущения $\neg B$ получена $A$.
-        \item<5-> В строке $m+1$ вставляем $\Pi$ с $\neg B$ из строки $m$.
+        \item Закон де Моргана для $\neg(A\lor B)$ докажете в домашнем задании без использования $\lor I'$.
+        \item<5-> В строке 5 вставляем $\Pi$ с $\neg B$ из строки 4.
     \end{itemize}
     {\footnotesize
     \begin{align*}
         \begin{nd}
             \open
                 \hypo{v1}{\neg(A\lor B)} \by{Допущение для $n$}{} \onslide<2->
-                \open
-                    \hypo{v2}{B} \by{Допущение для $m$}{} \onslide<4->
-                    \have{v3}{A\lor B} \byon{4-}{$\lor I$}{v2} \onslide<4->
-                    \have{v4}{\bot} \byon{4-}{$\neg E$}{v1,v3} \onslide<4->
-                \close
-                \have[m]{v5}{\neg B} \byon{4-}{$\neg I$}{v2-v4} \onslide<3->
-                \have{v6}{A} \byon{5-}{$\Pi$}{v5} \onslide<5->
-                \have{v7}{A\lor B} \byon{6-}{$\lor I$}{v6} \onslide<6->
-                \have{v8}{\bot} \byon{6-}{$\neg E$}{v1,v7} \onslide<6->
+                \have{v2}{\neg A\land\neg B} \byon{3-}{де Моргана}{v1} \onslide<3->
+                \have{v3}{\neg A} \byon{4-}{$\land E$}{v2} \onslide<4->
+                \have{v4}{\neg B} \byon{4-}{$\land E$}{v2} \onslide<4->
+                \have{v5}{A} \byon{5-}{$\Pi$}{v4} \onslide<5->
+                \have[n][-1]{v6}{\bot} \byon{6-}{$\neg E$}{v3,v5} \onslide<2->
             \close
-            \have[n]{v9}{A\lor B} \byon{6-}{$\RAA$}{v1-(v8)} \onslide<1->
+            \have[n]{v7}{A\lor B} \byon{6-}{$\RAA$}{v1-(v6)} \onslide<1->
         \end{nd}
     \end{align*}
     }
