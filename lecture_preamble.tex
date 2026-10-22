@@ -75,6 +75,16 @@
 }
 \makeatother
 
+% Короткое вертикальное многоточие: размеры в em, поэтому оно уменьшается вместе со шрифтом
+% (у \vdots они фиксированы в pt).
+\DeclareRobustCommand{\ndvdots}{%
+    \mathord{\vbox{\baselineskip=.3em\lineskiplimit=0pt\kern.15em\hbox{.}\hbox{.}\hbox{.}}}}
+% Подвывод в схеме правила, нарисованный как во fitch: вертикальная черта и флажок под допущением.
+% Выравнивание по нижней строке, чтобы в \lor E заключения подвыводов стояли на одной линии с A \lor B.
+\newcommand{\ndsubproof}[2]{{%
+    \setlength{\arrayrulewidth}{.2mm}%
+    \begin{array}[b]{@{}|@{\,}l@{\,}}#1\\\hline\ndvdots\\#2\end{array}}}
+
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\Z}{\mathbb{Z}}
 \newcommand{\Q}{\mathbb{Q}}

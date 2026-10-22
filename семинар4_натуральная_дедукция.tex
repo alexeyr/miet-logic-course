@@ -71,7 +71,7 @@
     \frametitle{Секвенции}
     \begin{itemize}
         \item Выражение $A_1,\ldots,A_n \vdash B$ называется секвенцией и читается \enquote{из $A_1,\ldots,A_n$ выводится $B$}.
-        \item Слева --- множество посылок: порядок и повторения неважны. Оно может быть пустым. \pause
+        \item Слева "--- множество посылок: порядок и повторения неважны. Оно может быть пустым. \pause
         \item Секвенция \emph{общезначима}, если на всех наборах, где посылки истинны, $B$ тоже истинна. \pause
         \item При $n\geqslant1$ это равносильно тождественной истинности $A_1\land\cdots\land A_n\to B$.
         \item Без посылок: $\vdash B$ общезначима, если $B$ тождественно истинна. \pause
@@ -80,8 +80,43 @@
 \end{frame}
 
 \begin{frame}
+    \frametitle{Как читать правила}
+    \begin{itemize}
+        \item $A,B$ "--- любые формулы. Над чертой "--- посылки, под ней "--- заключение, справа "--- название правила.
+        \item $I$ "--- введение, $E$ "--- исключение. Например, $\land I$ "--- \enquote{введение конъюнкции} (также В$\land$).
+        \item Правило введения показывает, как доказать формулу с данной главной связкой, правило исключения "--- как её использовать.
+        \item Так, у $\land I$ формула $A\land B$ "--- заключение, а у $\land E$ "--- посылка.
+    \[
+        \frac{A\qquad B}{A\land B}\ \land I
+    \]
+        \item<2-> $\land I$: из полученных $A$ и $B$ заключаем $A\land B$.
+        \item<2-> Если $A$ и $B$ истинны, то $A\land B$ истинна.
+        \item<3-> Снизу вверх: чтобы доказать $A\land B$, достаточно доказать $A$ и $B$.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Правила с подвыводами}
+    \begin{itemize}
+        \item Черта слева "--- подвывод: над флажком допущение, ниже "--- то, что из него выведено.
+    \end{itemize}
+    \[
+        \frac{\ndsubproof{A}{B}}{A\to B}\ \to I
+    \]
+    \begin{itemize}
+        \item<2-> $\to I$: чтобы доказать $A\to B$, допускаем $A$ и выводим $B$; затем снимаем допущение $A$.
+        \item<2-> Пусть остальные посылки и допущения истинны. Если $A=0$, импликация истинна; если $A=1$, подвывод даёт $B=1$, и импликация истинна.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
     \frametitle{Правила натуральной дедукции}
-    \tiny
+    \scriptsize
+    % Размер шрифта сбрасывает отступы вокруг формул, поэтому уменьшаем их после него.
+    \setlength{\abovedisplayskip}{2pt}
+    \setlength{\belowdisplayskip}{2pt}
+    \setlength{\abovedisplayshortskip}{0pt}
+    \setlength{\belowdisplayshortskip}{2pt}
     \begin{itemize}
         \item Для $\land$:
         \[ 
@@ -93,21 +128,13 @@
         \]
         \item Для $\to$:
         \[ 
-        \frac{\boxed{\begin{matrix}
-                A \\
-                \rvdots \\
-                B
-        \end{matrix}}}{A \to B}\ \to I 
+        \frac{\ndsubproof{A}{B}}{A \to B}\ \to I
         \qquad \qquad 
         \frac{A \to B \quad A}{B}\ \to E
         \]
         \item Для $\neg$ и $\bot$:
         \[
-        \frac{\boxed{\begin{matrix}
-                A \\
-                \rvdots \\
-                \bot
-        \end{matrix}}}{\neg A}\ \neg I 
+        \frac{\ndsubproof{A}{\bot}}{\neg A}\ \neg I
         \qquad \qquad 
         \frac{\neg A \quad A}{\bot}\ \neg E/\bot I
         \qquad \qquad 
@@ -119,50 +146,18 @@
         \qquad
         \frac{B}{A \lor B}\ \lor{I}
         \qquad \qquad 
-        \frac{
-            \begin{matrix}
-                \phantom{A} \\
-                \phantom{\rvdots} \\
-                A \lor B 
-            \end{matrix}
-            \quad
-            \boxed{\begin{matrix}
-                A \\
-                \rvdots \\
-                C
-            \end{matrix}}
-            \quad
-            \boxed{\begin{matrix}
-                B \\
-                \rvdots \\
-                C
-            \end{matrix}}
-        }{C}\ \lor E
-        \qquad \qquad         
-        \frac{\boxed{\begin{matrix}
-                \neg A \\
-                \rvdots \\
-                B
-        \end{matrix}}}{A \lor B}\ \lor I'
-        \qquad 
-        \frac{\boxed{\begin{matrix}
-                \neg B \\
-                \rvdots \\
-                A
-        \end{matrix}}}{A \lor B}\ \lor I'
+        \frac{A \lor B \quad \ndsubproof{A}{C} \quad \ndsubproof{B}{C}}{C}\ \lor E
         \]
         \item Остальные:
         \[
-        \frac{\boxed{\begin{matrix}
-                \neg A \\
-                \rvdots \\
-                \bot
-        \end{matrix}}}{A}\ \RAA
-        \qquad \qquad 
         \frac{A}{A}\ R
+        \qquad \qquad
+        \frac{\ndsubproof{\neg A}{\bot}}{A}\ \RAA
+        \qquad \qquad
+        \frac{\ndsubproof{\neg A}{B}}{A \lor B}\ \lor I'
+        \qquad
+        \frac{\ndsubproof{\neg B}{A}}{A \lor B}\ \lor I'
         \]
-        \item $I$ обозначает правила введения (Introduction), $E$ "--- правила исключения (Elimination). 
-        \item[] Например, $\land I$ это правило \enquote{введения конъюнкции}. Можете также писать как В$\land$.
     \end{itemize}
 \end{frame}
 
