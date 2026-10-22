@@ -10,7 +10,7 @@
 
 % Рамка подвывода с явно указанным допущением над деревом вывода.
 \newcommand{\ebsubproof}[2]{%
-    \fbox{\begin{tabular}{@{}c@{}}
+    \fbox{\begin{tabular}[b]{@{}c@{}}
         \multicolumn{1}{@{}l@{}}{$#1$}\\[.3ex]\hline\\[-1ex]
         #2
     \end{tabular}}}
@@ -322,6 +322,7 @@
     \frametitle{Пример: введение отрицания}
     \begin{itemize}
         \item Докажем $p\to\neg p\vdash\neg p$.
+        \item $\bot$ "--- противоречие, всегда ложная формула.
         \item<2-> Чтобы получить $\neg p$, предположим $p$ и выведем $\bot$.
     \end{itemize}
     {\normalsize
@@ -373,8 +374,12 @@
         \item Докажем $p\lor q,\ \neg p\vdash q$.
     \end{itemize}
     {\small
+    \setlength{\abovedisplayskip}{1pt}
+    \setlength{\belowdisplayskip}{1pt}
+    \setlength{\abovedisplayshortskip}{0pt}
+    \setlength{\belowdisplayshortskip}{1pt}
     \begin{align*}
-        \begin{nd}[height=4ex]
+        \begin{nd}[height=4ex,topheight=2.5ex]
             \hypo{d1}{p\lor q} \by{Дано}{} \onslide<1->
             \hypo{d2}{\neg p} \by{Дано}{} \onslide<1->
             \open
@@ -391,8 +396,37 @@
     \end{align*}
     }
     \onslide<6->
+    \vspace{-.5\baselineskip}
     \begin{itemize}
         \item $q$ получено в обоих случаях; оба допущения сняты.
+        \item Подвыводы можно записывать параллельно (рядом).
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Разбор случаев: вывод в виде дерева}
+    \begin{itemize}
+        \item Докажем $p\lor q,\ \neg p\vdash q$.
+    \end{itemize}
+    \[
+    \begin{prooftree}[separation=1.2em]
+        \hypo{\uncover<2->{p\lor q}}
+        \hypo{\uncover<2->{\ebsubproof{p}{%
+            \begin{prooftree}[center=false]
+                \hypo{\uncover<5->{\neg p}}
+                \hypo{\uncover<5->{p}}
+                \ebinfer{5-}{2}{\neg E}{\uncover<4->{\bot}}
+                \ebinfer{4-}{1}{\bot E}{q}
+            \end{prooftree}}}}
+        \hypo{\uncover<2->{\ebsubproof{q}{%
+            \begin{prooftree}[center=false]
+                \hypo{\uncover<3->{q}}
+            \end{prooftree}}}}
+        \ebinfer{2-}{3}{\lor E}{q}
+    \end{prooftree}
+    \]
+    \begin{itemize}
+        \item<6-> В каждом случае получено $q$. Правило $\lor E$ снимает допущения $p$ и $q$ в соответствующих рамках.
     \end{itemize}
 \end{frame}
 
@@ -417,7 +451,7 @@
     \end{itemize}
     {\normalsize
     \begin{align*}
-        \begin{nd}[height=4.2ex]
+        \begin{nd}[height=4.2ex,topheight=2.5ex]
             \hypo{c1}{p\lor q} \by{Дано}{} \onslide<1->
             \open
                 \hypo{c2}{p} \by{Допущение для $n$}{} \onslide<2->
