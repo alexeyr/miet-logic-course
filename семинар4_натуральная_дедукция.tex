@@ -230,21 +230,22 @@
     \end{itemize}
     \[
     \begin{prooftree}[separation=1em]
-        \hypo{\uncover<4->{(p\land q)\land r}}
+        \hypo{\uncover<4->{(p\land q)\land r\;\checkmark}}
         \ebinfer{4-}{1}{\land E_l}{\uncover<4->{p\land q}}
         \ebinfer{4-}{1}{\land E_l}{\uncover<2->{p}}
-        \hypo{\uncover<4->{(p\land q)\land r}}
+        \hypo{\uncover<4->{(p\land q)\land r\;\checkmark}}
         \ebinfer{4-}{1}{\land E_l}{\uncover<4->{p\land q}}
         \ebinfer{4-}{1}{\land E_r}{\uncover<3->{q}}
-        \hypo{\uncover<3->{(p\land q)\land r}}
+        \hypo{\uncover<3->{(p\land q)\land r\;\checkmark}}
         \ebinfer{3-}{1}{\land E_r}{\uncover<3->{r}}
         \ebinfer{3-}{2}{\land I}{\uncover<2->{q\land r}}
         \ebinfer{2-}{2}{\land I}{p\land(q\land r)}
     \end{prooftree}
     \]
     \begin{itemize}
+        \item<3-> $\checkmark$ "--- цель совпала с посылкой или доступным допущением.
         \item<4-> Одну посылку можно использовать в нескольких ветвях дерева.
-        \item<4-> Доказательство закончено, когда все листья дерева "--- посылки секвенции или временные допущения.
+        \item<4-> Доказательство закончено, когда все листья дерева отмечены $\checkmark$: это посылки секвенции или доступные временные допущения.
     \end{itemize}
 \end{frame}
 
@@ -280,7 +281,7 @@
             \begin{prooftree}[center=false]
                 \hypo{\uncover<3->{\ebsubproof{q}{%
                     \begin{prooftree}[center=false]
-                        \hypo{p}
+                        \hypo{p\uncover<4->{\;\checkmark}}
                     \end{prooftree}}}}
                 \ebinfer{3-}{1}{\to I}{q\to p}
             \end{prooftree}}}}
@@ -288,7 +289,7 @@
     \end{prooftree}
     \]
     \begin{itemize}
-        \item<3-> Допущение $p$ доступно и во внутреннем подвыводе.
+        \item<4-> Допущение $p$ доступно и во внутреннем подвыводе.
     \end{itemize}
 \end{frame}
 
@@ -410,17 +411,17 @@
     \end{itemize}
     \[
     \begin{prooftree}[separation=1.2em]
-        \hypo{\uncover<2->{p\lor q}}
+        \hypo{\uncover<2->{p\lor q\;\checkmark}}
         \hypo{\uncover<2->{\ebsubproof{p}{%
             \begin{prooftree}[center=false]
-                \hypo{\uncover<5->{\neg p}}
-                \hypo{\uncover<5->{p}}
+                \hypo{\uncover<5->{\neg p\;\checkmark}}
+                \hypo{\uncover<5->{p\;\checkmark}}
                 \ebinfer{5-}{2}{\neg E}{\uncover<4->{\bot}}
                 \ebinfer{4-}{1}{\bot E}{q}
             \end{prooftree}}}}
         \hypo{\uncover<2->{\ebsubproof{q}{%
             \begin{prooftree}[center=false]
-                \hypo{\uncover<3->{q}}
+                \hypo{q\uncover<3->{\;\checkmark}}
             \end{prooftree}}}}
         \ebinfer{2-}{3}{\lor E}{q}
     \end{prooftree}
