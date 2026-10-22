@@ -117,12 +117,13 @@
     \item $p \vdash \neg \neg p$.
     \item $p \to q \equiv \neg q \to \neg p$.
     \item $p \to q \land r \equiv (p \to q) \land (p \to r)$.
-    \item $p \lor q \to r \equiv (p \to r) \land (q \to r)$.
     \item $(p \lor q) \lor r \equiv p \lor (q \lor r)$.
-    \item Законы де Моргана (2 в обоих направлениях).
+    \item Законы де Моргана: $\neg(p \lor q) \equiv \neg p \land \neg q$ и $\neg p \lor \neg q \vdash \neg(p \land q)$.
+    \item $p \lor q \to r \equiv (p \to r) \land (q \to r)$.
     \item $\vdash p \lor \neg p$ (использовать RAA и закон де Моргана для отрицания дизъюнкции).
     \item \label{to_equiv} $p \to q \equiv \neg p \lor q$.
-    \item $p \land (q \lor r) \vdash (p \land q) \lor r$.
+    \item $p \to r,\ q \to s \vdash (p \lor q) \to (r \lor s)$.
+    \itemhard $\neg(p \land q) \vdash \neg p \lor \neg q$ (оставшееся направление закона де Моргана).
     \itemhard \label{h21} $\vdash ((p \to q) \to p) \to p$ (есть \hyperref[hints]{подсказка}).
     \item \label{rules2} Составить правила введения и исключения для равносильности, суммы по модулю 2, стрелки Пирса и штриха Шеффера. Подсказка: выразите через операции, для которых эти правила уже знаете, и скомбинируйте их.
     \item[] Используя эти правила:
