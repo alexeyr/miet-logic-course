@@ -3,8 +3,6 @@
 
 % Скрываем обоснование целиком, сохраняя его место в доказательстве.
 \newcommand{\byon}[3]{\by{\uncover<#1>{#2, \ndref{#3}}}{}}
-% Сначала показываем выбранное правило, затем ссылки на раскрытые подвыводы.
-\newcommand{\byplan}[4]{\by{\uncover<#1>{#3\uncover<#2>{, \ndref{#4}}}}{}}
 
 % Черта подвывода появляется вместе с его допущением и сразу видна целиком.
 % Спецификацию читаем при печати отложенной строки, как у обычного \onslide.
@@ -352,7 +350,6 @@
     \frametitle{Пример: коммутативность дизъюнкции}
     \begin{itemize}
         \item Докажем $p\lor q\vdash q\lor p$.
-        \item<2-> Разберём случаи $p$ и $q$. В каждом применим $\lor I$.
     \end{itemize}
     {\footnotesize
     \begin{align*}
@@ -360,17 +357,17 @@
             \hypo{c1}{p\lor q} \by{Дано}{} \onslide<1->
             \open
                 \hypo{c2}{p} \by{Допущение для $n$}{} \onslide<2->
-                \have{c3}{q\lor p} \byon{4-}{$\lor I$}{c2} \onslide<3->
+                \have{c3}{q\lor p} \byon{3-}{$\lor I$}{c2} \onslide<2->
             \close
             \open
-                \hypo{c4}{q} \by{Допущение для $n$}{} \onslide<4->
-                \have{c5}{q\lor p} \byon{5-}{$\lor I$}{c4} \onslide<4->
+                \hypo{c4}{q} \by{Допущение для $n$}{} \onslide<2->
+                \have{c5}{q\lor p} \byon{4-}{$\lor I$}{c4} \onslide<2->
             \close
-            \have[n]{c6}{q\lor p} \byplan{3-}{4-}{$\lor E$}{c1,c2-c3,c4-c5} \onslide<1->
+            \have[n]{c6}{q\lor p} \byon{2-}{$\lor E$}{c1,c2-c3,c4-c5} \onslide<1->
         \end{nd}
     \end{align*}
     }
-    \onslide<6->
+    \onslide<5->
     \begin{itemize}
         \item В обоих случаях получена одна цель $q\lor p$. Оба допущения сняты.
     \end{itemize}
