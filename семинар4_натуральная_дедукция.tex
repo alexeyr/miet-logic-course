@@ -259,18 +259,17 @@
 \begin{frame}
     \frametitle{Пример: введение отрицания}
     \begin{itemize}
-        \item Докажем $p\to q,\ \neg q\vdash\neg p$.
+        \item Докажем $p\to\neg p\vdash\neg p$.
         \item<2-> Чтобы получить $\neg p$, предположим $p$ и выведем $\bot$.
     \end{itemize}
     {\footnotesize
     \begin{align*}
         \begin{nd}
-            \hypo{n1}{p\to q} \by{Дано}{} \onslide<1->
-            \hypo{n2}{\neg q} \by{Дано}{} \onslide<1->
+            \hypo{n1}{p\to\neg p} \by{Дано}{} \onslide<1->
             \open
                 \hypo{n3}{p} \by{Допущение для $n$}{} \onslide<2->
-                \have{n4}{q} \ie{n1,n3} \onslide<4->
-                \have[n][-1]{n5}{\bot} \byon{4-}{$\neg E$}{n2,n4} \onslide<3->
+                \have{n4}{\neg p} \ie{n1,n3} \onslide<4->
+                \have[n][-1]{n5}{\bot} \byon{4-}{$\neg E$}{n4,n3} \onslide<3->
             \close
             \have[n]{n6}{\neg p} \byon{3-}{$\neg I$}{n3-(n5)} \onslide<1->
         \end{nd}
