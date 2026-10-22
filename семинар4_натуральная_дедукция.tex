@@ -3,6 +3,8 @@
 
 % Скрываем обоснование целиком, сохраняя его место в доказательстве.
 \newcommand{\byon}[3]{\by{\uncover<#1>{#2, \ndref{#3}}}{}}
+% Сначала показываем выбранное правило, затем ссылки на раскрытые подвыводы.
+\newcommand{\byplan}[4]{\by{\uncover<#1>{#3\uncover<#2>{, \ndref{#4}}}}{}}
 
 % Черта подвывода появляется вместе с его допущением и сразу видна целиком.
 % Спецификацию читаем при печати отложенной строки, как у обычного \onslide.
@@ -219,11 +221,11 @@
             \onslide<2->    \hypo{prem}{p} \by{Допущение для $n$}{}
                 \open
             \onslide<3->        \hypo{hyp}{q} \by{Допущение для $n-1$}{}
-            \onslide<3->    \have{reit}{p} \r{prem}
+            \onslide<3->    \have{reit}{p} \byon{4-}{$R$}{prem}
                 \close
             \onslide<2->    \have[n][-1]{cond}{q \rightarrow p} \byon{3-}{$\to I$}{hyp-reit}
             \close
-            \onslide<1-> \have[n]{conc}{p \rightarrow (q \rightarrow p)} \byon{3-}{$\to I$}{prem-(cond)}
+            \onslide<1-> \have[n]{conc}{p \rightarrow (q \rightarrow p)} \byon{2-}{$\to I$}{prem-(cond)}
         \end{nd}
     \end{align*}
 \end{frame}
@@ -244,7 +246,7 @@
                 \have{t4}{q} \ie{t1,t3} \onslide<4->
                 \have[n][-1]{t5}{r} \byon{4-}{$\to E$}{t2,t4} \onslide<3->
             \close
-            \have[n]{t6}{p\to r} \byon{4-}{$\to I$}{t3-(t5)} \onslide<1->
+            \have[n]{t6}{p\to r} \byon{3-}{$\to I$}{t3-(t5)} \onslide<1->
         \end{nd}
     \end{align*}
     }
@@ -270,7 +272,7 @@
                 \have{n4}{q} \ie{n1,n3} \onslide<4->
                 \have[n][-1]{n5}{\bot} \byon{4-}{$\neg E$}{n2,n4} \onslide<3->
             \close
-            \have[n]{n6}{\neg p} \byon{4-}{$\neg I$}{n3-(n5)} \onslide<1->
+            \have[n]{n6}{\neg p} \byon{3-}{$\neg I$}{n3-(n5)} \onslide<1->
         \end{nd}
     \end{align*}
     }
@@ -292,7 +294,7 @@
             \hypo{r1}{\neg\neg p} \by{Дано}{} \onslide<1->
             \open
                 \hypo{r2}{\neg p} \by{Допущение для $n$}{} \onslide<2->
-                \have[n][-1]{r3}{\bot} \by{$\neg E$}{r1,r2} \onslide<3->
+                \have[n][-1]{r3}{\bot} \byon{4-}{$\neg E$}{r1,r2} \onslide<3->
             \close
             \have[n]{r4}{p} \byon{3-}{$\RAA$}{r2-(r3)} \onslide<1->
         \end{nd}
@@ -316,14 +318,14 @@
             \hypo{d2}{\neg p} \by{Дано}{} \onslide<1->
             \open
                 \hypo{d3}{p} \by{Допущение для $n$}{} \onslide<2->
-                \have{d4}{\bot} \by{$\neg E$}{d2,d3} \onslide<4->
-                \have[m]{d5}{q} \byon{4-}{$\bot E$}{d4} \onslide<3->
+                \have{d4}{\bot} \byon{5-}{$\neg E$}{d2,d3} \onslide<4->
+                \have[m]{d5}{q} \byon{4-}{$\bot E$}{d4} \onslide<2->
             \close
             \open
-                \hypo{d6}{q} \by{Допущение для $n$}{} \onslide<5->
-                \have{d7}{q} \r{d6} \onslide<5->
+                \hypo{d6}{q} \by{Допущение для $n$}{} \onslide<2->
+                \have{d7}{q} \byon{3-}{$R$}{d6} \onslide<2->
             \close
-            \have[n]{d8}{q} \byon{5-}{$\lor E$}{d1,d3-d5,(d6)-(d7)} \onslide<1->
+            \have[n]{d8}{q} \byon{2-}{$\lor E$}{d1,d3-d5,(d6)-(d7)} \onslide<1->
         \end{nd}
     \end{align*}
     }
@@ -359,13 +361,13 @@
             \hypo{c1}{p\lor q} \by{Дано}{} \onslide<1->
             \open
                 \hypo{c2}{p} \by{Допущение для $n$}{} \onslide<2->
-                \have{c3}{q\lor p} \byon{3-}{$\lor I$}{c2} \onslide<3->
+                \have{c3}{q\lor p} \byon{4-}{$\lor I$}{c2} \onslide<3->
             \close
             \open
                 \hypo{c4}{q} \by{Допущение для $n$}{} \onslide<4->
-                \have{c5}{q\lor p} \byon{5-}{$\lor I$}{c4} \onslide<5->
+                \have{c5}{q\lor p} \byon{5-}{$\lor I$}{c4} \onslide<4->
             \close
-            \have[n]{c6}{q\lor p} \byon{5-}{$\lor E$}{c1,c2-c3,c4-c5} \onslide<1->
+            \have[n]{c6}{q\lor p} \byplan{3-}{4-}{$\lor E$}{c1,c2-c3,c4-c5} \onslide<1->
         \end{nd}
     \end{align*}
     }
@@ -412,7 +414,7 @@
                 \have{v5}{A} \byon{5-}{$\Pi$}{v4} \onslide<5->
                 \have[n][-1]{v6}{\bot} \byon{6-}{$\neg E$}{v3,v5} \onslide<2->
             \close
-            \have[n]{v7}{A\lor B} \byon{6-}{$\RAA$}{v1-(v6)} \onslide<1->
+            \have[n]{v7}{A\lor B} \byon{2-}{$\RAA$}{v1-(v6)} \onslide<1->
         \end{nd}
     \end{align*}
     }
