@@ -16,10 +16,11 @@
     \frametitle{Секвенции}
     \begin{itemize}
         \item Выражение $A_1,\ldots,A_n \vdash B$ называется секвенцией и читается \enquote{из $A_1,\ldots,A_n$ выводится $B$}.
-        \item Удобно считать, что слева множество формул (порядок и повторения неважны).
-        \item Оно может быть пустым. \pause
-        \item $A_1,\ldots,A_n \vdash B$ истинна, если \pause на всех тех наборах, на которых $A_1,\ldots,A_n$ истинны, \pause $B$ тоже истинна.
-        \item Соответственно, $\vdash B$ (\enquote{$B$ выводится}) истинна тогда, когда $B$ \pause тождественно истинна.
+        \item Слева --- множество посылок: порядок и повторения неважны. Оно может быть пустым. \pause
+        \item Секвенция \emph{общезначима}, если на всех наборах, где посылки истинны, $B$ тоже истинна. \pause
+        \item При $n\geqslant1$ это равносильно тождественной истинности $A_1\land\cdots\land A_n\to B$.
+        \item Без посылок: $\vdash B$ общезначима, если $B$ тождественно истинна. \pause
+        \item $A\equiv B$ тогда и только тогда, когда секвенции $A\vdash B$ и $B\vdash A$ общезначимы.
     \end{itemize}
 \end{frame}
 
@@ -107,6 +108,36 @@
         \]
         \item $I$ обозначает правила введения (Introduction), $E$ "--- правила исключения (Elimination). 
         \item[] Например, $\land I$ это правило \enquote{введения конъюнкции}. Можете также писать как В$\land$.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Выводы и подвыводы}
+    \begin{itemize}
+        \item Строка вывода: формула и обоснование (правило, номера строк или начала и конца подвывода).
+        \item Подвывод начинается с допущения и отмечается дополнительной вертикальной чертой. \pause
+        \item Можно ссылаться на более ранние строки, кроме строк уже закрытых подвыводов.
+        \item Правило может использовать закрытый подвывод целиком, снимая его допущение. Остальные посылки и допущения остаются. \pause
+        \item Секвенция \emph{выводима}, если есть вывод $B$ из посылок по правилам. \pause
+        \item \textbf{Теорема.} В классической натуральной дедукции секвенция выводима тогда и только тогда, когда общезначима.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Поиск доказательства}
+    \begin{itemize}
+        \item Есть одна или несколько целей со своими посылками, допущениями и уже полученными формулами. \pause
+        \item Выбираем цель и правило, по которому можно её получить (часто правило введения главной связки).
+        \item Подвывод открываем, если выбранное правило этого требует.
+        \item Ещё не полученные посылки правила (или цели подвывода) становятся новыми целями. \pause
+        \item Например:
+        \begin{itemize}
+            \item Для $(p\land q)\land r$ по $\land I$ цели: $p\land q$ и $r$.
+            \item Для $\neg p\to\neg q$ по $\to I$: подвывод с допущением $\neg p$ и целью $\neg q$.
+        \end{itemize} \pause
+        \item Если цель уже доступна, используем её по правилу $R$.
+        \item Если путь не удаётся, пробуем другое правило.
+        \item Доказательство готово, когда достигнуты все цели.
     \end{itemize}
 \end{frame}
 
@@ -248,21 +279,77 @@
 \end{frame}
 
 \begin{frame}
+    \frametitle{Пример: коммутативность дизъюнкции}
+    \begin{itemize}
+        \item Докажем $p\lor q\vdash q\lor p$.
+        \item<2-> Разберём случаи $p$ и $q$. В каждом применим $\lor I$.
+    \end{itemize}
+    {\footnotesize
+    \begin{align*}
+        \begin{nd}
+            \hypo{c1}{p\lor q} \by{Дано}{} \onslide<1->
+            \open
+                \hypo{c2}{p} \by{Допущение}{} \onslide<2->
+                \have{c3}{q\lor p} \byon{3-}{$\lor I$}{c2} \onslide<3->
+            \close
+            \open
+                \hypo{c4}{q} \by{Допущение}{} \onslide<4->
+                \have{c5}{q\lor p} \byon{5-}{$\lor I$}{c4} \onslide<5->
+            \close
+            \have{c6}{q\lor p} \byon{5-}{$\lor E$}{c1,c2-c3,c4-c5} \onslide<1->
+        \end{nd}
+    \end{align*}
+    }
+    \onslide<6->
+    \begin{itemize}
+        \item В обоих случаях получена одна цель $q\lor p$. Оба допущения сняты.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
     \frametitle{Допустимые правила}
     \begin{itemize}
         \item Выше доказали $(p \land q) \land r \vdash p \land (q \land r)$.
         \item Это можно превратить в доказательство $(A \land B) \land C \vdash A \land (B \land C)$ для любых формул $A,B,C$. Как? \pause
+        \item Одновременно заменим $p,q,r$ на $A,B,C$ во всём доказательстве. \pause
         \item Это даёт новое \emph{допустимое правило}:
         \[
             \frac{(A \land B) \land C}{A \land (B \land C)}\ \wedge A
         \]
         \item И так для каждой секвенции, которую докажем! Например
         \[
-            \frac{\neg \neg A}{A}\ \neg \neg E \qquad \qquad \frac{A}{\neg \neg A}\ \neg \neg I \qquad \qquad \frac{A \to B \qquad B \to C}{A \to C}\ \to T
+            \frac{\neg \neg A}{A}\ \neg \neg E \qquad \qquad \frac{A\lor B \qquad \neg A}{B}\ \ident{DS} \qquad \qquad \frac{A \to B \qquad B \to C}{A \to C}\ \to T
         \]
         и т.д.
         \item У каких-то из этих правил есть обозначения, как выше, но можно просто пометить соответствующей секвенцией.
     \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Допустимость $\lor I'$}
+    \begin{itemize}
+        \item Дан подвывод $\Pi$: из допущения $\neg B$ получена $A$.
+        \item<5-> В строке 6 вставляем $\Pi$, используя $\neg B$ из строки 5.
+    \end{itemize}
+    {\footnotesize
+    \begin{align*}
+        \begin{nd}
+            \open
+                \hypo{v1}{\neg(A\lor B)} \by{Допущение}{} \onslide<2->
+                \open
+                    \hypo{v2}{B} \by{Допущение}{} \onslide<4->
+                    \have{v3}{A\lor B} \byon{4-}{$\lor I$}{v2} \onslide<4->
+                    \have{v4}{\bot} \byon{4-}{$\neg E$}{v1,v3} \onslide<4->
+                \close
+                \have{v5}{\neg B} \byon{4-}{$\neg I$}{v2-v4} \onslide<3->
+                \have{v6}{A} \byon{5-}{$\Pi$}{v5} \onslide<5->
+                \have{v7}{A\lor B} \byon{6-}{$\lor I$}{v6} \onslide<6->
+                \have{v8}{\bot} \byon{6-}{$\neg E$}{v1,v7} \onslide<6->
+            \close
+            \have{v9}{A\lor B} \byon{6-}{$\RAA$}{v1-v8} \onslide<1->
+        \end{nd}
+    \end{align*}
+    }
 \end{frame}
 
 \end{document}
