@@ -4,6 +4,61 @@
 % Скрываем обоснование целиком, сохраняя его место в доказательстве.
 \newcommand{\byon}[3]{\by{\uncover<#1>{#2, \ndref{#3}}}{}}
 
+% Черта подвывода появляется вместе с его допущением и сразу видна целиком.
+% Спецификацию читаем при печати отложенной строки, как у обычного \onslide.
+\makeatletter
+\newcount\nd@scopedepth
+\newcount\nd@drawdepth
+\newif\ifnd@awaitingscope
+\def\nd@onslide<#1>{\gdef\nd@overlay{#1}\ignorespaces}
+\newcommand{\nd@uncover}[1]{\uncover<\nd@overlay>{#1}}
+\apptocmd{\nd@init}{%
+    \gdef\nd@overlay{1-}%
+    \global\nd@scopedepth=0
+    \global\nd@awaitingscopefalse
+    \expandafter\gdef\csname nd@scopeoverlay@0\endcsname{1-}%
+    \let\onslide\nd@onslide
+}{}{\PackageError{seminar4}{Cannot set proof overlays}{Check the fitch package.}}
+\apptocmd{\nd@openb}{%
+    \global\advance\nd@scopedepth1
+    \global\nd@awaitingscopetrue
+}{}{\PackageError{seminar4}{Cannot track subproofs}{Check the fitch package.}}
+\apptocmd{\nd@closeb}{\global\advance\nd@scopedepth-1}{}%
+    {\PackageError{seminar4}{Cannot track subproofs}{Check the fitch package.}}
+\def\nd@scopestart{%
+    \ifnd@awaitingscope
+        \expandafter\xdef\csname nd@scopeoverlay@\the\nd@scopedepth\endcsname{\nd@overlay}%
+        \global\nd@awaitingscopefalse
+    \fi}
+\def\nd@topitem{\nd@t}
+\def\nd@verticalitem{\nd@v}
+\def\nd@scopeline#1{%
+    \global\advance\nd@drawdepth1
+    \uncover<\csname nd@scopeoverlay@\the\nd@drawdepth\endcsname>{#1}}
+\def\nd@scopeitem#1{%
+    \def\nd@item{#1}%
+    \ifx\nd@item\nd@topitem
+        \nd@scopeline{#1}%
+    \else\ifx\nd@item\nd@verticalitem
+        \nd@scopeline{#1}%
+    \else #1\fi\fi}
+\def\nd@prooflines{%
+    \ifnd@outerline\global\nd@drawdepth=-1\else\global\nd@drawdepth=0\fi
+    \nd@iter\nd@stack\nd@scopeitem\nd@cont\nd@stack\nd@s}
+\def\nd@hypob#1#2{%
+    \nd@scopestart
+    \nd@f{\nd@uncover{\nd@num{#1}}}&%
+    \nd@prooflines
+    \nd@uncover{\nd@u{#2}}&}
+\def\nd@haveb#1#2{%
+    \nd@f{\nd@uncover{\nd@num{#1}}}&%
+    \nd@prooflines
+    \nd@f{\nd@uncover{#2}}&}
+\def\nd@sto#1#2#3{%
+    \gdef\nd@typ{#1}\gdef\nd@byt{}%
+    \gdef\nd@cmd{\nd@typ{#2}{#3}\nd@uncover{\nd@byt}\\}}
+\makeatother
+
 \title{Натуральная дедукция (естественный вывод)}
 \date{\today}
 
@@ -185,11 +240,11 @@
             \hypo{t1}{p\to q} \by{Дано}{} \onslide<1->
             \hypo{t2}{q\to r} \by{Дано}{} \onslide<1->
             \open
-                \hypo{t3}{p} \by{Допущение для 6}{} \onslide<2->
+                \hypo{t3}{p} \by{Допущение для $n$}{} \onslide<2->
                 \have{t4}{q} \ie{t1,t3} \onslide<4->
-                \have{t5}{r} \byon{4-}{$\to E$}{t2,t4} \onslide<3->
+                \have[n][-1]{t5}{r} \byon{4-}{$\to E$}{t2,t4} \onslide<3->
             \close
-            \have{t6}{p\to r} \byon{4-}{$\to I$}{t3-t5} \onslide<1->
+            \have[n]{t6}{p\to r} \byon{4-}{$\to I$}{t3-(t5)} \onslide<1->
         \end{nd}
     \end{align*}
     }
@@ -211,11 +266,11 @@
             \hypo{n1}{p\to q} \by{Дано}{} \onslide<1->
             \hypo{n2}{\neg q} \by{Дано}{} \onslide<1->
             \open
-                \hypo{n3}{p} \by{Допущение для 6}{} \onslide<2->
+                \hypo{n3}{p} \by{Допущение для $n$}{} \onslide<2->
                 \have{n4}{q} \ie{n1,n3} \onslide<4->
-                \have{n5}{\bot} \byon{4-}{$\neg E$}{n2,n4} \onslide<3->
+                \have[n][-1]{n5}{\bot} \byon{4-}{$\neg E$}{n2,n4} \onslide<3->
             \close
-            \have{n6}{\neg p} \byon{4-}{$\neg I$}{n3-n5} \onslide<1->
+            \have[n]{n6}{\neg p} \byon{4-}{$\neg I$}{n3-(n5)} \onslide<1->
         \end{nd}
     \end{align*}
     }
@@ -236,16 +291,16 @@
         \begin{nd}
             \hypo{r1}{\neg\neg p} \by{Дано}{} \onslide<1->
             \open
-                \hypo{r2}{\neg p} \by{Допущение для 4}{} \onslide<2->
-                \have{r3}{\bot} \by{$\neg E$}{r1,r2} \onslide<3->
+                \hypo{r2}{\neg p} \by{Допущение для $n$}{} \onslide<2->
+                \have[n][-1]{r3}{\bot} \by{$\neg E$}{r1,r2} \onslide<3->
             \close
-            \have{r4}{p} \byon{3-}{$\RAA$}{r2-r3} \onslide<1->
+            \have[n]{r4}{p} \byon{3-}{$\RAA$}{r2-(r3)} \onslide<1->
         \end{nd}
     \end{align*}
     }
     \onslide<4->
     \begin{itemize}
-        \item $\neg I$ для $2\!\!-\!\!3$ дало бы $\neg\neg p$. Именно $\RAA$ позволяет заключить $p$.
+        \item $\neg I$ для строк $2$--$(n-1)$ дало бы $\neg\neg p$. Именно $\RAA$ позволяет заключить $p$.
     \end{itemize}
 \end{frame}
 
@@ -260,15 +315,15 @@
             \hypo{d1}{p\lor q} \by{Дано}{} \onslide<1->
             \hypo{d2}{\neg p} \by{Дано}{} \onslide<1->
             \open
-                \hypo{d3}{p} \by{Допущение для 8}{} \onslide<2->
+                \hypo{d3}{p} \by{Допущение для $n$}{} \onslide<2->
                 \have{d4}{\bot} \by{$\neg E$}{d2,d3} \onslide<4->
-                \have{d5}{q} \byon{4-}{$\bot E$}{d4} \onslide<3->
+                \have[m]{d5}{q} \byon{4-}{$\bot E$}{d4} \onslide<3->
             \close
             \open
-                \hypo{d6}{q} \by{Допущение для 8}{} \onslide<5->
+                \hypo{d6}{q} \by{Допущение для $n$}{} \onslide<5->
                 \have{d7}{q} \r{d6} \onslide<5->
             \close
-            \have{d8}{q} \byon{5-}{$\lor E$}{d1,d3-d5,d6-d7} \onslide<1->
+            \have[n]{d8}{q} \byon{5-}{$\lor E$}{d1,d3-d5,(d6)-(d7)} \onslide<1->
         \end{nd}
     \end{align*}
     }
@@ -289,14 +344,14 @@
         \begin{nd}
             \hypo{c1}{p\lor q} \by{Дано}{} \onslide<1->
             \open
-                \hypo{c2}{p} \by{Допущение для 6}{} \onslide<2->
+                \hypo{c2}{p} \by{Допущение для $n$}{} \onslide<2->
                 \have{c3}{q\lor p} \byon{3-}{$\lor I$}{c2} \onslide<3->
             \close
             \open
-                \hypo{c4}{q} \by{Допущение для 6}{} \onslide<4->
+                \hypo{c4}{q} \by{Допущение для $n$}{} \onslide<4->
                 \have{c5}{q\lor p} \byon{5-}{$\lor I$}{c4} \onslide<5->
             \close
-            \have{c6}{q\lor p} \byon{5-}{$\lor E$}{c1,c2-c3,c4-c5} \onslide<1->
+            \have[n]{c6}{q\lor p} \byon{5-}{$\lor E$}{c1,c2-c3,c4-c5} \onslide<1->
         \end{nd}
     \end{align*}
     }
@@ -329,24 +384,24 @@
     \frametitle{Допустимость $\lor I'$}
     \begin{itemize}
         \item Дан подвывод $\Pi$: из допущения $\neg B$ получена $A$.
-        \item<5-> В строке 6 вставляем $\Pi$, используя $\neg B$ из строки 5.
+        \item<5-> В строке $m+1$ вставляем $\Pi$ с $\neg B$ из строки $m$.
     \end{itemize}
     {\footnotesize
     \begin{align*}
         \begin{nd}
             \open
-                \hypo{v1}{\neg(A\lor B)} \by{Допущение для 9}{} \onslide<2->
+                \hypo{v1}{\neg(A\lor B)} \by{Допущение для $n$}{} \onslide<2->
                 \open
-                    \hypo{v2}{B} \by{Допущение для 5}{} \onslide<4->
+                    \hypo{v2}{B} \by{Допущение для $m$}{} \onslide<4->
                     \have{v3}{A\lor B} \byon{4-}{$\lor I$}{v2} \onslide<4->
                     \have{v4}{\bot} \byon{4-}{$\neg E$}{v1,v3} \onslide<4->
                 \close
-                \have{v5}{\neg B} \byon{4-}{$\neg I$}{v2-v4} \onslide<3->
+                \have[m]{v5}{\neg B} \byon{4-}{$\neg I$}{v2-v4} \onslide<3->
                 \have{v6}{A} \byon{5-}{$\Pi$}{v5} \onslide<5->
                 \have{v7}{A\lor B} \byon{6-}{$\lor I$}{v6} \onslide<6->
                 \have{v8}{\bot} \byon{6-}{$\neg E$}{v1,v7} \onslide<6->
             \close
-            \have{v9}{A\lor B} \byon{6-}{$\RAA$}{v1-v8} \onslide<1->
+            \have[n]{v9}{A\lor B} \byon{6-}{$\RAA$}{v1-(v8)} \onslide<1->
         \end{nd}
     \end{align*}
     }
