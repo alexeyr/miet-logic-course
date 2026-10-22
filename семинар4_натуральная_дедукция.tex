@@ -193,6 +193,9 @@
 
 \begin{frame}
     \frametitle{Пример}
+    \begin{itemize}
+        \item Докажем $(p\land q)\land r\vdash p\land(q\land r)$.
+    \end{itemize}
     \begin{align*}
         \begin{nd}
             \hypo{1}{(p \land q) \land r} \by{Дано}{} \onslide<1->
@@ -208,6 +211,9 @@
 
 \begin{frame}
     \frametitle{Пример}
+    \begin{itemize}
+        \item Докажем $\vdash p\to(q\to p)$.
+    \end{itemize}
     \begin{align*}
         \begin{nd}
             \open
@@ -229,9 +235,9 @@
         \item Докажем $p\to q,\ q\to r\vdash p\to r$.
         \item<2-> Для введения $\to$ предположим $p$ и выведем $r$.
     \end{itemize}
-    {\footnotesize
+    {\normalsize
     \begin{align*}
-        \begin{nd}
+        \begin{nd}[height=4.2ex]
             \hypo{t1}{p\to q} \by{Дано}{} \onslide<1->
             \hypo{t2}{q\to r} \by{Дано}{} \onslide<1->
             \open
@@ -255,7 +261,7 @@
         \item Докажем $p\to\neg p\vdash\neg p$.
         \item<2-> Чтобы получить $\neg p$, предположим $p$ и выведем $\bot$.
     \end{itemize}
-    {\footnotesize
+    {\normalsize
     \begin{align*}
         \begin{nd}
             \hypo{n1}{p\to\neg p} \by{Дано}{} \onslide<1->
@@ -280,7 +286,7 @@
         \item Докажем $\neg\neg p\vdash p$ с помощью $\RAA$.
         \item<2-> Предположим отрицание цели: $\neg p$.
     \end{itemize}
-    {\footnotesize
+    {\normalsize
     \begin{align*}
         \begin{nd}
             \hypo{r1}{\neg\neg p} \by{Дано}{} \onslide<1->
@@ -303,21 +309,21 @@
     \begin{itemize}
         \item Докажем $p\lor q,\ \neg p\vdash q$.
     \end{itemize}
-    {\footnotesize
+    {\small
     \begin{align*}
-        \begin{nd}
+        \begin{nd}[height=4ex]
             \hypo{d1}{p\lor q} \by{Дано}{} \onslide<1->
             \hypo{d2}{\neg p} \by{Дано}{} \onslide<1->
             \open
                 \hypo{d3}{p} \by{Допущение для $n$}{} \onslide<2->
                 \have{d4}{\bot} \byon{5-}{$\neg E$}{d2,d3} \onslide<4->
-                \have[m]{d5}{q} \byon{4-}{$\bot E$}{d4} \onslide<2->
+                \have[m][-1]{d5}{q} \byon{4-}{$\bot E$}{d4} \onslide<2->
             \close
             \open
                 \hypo{d6}{q} \by{Допущение для $n$}{} \onslide<2->
-                \have{d7}{q} \byon{3-}{$R$}{d6} \onslide<2->
+                \have[n][-1]{d7}{q} \byon{3-}{$R$}{d6} \onslide<2->
             \close
-            \have[n]{d8}{q} \byon{2-}{$\lor E$}{d1,d3-d5,(d6)-(d7)} \onslide<1->
+            \have[n]{d8}{q} \byon{2-}{$\lor E$}{d1,d3-(d5),d6-(d7)} \onslide<1->
         \end{nd}
     \end{align*}
     }
@@ -346,9 +352,9 @@
     \begin{itemize}
         \item Докажем $p\lor q\vdash q\lor p$.
     \end{itemize}
-    {\footnotesize
+    {\normalsize
     \begin{align*}
-        \begin{nd}
+        \begin{nd}[height=4.2ex]
             \hypo{c1}{p\lor q} \by{Дано}{} \onslide<1->
             \open
                 \hypo{c2}{p} \by{Допущение для $n$}{} \onslide<2->
@@ -394,9 +400,9 @@
         \item Закон де Моргана для $\neg(A\lor B)$ докажете в домашнем задании без использования $\lor I'$.
         \item<5-> В строке 5 вставляем $\Pi$ с $\neg B$ из строки 4.
     \end{itemize}
-    {\footnotesize
+    {\small
     \begin{align*}
-        \begin{nd}
+        \begin{nd}[height=4ex]
             \open
                 \hypo{v1}{\neg(A\lor B)} \by{Допущение для $n$}{} \onslide<2->
                 \have{v2}{\neg A\land\neg B} \byon{3-}{де Моргана}{v1} \onslide<3->
