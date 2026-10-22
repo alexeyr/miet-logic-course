@@ -1,5 +1,19 @@
 \documentclass[10pt]{beamer}
 \input{lecture_preamble.tex}
+\usepackage{ebproof}
+
+% Формулу-цель можно показать раньше черты и обоснования её вывода.
+% Толщина черты совпадает со стандартной в ebproof; место сохраняется на всех шагах.
+\newcommand{\ebinfer}[4]{%
+    \ebproofinfer[rule code={\uncover<#1>{\hrule height .4pt}}]{#2}%
+        [\uncover<#1>{$#3$}]{#4}}
+
+% Рамка подвывода с явно указанным допущением над деревом вывода.
+\newcommand{\ebsubproof}[2]{%
+    \fbox{\begin{tabular}{@{}c@{}}
+        \multicolumn{1}{@{}l@{}}{$#1$}\\[.3ex]\hline\\[-1ex]
+        #2
+    \end{tabular}}}
 
 % Скрываем обоснование целиком, сохраняя его место в доказательстве.
 \newcommand{\byon}[3]{\by{\uncover<#1>{#2, \ndref{#3}}}{}}
@@ -210,6 +224,31 @@
 \end{frame}
 
 \begin{frame}
+    \frametitle{Тот же вывод в виде дерева}
+    \begin{itemize}
+        \item Докажем $(p\land q)\land r\vdash p\land(q\land r)$.
+    \end{itemize}
+    \[
+    \begin{prooftree}[separation=1em]
+        \hypo{\uncover<4->{(p\land q)\land r}}
+        \ebinfer{4-}{1}{\land E}{\uncover<4->{p\land q}}
+        \ebinfer{4-}{1}{\land E}{\uncover<2->{p}}
+        \hypo{\uncover<4->{(p\land q)\land r}}
+        \ebinfer{4-}{1}{\land E}{\uncover<4->{p\land q}}
+        \ebinfer{4-}{1}{\land E}{\uncover<3->{q}}
+        \hypo{\uncover<3->{(p\land q)\land r}}
+        \ebinfer{3-}{1}{\land E}{\uncover<3->{r}}
+        \ebinfer{3-}{2}{\land I}{\uncover<2->{q\land r}}
+        \ebinfer{2-}{2}{\land I}{p\land(q\land r)}
+    \end{prooftree}
+    \]
+    \begin{itemize}
+        \item<4-> Одну посылку можно использовать в нескольких ветвях дерева.
+        \item<4-> Доказательство закончено, когда все листья дерева "--- посылки секвенции или временные допущения.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
     \frametitle{Пример}
     \begin{itemize}
         \item Докажем $\vdash p\to(q\to p)$.
@@ -227,6 +266,30 @@
             \onslide<1-> \have[n]{conc}{p \rightarrow (q \rightarrow p)} \byon{2-}{$\to I$}{prem-(cond)}
         \end{nd}
     \end{align*}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Тот же вывод с рамками подвыводов}
+    \begin{itemize}
+        \item Докажем $\vdash p\to(q\to p)$.
+        \item<2-> Вверху каждой рамки указано её допущение. Рамка означает то же, что черта с флажком.
+    \end{itemize}
+    \[
+    \begin{prooftree}
+        \hypo{\uncover<2->{\ebsubproof{p}{%
+            \begin{prooftree}[center=false]
+                \hypo{\uncover<3->{\ebsubproof{q}{%
+                    \begin{prooftree}[center=false]
+                        \hypo{p}
+                    \end{prooftree}}}}
+                \ebinfer{3-}{1}{\to I}{q\to p}
+            \end{prooftree}}}}
+        \ebinfer{2-}{1}{\to I}{p\to(q\to p)}
+    \end{prooftree}
+    \]
+    \begin{itemize}
+        \item<3-> Допущение $p$ доступно и во внутреннем подвыводе.
+    \end{itemize}
 \end{frame}
 
 \begin{frame}
