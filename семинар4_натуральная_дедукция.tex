@@ -132,13 +132,13 @@
     \setlength{\abovedisplayshortskip}{0pt}
     \setlength{\belowdisplayshortskip}{2pt}
     \begin{itemize}
-        \item Для $\land$:
+        \item Для $\land$ ($l$ "--- левый операнд, $r$ "--- правый):
         \[ 
         \frac{A \qquad B}{A \wedge B}\ \wedge I 
         \qquad \qquad 
-        \frac{A \wedge B}{A}\ \wedge{E}
+        \frac{A \wedge B}{A}\ \wedge E_l
         \qquad
-        \frac{A \wedge B}{B}\ \wedge{E} 
+        \frac{A \wedge B}{B}\ \wedge E_r
         \]
         \item Для $\to$:
         \[ 
@@ -156,9 +156,9 @@
         \]
         \item Для $\lor$:
         \[
-        \frac{A}{A \lor B}\ \lor{I}
+        \frac{A}{A \lor B}\ \lor I_l
         \qquad
-        \frac{B}{A \lor B}\ \lor{I}
+        \frac{B}{A \lor B}\ \lor I_r
         \qquad \qquad 
         \frac{A \lor B \quad \ndsubproof{A}{C} \quad \ndsubproof{B}{C}}{C}\ \lor E
         \]
@@ -168,9 +168,9 @@
         \qquad \qquad
         \frac{\ndsubproof{\neg A}{\bot}}{A}\ \RAA
         \qquad \qquad
-        \frac{\ndsubproof{\neg A}{B}}{A \lor B}\ \lor I'
+        \frac{\ndsubproof{\neg B}{A}}{A \lor B}\ \lor I'_l
         \qquad
-        \frac{\ndsubproof{\neg B}{A}}{A \lor B}\ \lor I'
+        \frac{\ndsubproof{\neg A}{B}}{A \lor B}\ \lor I'_r
         \]
     \end{itemize}
 \end{frame}
@@ -213,10 +213,10 @@
     \begin{align*}
         \begin{nd}
             \hypo{1}{(p \land q) \land r} \by{Дано}{} \onslide<1->
-            \have{2}{p \land q} \ae{1} \onslide<4->
-            \have[n][-4]{5}{q} \byon{4-}{$\land E$}{2} \onslide<3->
-            \have[n][-3]{3}{r} \ae{1} \onslide<3->
-            \have[n][-2]{4}{p} \byon{4-}{$\land E$}{2} \onslide<2->
+            \have{2}{p \land q} \by{$\land E_l$}{1} \onslide<4->
+            \have[n][-4]{5}{q} \byon{4-}{$\land E_r$}{2} \onslide<3->
+            \have[n][-3]{3}{r} \by{$\land E_r$}{1} \onslide<3->
+            \have[n][-2]{4}{p} \byon{4-}{$\land E_l$}{2} \onslide<2->
             \have[n][-1]{6}{q \land r} \byon{3-}{$\land I$}{5,3} \onslide<2->
             \have{n}{p \land (q \land r)} \byon{2-}{$\land I$}{4,6} \onslide<1->
         \end{nd}
@@ -231,13 +231,13 @@
     \[
     \begin{prooftree}[separation=1em]
         \hypo{\uncover<4->{(p\land q)\land r}}
-        \ebinfer{4-}{1}{\land E}{\uncover<4->{p\land q}}
-        \ebinfer{4-}{1}{\land E}{\uncover<2->{p}}
+        \ebinfer{4-}{1}{\land E_l}{\uncover<4->{p\land q}}
+        \ebinfer{4-}{1}{\land E_l}{\uncover<2->{p}}
         \hypo{\uncover<4->{(p\land q)\land r}}
-        \ebinfer{4-}{1}{\land E}{\uncover<4->{p\land q}}
-        \ebinfer{4-}{1}{\land E}{\uncover<3->{q}}
+        \ebinfer{4-}{1}{\land E_l}{\uncover<4->{p\land q}}
+        \ebinfer{4-}{1}{\land E_r}{\uncover<3->{q}}
         \hypo{\uncover<3->{(p\land q)\land r}}
-        \ebinfer{3-}{1}{\land E}{\uncover<3->{r}}
+        \ebinfer{3-}{1}{\land E_r}{\uncover<3->{r}}
         \ebinfer{3-}{2}{\land I}{\uncover<2->{q\land r}}
         \ebinfer{2-}{2}{\land I}{p\land(q\land r)}
     \end{prooftree}
@@ -433,12 +433,13 @@
 \begin{frame}
     \frametitle{Как доказать дизъюнкцию}
     \begin{itemize}
-        \item Чтобы доказать $A\lor B$, достаточно доказать $A$ или $B$ и применить $\lor I$. \pause
+        \item Чтобы доказать $A\lor B$, достаточно доказать $A$ и применить $\lor I_l$ либо доказать $B$ и применить $\lor I_r$. \pause
         \item Если неясно, какой дизъюнкт удастся доказать, можно использовать $\lor I'$:
         \begin{itemize}
-            \item предположить $\neg A$ и вывести $B$;
-            \item либо предположить $\neg B$ и вывести $A$.
-        \end{itemize} \pause
+            \item по $\lor I'_l$: предположить $\neg B$ и вывести $A$;
+            \item по $\lor I'_r$: предположить $\neg A$ и вывести $B$.
+        \end{itemize}
+        \item Если $A\lor B$ выводима из данных посылок, нужный подвывод существует для обоих вариантов $\lor I'$. Один может быть проще другого. \pause
         \item Другой вариант: предположить $\neg(A\lor B)$, получить $\bot$ и применить $\RAA$. \pause
         \item Дизъюнкция может быть выводима, хотя ни один дизъюнкт по отдельности из тех же посылок не выводим.
     \end{itemize}
@@ -455,11 +456,11 @@
             \hypo{c1}{p\lor q} \by{Дано}{} \onslide<1->
             \open
                 \hypo{c2}{p} \by{Допущение для $n$}{} \onslide<2->
-                \have{c3}{q\lor p} \byon{3-}{$\lor I$}{c2} \onslide<2->
+                \have{c3}{q\lor p} \byon{3-}{$\lor I_r$}{c2} \onslide<2->
             \close
             \open
                 \hypo{c4}{q} \by{Допущение для $n$}{} \onslide<2->
-                \have{c5}{q\lor p} \byon{4-}{$\lor I$}{c4} \onslide<2->
+                \have{c5}{q\lor p} \byon{4-}{$\lor I_l$}{c4} \onslide<2->
             \close
             \have[n]{c6}{q\lor p} \byon{2-}{$\lor E$}{c1,c2-c3,c4-c5} \onslide<1->
         \end{nd}
@@ -491,7 +492,7 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{Допустимость $\lor I'$}
+    \frametitle{Допустимость $\lor I'_l$}
     \begin{itemize}
         \item Дан подвывод $\Pi$: из допущения $\neg B$ получена $A$.
         \item Закон де Моргана для $\neg(A\lor B)$ докажете в домашнем задании без использования $\lor I'$.
@@ -503,8 +504,8 @@
             \open
                 \hypo{v1}{\neg(A\lor B)} \by{Допущение для $n$}{} \onslide<2->
                 \have{v2}{\neg A\land\neg B} \byon{3-}{де Моргана}{v1} \onslide<3->
-                \have{v3}{\neg A} \byon{4-}{$\land E$}{v2} \onslide<4->
-                \have{v4}{\neg B} \byon{4-}{$\land E$}{v2} \onslide<4->
+                \have{v3}{\neg A} \byon{4-}{$\land E_l$}{v2} \onslide<4->
+                \have{v4}{\neg B} \byon{4-}{$\land E_r$}{v2} \onslide<4->
                 \have{v5}{A} \byon{5-}{$\Pi$}{v4} \onslide<5->
                 \have[n][-1]{v6}{\bot} \byon{6-}{$\neg E$}{v3,v5} \onslide<2->
             \close

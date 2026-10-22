@@ -21,13 +21,13 @@
 
 \begin{document}
 \begin{itemize}
-    \item Для $\land$:
+    \item Для $\land$ ($l$ "--- левый операнд, $r$ "--- правый):
     \[
     \frac{A \qquad B}{A \wedge B}\ \wedge I
     \qquad \qquad
-    \frac{A \wedge B}{A}\ \wedge{E}
+    \frac{A \wedge B}{A}\ \wedge E_l
     \qquad
-    \frac{A \wedge B}{B}\ \wedge{E}
+    \frac{A \wedge B}{B}\ \wedge E_r
     \]
     \item Для $\to$:
     \[
@@ -45,9 +45,9 @@
     \]
     \item Для $\lor$:
     \[
-    \frac{A}{A \lor B}\ \lor{I}
+    \frac{A}{A \lor B}\ \lor I_l
     \qquad
-    \frac{B}{A \lor B}\ \lor{I}
+    \frac{B}{A \lor B}\ \lor I_r
     \qquad \qquad
     \frac{A \lor B \quad \ndsubproof{A}{C} \quad \ndsubproof{B}{C}}{C}\ \lor E
     \]
@@ -57,9 +57,9 @@
     \qquad \qquad
     \frac{\ndsubproof{\neg A}{\bot}}{A}\ \RAA
     \qquad \qquad
-    \frac{\ndsubproof{\neg A}{B}}{A \lor B}\ \lor I'
+    \frac{\ndsubproof{\neg B}{A}}{A \lor B}\ \lor I'_l
     \qquad
-    \frac{\ndsubproof{\neg B}{A}}{A \lor B}\ \lor I'
+    \frac{\ndsubproof{\neg A}{B}}{A \lor B}\ \lor I'_r
     \]
     \item $I$ "--- введение, $E$ "--- исключение. Например, $\land I$ "--- \enquote{введение конъюнкции} (также В$\land$).
     Правило введения показывает, как доказать формулу с данной главной связкой, правило исключения "--- как её использовать. Так, у $\land I$ формула $A\land B$ "--- заключение, а у $\land E$ "--- посылка.
