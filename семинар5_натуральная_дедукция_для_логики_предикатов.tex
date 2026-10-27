@@ -216,6 +216,29 @@
 \end{frame}
 
 \begin{frame}
+    \frametitle{Свидетель не является произвольным}
+    \begin{itemize}
+        \item Можно ли вывести $\exists x~P(x)\vdash\forall x~P(x)$?
+        \item<2-> Ошибочная попытка: вынести $P(a)$ из подвывода.
+    \end{itemize}
+    \begin{align*}
+    \begin{nd}[height=4ex,topheight=2.5ex]
+        \hypo{w1}{\exists x~P(x)} \by{Дано}{} \onslide<2->
+        \open[\uncover<2->{a}]
+            \hypo{w2}{P(a)} \by{Допущение для $n$}{} \onslide<2->
+        \close
+        \have[n]{w3}{P(a)} \byon{3-}{\alert{$\exists E$ нельзя}}{w1,w2} \onslide<2->
+    \end{nd}
+    \end{align*}
+    \begin{itemize}
+        \item<3-> Параметр $a$ входит в заключение: условие $\exists E$ нарушено.
+        \item<3-> Внутри подвывода обобщить $P(a)$ по $\forall I$ тоже нельзя: $a$ входит в допущение $P(a)$.
+        \item<4-> Контрмодель: $U=\{0,1\}$, $P$ истинно только для $0$.
+        Тогда $\exists x~P(x)$ истинно, а $\forall x~P(x)$ ложно.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
     \frametitle{Пример 3: распределение $\forall$ над $\land$}
     \begin{itemize}
         \item Докажем $\forall x~(P(x)\land Q(x))\vdash(\forall x~P(x))\land(\forall x~Q(x))$.
@@ -235,8 +258,8 @@
             \have{c7}{P(a_2)\land Q(a_2)} \byon{5-}{$\forall E$}{c1} \onslide<5->
             \have[n][-2]{c8}{Q(a_2)} \byon{5-}{$\land E_r$}{c7} \onslide<4->
         \close
-        \have[n][-1]{c9}{\forall x~Q(x)} \byon{4-}{$\forall I$}{c6-(c8)} \onslide<2->
-        \have[n]{c10}{(\forall x~P(x))\land(\forall x~Q(x))} \byon{2-}{$\land I$}{c5,(c9)} \onslide<1->
+        \have[n][-1]{c9}{\forall x~Q(x)} \byon{4-}{$\forall I$}{(c6)-(c8)} \onslide<2->
+        \have[n]{c10}{(\forall x~P(x))\land(\forall x~Q(x))} \byon{2-}{$\land I$}{c5,c9} \onslide<1->
     \end{nd}
     \end{align*}
     }
@@ -329,6 +352,29 @@
         \item Задаём непустой универсум, значения параметров и интерпретации предикатов на всех наборах объектов. \pause
         \item Иногда нужны дополнительные объекты или бесконечный универсум.
         \item Проверяем найденную модель на исходной формуле или секвенции.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Пример построения контрмодели}
+    \begin{itemize}
+        \item Проверим $\forall x~(P(x)\lor Q(x))\vdash(\forall x~P(x))\lor(\forall x~Q(x))$. \pause
+        \item Пробуем доказать $\forall x~P(x)$: для произвольного $a$ нужна цель $P(a)$, но имеем лишь $P(a)\lor Q(a)$. \pause
+        \item Чтобы цель была ложна, положим $P(a)=0$, $Q(a)=1$.
+        \item Чтобы и $\forall x~Q(x)$ было ложно, добавим объект $b$, где $Q(b)=0$, $P(b)=1$. \pause
+        \item Контрмодель: $U=\{0,1\}$, $a=0$, $b=1$.
+    \end{itemize}
+    \[
+        \begin{array}{c|cc}
+            x & P(x) & Q(x) \\
+            \hline
+            0 & 0 & 1 \\
+            1 & 1 & 0
+        \end{array}
+    \]
+    \begin{itemize}
+        \item Посылка истинна: для каждого объекта истинно $P$ или $Q$.
+        Оба дизъюнкта заключения ложны, значит, заключение ложно.
     \end{itemize}
 \end{frame}
 
