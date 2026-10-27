@@ -17,6 +17,8 @@
 
 % Скрываем обоснование целиком, сохраняя его место в доказательстве.
 \newcommand{\byon}[3]{\by{\uncover<#1>{#2, \ndref{#3}}}{}}
+\newcommand{\byonsubst}[4]{\by{\uncover<#1>{#2, \ndref{#3}, $#4$}}{}}
+\newcommand{\qrule}[2]{\substack{\textstyle #1\\#2}}
 
 % Черта подвывода появляется вместе с его допущением и сразу видна целиком.
 % Спецификацию читаем при печати отложенной строки, как у обычного \onslide.
@@ -178,10 +180,10 @@
         \open
             \hypo{e2}{\exists x~P(x)} \by{Допущение для $n$}{} \onslide<2->
             \open[\uncover<3->{a}]
-                \hypo{e3}{P(a)} \by{Допущение для $n-1$}{} \onslide<3->
-                \have{e4}{P(a)\to Q(a)} \byon{6-}{$\forall E$}{e1} \onslide<6->
+                \hypo{e3}{\text{такой, что }P(a)} \by{Допущение для $n-1$}{} \onslide<3->
+                \have{e4}{P(a)\to Q(a)} \byonsubst{6-}{$\forall E$}{e1}{x\mapsto a} \onslide<6->
                 \have[n][-3]{e5}{Q(a)} \byon{6-}{$\to E$}{e4,e3} \onslide<5->
-                \have[n][-2]{e6}{\exists x~Q(x)} \byon{5-}{$\exists I$}{e5} \onslide<4->
+                \have[n][-2]{e6}{\exists x~Q(x)} \byonsubst{5-}{$\exists I$}{e5}{x\mapsto a} \onslide<4->
             \close
             \have[n][-1]{e7}{\exists x~Q(x)} \byon{4-}{$\exists E$}{e2,e3-(e6)} \onslide<2->
         \close
@@ -203,8 +205,8 @@
         \open
             \hypo{d2}{\exists x~P(x)} \by{Допущение для $n$}{} \onslide<2->
             \open[\uncover<3->{a}]
-                \hypo{d3}{P(a)} \by{Допущение для $n-1$}{} \onslide<3->
-                \have{d4}{\neg P(a)} \byon{5-}{$\forall E$}{d1} \onslide<5->
+                \hypo{d3}{\text{такой, что }P(a)} \by{Допущение для $n-1$}{} \onslide<3->
+                \have{d4}{\neg P(a)} \byonsubst{5-}{$\forall E$}{d1}{y\mapsto a} \onslide<5->
                 \have[n][-2]{d5}{\bot} \byon{5-}{$\neg E$}{d4,d3} \onslide<4->
             \close
             \have[n][-1]{d6}{\bot} \byon{4-}{$\exists E$}{d2,d3-(d5)} \onslide<2->
@@ -217,23 +219,31 @@
 
 \begin{frame}
     \frametitle{Свидетель не является произвольным}
+    \setlength{\abovedisplayskip}{2pt}
+    \setlength{\belowdisplayskip}{2pt}
     \begin{itemize}
         \item Можно ли вывести $\exists x~P(x)\vdash\forall x~P(x)$?
-        \item<2-> Ошибочная попытка: вынести $P(a)$ из подвывода.
     \end{itemize}
+    {\small
     \begin{align*}
-    \begin{nd}[height=4ex,topheight=2.5ex]
-        \hypo{w1}{\exists x~P(x)} \by{Дано}{} \onslide<2->
+    \begin{nd}[height=3.5ex,topheight=2.5ex]
+        \hypo{w1}{\exists x~P(x)} \by{Дано}{} \onslide<1->
         \open[\uncover<2->{a}]
-            \hypo{w2}{P(a)} \by{Допущение для $n$}{} \onslide<2->
+            \hypo{w2}{\text{произв. }a} \by{Параметр для $n$}{} \onslide<2->
+            \open[\uncover<3->{b}]
+                \hypo{w3}{\text{такой, что }P(b)} \by{Допущение для $n-1$}{} \onslide<3->
+                \have[n][-2]{w4}{P(a)} \onslide<3->
+            \close
+            \have[n][-1]{w5}{P(a)} \byon{3-}{$\exists E$}{w1,w3-(w4)} \onslide<2->
         \close
-        \have[n]{w3}{P(a)} \byon{3-}{\alert{$\exists E$ нельзя}}{w1,w2} \onslide<2->
+        \have[n]{w6}{\forall x~P(x)} \byon{2-}{$\forall I$}{w2-(w5)} \onslide<1->
     \end{nd}
     \end{align*}
+    }
     \begin{itemize}
-        \item<3-> Параметр $a$ входит в заключение: условие $\exists E$ нарушено.
-        \item<3-> Внутри подвывода обобщить $P(a)$ по $\forall I$ тоже нельзя: $a$ входит в допущение $P(a)$.
-        \item<4-> Контрмодель: $U=\{0,1\}$, $P$ истинно только для $0$.
+        \item<4-> Из $P(b)$ не следует $P(a)$: объекты могут быть разными.
+        \item<4-> $a$ уже используется вне подвывода: нужен свежий $b$.
+        \item<5-> Контрмодель: $U=\{0,1\}$, $a=1$, $b=0$, $P$ истинно только для $0$.
         Тогда $\exists x~P(x)$ истинно, а $\forall x~P(x)$ ложно.
     \end{itemize}
 \end{frame}
@@ -249,13 +259,13 @@
         \hypo{c1}{\forall x~(P(x)\land Q(x))} \by{Дано}{} \onslide<1->
         \open[\uncover<3->{a_1}]
             \hypo{c2}{\text{произв. }a_1} \by{Параметр для $m$}{} \onslide<3->
-            \have{c3}{P(a_1)\land Q(a_1)} \byon{5-}{$\forall E$}{c1} \onslide<5->
+            \have{c3}{P(a_1)\land Q(a_1)} \byonsubst{5-}{$\forall E$}{c1}{x\mapsto a_1} \onslide<5->
             \have[m][-1]{c4}{P(a_1)} \byon{5-}{$\land E_l$}{c3} \onslide<4->
         \close
-        \have[m]{c5}{\forall x~P(x)} \byon{4-}{$\forall I$}{c2-(c4)} \onslide<2->
+        \have[\alt<1-2>{n-2}{m}]{c5}{\forall x~P(x)} \byon{4-}{$\forall I$}{c2-(c4)} \onslide<2->
         \open[\uncover<3->{a_2}]
             \hypo{c6}{\text{произв. }a_2} \by{Параметр для $n-1$}{} \onslide<3->
-            \have{c7}{P(a_2)\land Q(a_2)} \byon{5-}{$\forall E$}{c1} \onslide<5->
+            \have{c7}{P(a_2)\land Q(a_2)} \byonsubst{5-}{$\forall E$}{c1}{x\mapsto a_2} \onslide<5->
             \have[n][-2]{c8}{Q(a_2)} \byon{5-}{$\land E_r$}{c7} \onslide<4->
         \close
         \have[n][-1]{c9}{\forall x~Q(x)} \byon{4-}{$\forall I$}{(c6)-(c8)} \onslide<2->
@@ -275,14 +285,14 @@
         \hypo{\uncover<3->{\ebsubproof{\text{произв. }a_1}{%
             \begin{prooftree}[center=false]
                 \hypo{\uncover<5->{\forall x~(P(x)\land Q(x))\;\checkmark}}
-                \ebinfer{5-}{1}{\forall E}{\uncover<4->{P(a_1)\land Q(a_1)}}
+                \ebinfer{5-}{1}{\qrule{\forall E}{x\mapsto a_1}}{\uncover<4->{P(a_1)\land Q(a_1)}}
                 \ebinfer{4-}{1}{\land E_l}{P(a_1)}
             \end{prooftree}}}}
         \ebinfer{3-}{1}{\forall I}{\uncover<2->{\forall x~P(x)}}
         \hypo{\uncover<3->{\ebsubproof{\text{произв. }a_2}{%
             \begin{prooftree}[center=false]
                 \hypo{\uncover<5->{\forall x~(P(x)\land Q(x))\;\checkmark}}
-                \ebinfer{5-}{1}{\forall E}{\uncover<4->{P(a_2)\land Q(a_2)}}
+                \ebinfer{5-}{1}{\qrule{\forall E}{x\mapsto a_2}}{\uncover<4->{P(a_2)\land Q(a_2)}}
                 \ebinfer{4-}{1}{\land E_r}{Q(a_2)}
             \end{prooftree}}}}
         \ebinfer{3-}{1}{\forall I}{\uncover<2->{\forall x~Q(x)}}
@@ -306,9 +316,9 @@
         \open[\uncover<2->{a_1}]
             \hypo{q2}{\text{произв. }a_1} \by{Параметр для $n$}{} \onslide<2->
             \open[\uncover<3->{a_2}]
-                \hypo{q3}{\forall y~P(a_2,y)} \by{Допущение для $n-1$}{} \onslide<3->
-                \have{q4}{P(a_2,a_1)} \byon{5-}{$\forall E$}{q3} \onslide<4->
-                \have[n][-2]{q5}{\exists x~P(x,a_1)} \byon{4-}{$\exists I$}{q4} \onslide<3->
+                \hypo{q3}{\text{такой, что }\forall y~P(a_2,y)} \by{Допущение для $n-1$}{} \onslide<3->
+                \have{q4}{P(a_2,a_1)} \byonsubst{5-}{$\forall E$}{q3}{y\mapsto a_1} \onslide<4->
+                \have[n][-2]{q5}{\exists x~P(x,a_1)} \byonsubst{4-}{$\exists I$}{q4}{x\mapsto a_2} \onslide<3->
             \close
             \have[n][-1]{q6}{\exists x~P(x,a_1)} \byon{3-}{$\exists E$}{q1,q3-(q5)} \onslide<2->
         \close
@@ -328,11 +338,11 @@
         \hypo{\uncover<2->{\ebsubproof{\text{произв. }a_1}{%
             \begin{prooftree}[center=false]
                 \hypo{\uncover<3->{\exists x~\forall y~P(x,y)\;\checkmark}}
-                \hypo{\uncover<3->{\ebsubproof{a_2:\ \forall y~P(a_2,y)}{%
+                \hypo{\uncover<3->{\ebsubproof{a_2\text{ такой, что }\forall y~P(a_2,y)}{%
                     \begin{prooftree}[center=false]
                         \hypo{\uncover<5->{\forall y~P(a_2,y)\;\checkmark}}
-                        \ebinfer{5-}{1}{\forall E}{\uncover<4->{P(a_2,a_1)}}
-                        \ebinfer{4-}{1}{\exists I}{\exists x~P(x,a_1)}
+                        \ebinfer{5-}{1}{\qrule{\forall E}{y\mapsto a_1}}{\uncover<4->{P(a_2,a_1)}}
+                        \ebinfer{4-}{1}{\qrule{\exists I}{x\mapsto a_2}}{\exists x~P(x,a_1)}
                     \end{prooftree}}}}
                 \ebinfer{3-}{2}{\exists E}{\exists x~P(x,a_1)}
             \end{prooftree}}}}
@@ -360,10 +370,11 @@
     \begin{itemize}
         \item Проверим $\forall x~(P(x)\lor Q(x))\vdash(\forall x~P(x))\lor(\forall x~Q(x))$. \pause
         \item Пробуем доказать $\forall x~P(x)$: для произвольного $a$ нужна цель $P(a)$, но имеем лишь $P(a)\lor Q(a)$. \pause
-        \item Чтобы цель была ложна, положим $P(a)=0$, $Q(a)=1$.
+        \item Чтобы цель была ложна, а посылка истинна, положим $P(a)=0$, $Q(a)=1$. \pause
         \item Чтобы и $\forall x~Q(x)$ было ложно, добавим объект $b$, где $Q(b)=0$, $P(b)=1$. \pause
         \item Контрмодель: $U=\{0,1\}$, $a=0$, $b=1$.
     \end{itemize}
+    \vspace{-2pt}
     \[
         \begin{array}{c|cc}
             x & P(x) & Q(x) \\
@@ -390,7 +401,7 @@
         \hypo{f1}{\forall x~P(x)} \by{Дано}{} \onslide<1->
         \open[\uncover<2->{a}]
             \hypo{f2}{\text{произв. }a} \by{Параметр для $n$}{} \onslide<2->
-            \have[n][-1]{f3}{P(f(a))} \byon{3-}{$\forall E$}{f1} \onslide<2->
+            \have[n][-1]{f3}{P(f(a))} \byonsubst{3-}{$\forall E$}{f1}{x\mapsto f(a)} \onslide<2->
         \close
         \have[n]{f4}{\forall x~P(f(x))} \byon{2-}{$\forall I$}{f2-(f3)} \onslide<1->
     \end{nd}
@@ -436,7 +447,7 @@
                 \open
                     \hypo{s3}{a=b} \by{Допущение для $n-2$}{} \onslide<4->
                     \have{s4}{\underline{a}=a} \by{$=I$}{} \onslide<5->
-                    \have[n][-3]{s5}{b=a} \byon{6-}{$=E_l$}{s3,s4} \onslide<4->
+                    \have[n][-3]{s5}{b=a} \byonsubst{6-}{$=E_l$}{s3,s4}{a\mapsto b} \onslide<4->
                 \close
                 \have[n][-2]{s6}{a=b\to b=a} \byon{4-}{$\to I$}{s3-(s5)} \onslide<3->
             \close
