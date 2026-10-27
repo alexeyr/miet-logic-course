@@ -410,6 +410,10 @@
 
 \begin{frame}
     \frametitle{Равенство}
+    \setlength{\abovedisplayskip}{2pt}
+    \setlength{\belowdisplayskip}{2pt}
+    \setlength{\abovedisplayshortskip}{0pt}
+    \setlength{\belowdisplayshortskip}{2pt}
     \begin{itemize}
         \item Правила введения и исключения:
         \[
@@ -420,13 +424,14 @@
             \frac{s=t\quad A[t]}{A[s]}\ =E_r.
         \]
         \item $t,s$ "--- термы без свободных переменных. \pause
-        \item В $A[t]$ выбираем одно или несколько вхождений $t$. В $A[s]$ заменяем их на $s$.
-        \item Замена не должна связывать свободные переменные. \pause
+        \item В $A[t]$ выбираем одно или несколько вхождений $t$. В $A[s]$ заменяем их на $s$. \pause
         \item Вместо правил можно использовать рефлексивность и схему аксиом подстановки:
         \[
             \forall x~x=x,\qquad
             \forall x~\forall y~(x=y\land A[x]\to A[y]).
         \]
+        \item Подстановка $y$ вместо $x$ не должна связывать $y$. \pause
+        \item Например, при $A[x]=\exists y~y\ne x$ получилось бы $A[y]=\exists y~y\ne y$, и аксиома была бы ложна при $x=y$, если объектов хотя бы два. Сначала переименуем: $\exists z~z\ne x$.
     \end{itemize}
 \end{frame}
 
