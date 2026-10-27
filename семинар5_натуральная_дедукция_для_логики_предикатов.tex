@@ -1,5 +1,77 @@
 \documentclass[10pt]{beamer}
 \input{lecture_preamble.tex}
+\usepackage{ebproof}
+
+% Формулу-цель можно показать раньше черты и обоснования её вывода.
+% Толщина черты совпадает со стандартной в ebproof; место сохраняется на всех шагах.
+\newcommand{\ebinfer}[4]{%
+    \ebproofinfer[rule code={\uncover<#1>{\hrule height .4pt}}]{#2}%
+        [\uncover<#1>{$#3$}]{#4}}
+
+% Рамка подвывода с явно указанным допущением над деревом вывода.
+\newcommand{\ebsubproof}[2]{%
+    \fbox{\begin{tabular}[b]{@{}c@{}}
+        \multicolumn{1}{@{}l@{}}{$#1$}\\[.3ex]\hline\\[-1ex]
+        #2
+    \end{tabular}}}
+
+% Скрываем обоснование целиком, сохраняя его место в доказательстве.
+\newcommand{\byon}[3]{\by{\uncover<#1>{#2, \ndref{#3}}}{}}
+
+% Черта подвывода появляется вместе с его допущением и сразу видна целиком.
+% Спецификацию читаем при печати отложенной строки, как у обычного \onslide.
+\makeatletter
+\newcount\nd@scopedepth
+\newcount\nd@drawdepth
+\newif\ifnd@awaitingscope
+\def\nd@onslide<#1>{\gdef\nd@overlay{#1}\ignorespaces}
+\newcommand{\nd@uncover}[1]{\uncover<\nd@overlay>{#1}}
+\apptocmd{\nd@init}{%
+    \gdef\nd@overlay{1-}%
+    \global\nd@scopedepth=0
+    \global\nd@awaitingscopefalse
+    \expandafter\gdef\csname nd@scopeoverlay@0\endcsname{1-}%
+    \let\onslide\nd@onslide
+}{}{\PackageError{seminar5}{Cannot set proof overlays}{Check the fitch package.}}
+\apptocmd{\nd@openb}{%
+    \global\advance\nd@scopedepth1
+    \global\nd@awaitingscopetrue
+}{}{\PackageError{seminar5}{Cannot track subproofs}{Check the fitch package.}}
+\apptocmd{\nd@closeb}{\global\advance\nd@scopedepth-1}{}%
+    {\PackageError{seminar5}{Cannot track subproofs}{Check the fitch package.}}
+\def\nd@scopestart{%
+    \ifnd@awaitingscope
+        \expandafter\xdef\csname nd@scopeoverlay@\the\nd@scopedepth\endcsname{\nd@overlay}%
+        \global\nd@awaitingscopefalse
+    \fi}
+\def\nd@topitem{\nd@t}
+\def\nd@verticalitem{\nd@v}
+\def\nd@scopeline#1{%
+    \global\advance\nd@drawdepth1
+    \uncover<\csname nd@scopeoverlay@\the\nd@drawdepth\endcsname>{#1}}
+\def\nd@scopeitem#1{%
+    \def\nd@item{#1}%
+    \ifx\nd@item\nd@topitem
+        \nd@scopeline{#1}%
+    \else\ifx\nd@item\nd@verticalitem
+        \nd@scopeline{#1}%
+    \else #1\fi\fi}
+\def\nd@prooflines{%
+    \ifnd@outerline\global\nd@drawdepth=-1\else\global\nd@drawdepth=0\fi
+    \nd@iter\nd@stack\nd@scopeitem\nd@cont\nd@stack\nd@s}
+\def\nd@hypob#1#2{%
+    \nd@scopestart
+    \nd@f{\nd@uncover{\nd@num{#1}}}&%
+    \nd@prooflines
+    \nd@uncover{\nd@u{#2}}&}
+\def\nd@haveb#1#2{%
+    \nd@f{\nd@uncover{\nd@num{#1}}}&%
+    \nd@prooflines
+    \nd@f{\nd@uncover{#2}}&}
+\def\nd@sto#1#2#3{%
+    \gdef\nd@typ{#1}\gdef\nd@byt{}%
+    \gdef\nd@cmd{\nd@typ{#2}{#3}\nd@uncover{\nd@byt}\\}}
+\makeatother
 
 \title{Натуральная дедукция (естественный вывод) для логики предикатов}
 \date{\today}
@@ -12,399 +84,325 @@
 \begin{frame}
     \frametitle{Правила для логики высказываний}
     \scriptsize
+    \setlength{\abovedisplayskip}{2pt}
+    \setlength{\belowdisplayskip}{2pt}
+    \setlength{\abovedisplayshortskip}{0pt}
+    \setlength{\belowdisplayshortskip}{2pt}
     \begin{itemize}
-        \item Для $\land$:
-        \[ 
-        \frac{A \qquad B}{A \wedge B}\ \wedge I 
-        \qquad \qquad 
-        \frac{A \wedge B}{A}\ \wedge{E}
+        \item Для $\land$ ($l$ "--- левый операнд, $r$ "--- правый):
+        \[
+        \frac{A\qquad B}{A\land B}\ \land I
+        \qquad\qquad
+        \frac{A\land B}{A}\ \land E_l
         \qquad
-        \frac{A \wedge B}{B}\ \wedge{E} 
+        \frac{A\land B}{B}\ \land E_r
         \]
         \item Для $\to$:
-        \[ 
-        \frac{\begin{matrix}
-                A \\
-                \rvdots \\
-                B
-        \end{matrix}}{A \to B}\ \to I 
-        \qquad \qquad 
-        \frac{A \to B \quad A}{B}\ \to E
+        \[
+        \frac{\ndsubproof{A}{B}}{A\to B}\ \to I
+        \qquad\qquad
+        \frac{A\to B\quad A}{B}\ \to E
         \]
         \item Для $\neg$ и $\bot$:
         \[
-        \frac{\begin{matrix}
-                A \\
-                \rvdots \\
-                \bot
-        \end{matrix}}{\neg A}\ \neg I 
-        \qquad \qquad 
-        \frac{\neg A \quad A}{\bot}\ \neg E/\bot I
-        \qquad \qquad 
-        \frac{\bot}{A}\ \bot{E}
+        \frac{\ndsubproof{A}{\bot}}{\neg A}\ \neg I
+        \qquad\qquad
+        \frac{\neg A\quad A}{\bot}\ \neg E/\bot I
+        \qquad\qquad
+        \frac{\bot}{A}\ \bot E
         \]
         \item Для $\lor$:
         \[
-        \frac{A}{A \lor B}\ \lor{I}
+        \frac{A}{A\lor B}\ \lor I_l
         \qquad
-        \frac{B}{A \lor B}\ \lor{I}
-        \qquad \qquad 
-        \frac{
-        \begin{matrix}
-            \phantom{A} \\
-            \phantom{\rvdots} \\
-            A \lor B 
-        \end{matrix}
-        \quad
-        \begin{matrix}
-            A \\
-            \rvdots \\
-            C
-        \end{matrix}
-        \quad
-        \begin{matrix}
-            B \\
-            \rvdots \\
-            C
-        \end{matrix}
-        }{C}\ \lor E
-        \qquad \qquad         
-        \frac{\begin{matrix}
-            \neg A \\
-            \rvdots \\
-            B
-\end{matrix}}{A \lor B}\ \lor I'
-        \qquad 
-\frac{\begin{matrix}
-        \neg B \\
-        \rvdots \\
-        A
-\end{matrix}}{A \lor B}\ \lor I'
+        \frac{B}{A\lor B}\ \lor I_r
+        \qquad\qquad
+        \frac{A\lor B\quad\ndsubproof{A}{C}\quad\ndsubproof{B}{C}}{C}\ \lor E
         \]
         \item Остальные:
         \[
-        \frac{\begin{matrix}
-                \neg A \\
-                \rvdots \\
-                \bot
-        \end{matrix}}{A}\ \RAA
-        \qquad \qquad 
         \frac{A}{A}\ R
+        \qquad\qquad
+        \frac{\ndsubproof{\neg A}{\bot}}{A}\ \RAA
+        \qquad\qquad
+        \frac{\ndsubproof{\neg B}{A}}{A\lor B}\ \lor I'_l
+        \qquad
+        \frac{\ndsubproof{\neg A}{B}}{A\lor B}\ \lor I'_r
         \]
     \end{itemize}
 \end{frame}
 
 \begin{frame}
-    \frametitle{Правила натуральной дедукции для кванторов}
+    \frametitle{Правила для кванторов}
     \begin{itemize}
-        \item Снова сохраняются правила из логики высказываний (на предыдущем слайде).
-        \item Добавляются правила введения и исключения для кванторов. 
-        \pause
-        \item Начнём с простых: 
-        $\dfrac{\forall x ~ A(x)}{A(t)}\ \forall E$ и
-        $\dfrac{A(t)}{\exists x ~ A(x)}\ \exists I$. \\
-        Здесь $t$ --- любой терм без свободных переменных (обычно просто параметр).
-        \item Эти правила --- аналоги типа $\gamma$ в деревьях.
-        \pause
-        \item
-        $\dfrac{\boxed{
-            \begin{matrix}
-                \textrm{произв. }a \\
-                \rvdots \\
-                A(a)
-            \end{matrix}}}{\forall x ~ A(x)}\ \forall I$ и  
-        $\dfrac{
-            \begin{matrix}
-                \phantom{a} \\
-                \phantom{A} \\
-                \phantom{\rvdots} \\
-                \exists x ~ A(x)
-            \end{matrix}
-            \quad
-            \boxed{
-                \begin{matrix}
-                    \textrm{возьмём }a, \\
-                    \textrm{т.ч. }A(a) \\
-                    \rvdots \\
-                    B
-                \end{matrix}
-            }
-         }{B}\ \exists E$
-          \\
-        Здесь $a$ --- новый параметр, как в $\delta$. Обычно эти параметры не используются вне подвыводов.
+        \item Все правила логики высказываний сохраняются.
+        \item Добавляются правила введения и исключения для кванторов. \pause
+        \item Простые правила:
+        \[
+            \frac{\forall x~A(x)}{A(t)}\ \forall E
+            \qquad\qquad
+            \frac{A(t)}{\exists x~A(x)}\ \exists I.
+        \]
+        \item $t$ "--- терм без свободных переменных, например параметр.
+        \item Можно использовать уже имеющиеся параметры. \pause
+        \item Правила с новым параметром:
+        \[
+            \frac{\ndsubproof{\text{произв. }a}{A(a)}}{\forall x~A(x)}\ \forall I
+            \qquad
+            \frac{\exists x~A(x)\quad\ndsubproof{a\text{ такой, что }A(a)}{B}}{B}\ \exists E.
+        \]
     \end{itemize}
 \end{frame}
 
 \begin{frame}
     \frametitle{Пояснения к правилам}
     \begin{itemize}
-        \item Смысл правила $\forall I$: чтобы доказать $\forall x ~ A(x)$, нужно доказать $A(a)$ для \emph{произвольного} $a$. Произвольность как раз обеспечивается тем, что это новый параметр и о нём ничего не известно. \pause
-        \item Смысл правила $\exists E$: мы временно даём название $a$ тому объекту, существование которого утверждается. Правило немного аналогично $\lor E$.
-        \item Удобно помечать подвывод, вводящий параметр, этим параметром.
-        \item[]
-        \item Есть упрощённые варианты $\forall I$ и $\exists E$ без подвыводов, но для них существенно сложнее сформулировать точные условия и доказать корректность и полноту. Мы их в этом курсе не рассматриваем.
+        \item $\forall I$: доказываем $A(a)$ для произвольного $a$, затем заключаем $\forall x~A(x)$.
+        \item $a$ не должно встречаться в оставшихся посылках и допущениях или в заключении правила. \pause
+        \item $\exists E$: вводим свежий $a$ и временно допускаем $A(a)$. Из него выводим $B$ и снимаем это допущение.
+        \item $a$ не должно встречаться в $B$ или в других доступных посылках и допущениях. \pause
+        \item Удобно брать новый параметр для каждого такого подвывода и не использовать его вне подвывода.
+        \item Пометка \enquote{Параметр для $N$}: область параметра заканчивается применением правила в строке $N$.
     \end{itemize}
 \end{frame}
 
-
 \begin{frame}
-    \frametitle{Пример 1}
+    \frametitle{Пример 1: перенос существования}
+    \begin{itemize}
+        \item Докажем $\forall x~(P(x)\to Q(x))\vdash(\exists x~P(x))\to\exists x~Q(x)$.
+    \end{itemize}
+    {\small
     \begin{align*}
-    \forall x (P(x) \rightarrow Q(x)) \vdash \exists x P(x) \rightarrow \exists x Q(x) \\
-    \vspace{1em}
-    \only<1>{
-    \begin{nd}
-        \hypo{1}{\forall x (P(x) \rightarrow Q(x))}  \by{\text{Дано}}{}
-        \have[\vdots]{4}{\vdots}
-        \have[n]{n}{\exists x P(x) \rightarrow \exists x Q(x)}
-    \end{nd}
-    }
-    \only<2>{
-    \begin{nd}
-        \hypo{1}{\forall x (P(x) \rightarrow Q(x))}  \by{\text{Дано}}{}
+    \begin{nd}[height=3.7ex,topheight=2.5ex]
+        \hypo{e1}{\forall x~(P(x)\to Q(x))} \by{Дано}{} \onslide<1->
         \open
-        \hypo{3}{\exists x P(x)} \by{\text{Дано}}{}
-        \have[\vdots]{7}{\vdots}
-        \have[n][-1]{4}{\exists x Q(x)} 
+            \hypo{e2}{\exists x~P(x)} \by{Допущение для $n$}{} \onslide<2->
+            \open[\uncover<3->{a}]
+                \hypo{e3}{P(a)} \by{Допущение для $n-1$}{} \onslide<3->
+                \have{e4}{P(a)\to Q(a)} \byon{6-}{$\forall E$}{e1} \onslide<6->
+                \have[n][-3]{e5}{Q(a)} \byon{6-}{$\to E$}{e4,e3} \onslide<5->
+                \have[n][-2]{e6}{\exists x~Q(x)} \byon{5-}{$\exists I$}{e5} \onslide<4->
+            \close
+            \have[n][-1]{e7}{\exists x~Q(x)} \byon{4-}{$\exists E$}{e2,e3-(e6)} \onslide<2->
         \close
-        \have[n]{2}{\exists x P(x) \rightarrow \exists x Q(x)} \ii{3-(4)}
-    \end{nd}
-    }
-    \only<3>{
-    \begin{nd}
-        \hypo{1}{\forall x (P(x) \rightarrow Q(x))}  \by{\text{Дано}}{}
-        \open
-        \hypo{3}{\exists x P(x)} \by{\text{Дано}}{}
-        \open[a]
-        \hypo{5}{P(a)} \by{\text{Дано}}{}
-        \have[\vdots]{7}{\vdots}
-        \have[n][-2]{6}{\exists x Q(x)}
-        \close
-        \have[n][-1]{4}{\exists x Q(x)} \Ee{3,5-(6)}
-        \close
-        \have[n]{2}{\exists x P(x) \rightarrow \exists x Q(x)} \ii{3-(4)}
-    \end{nd}
-}
-    \only<4->{
-    \begin{nd}
-        \hypo{1}{\forall x (P(x) \rightarrow Q(x))}  \by{\text{Дано}}{}
-        \open
-        \hypo{3}{\exists x P(x)} \by{\text{Дано}}{}
-        \open[a]
-        \hypo{5}{P(a)} \by{\text{Дано}}{}
-        \have{7}{P(a) \rightarrow Q(a)} \Ae{1}
-        \have{8}{Q(a)} \ie{5,7}
-        \have[n][-2]{6}{\exists x Q(x)} \Ei{8}
-        \close
-        \have[n][-1]{4}{\exists x Q(x)} \Ee{3,5-(6)}
-        \close
-        \have[n]{2}{\exists x P(x) \rightarrow \exists x Q(x)} \ii{3-(4)}
-    \end{nd}
-    }
-    \end{align*}
-\end{frame}
-
-\begin{frame}
-    \frametitle{Пример 2}
-    \begin{align*}
-    \forall y \neg P(y) \vdash \neg \exists x P(x) \\
-    \vspace{1em}
-    \begin{nd}
-        \hypo {1} {\forall y \neg P(y)} \by{\text{Дано}}{}
-        \open
-        \hypo{2} {\exists x P(x)} \by{\text{Дано}}{}
-        \open[a]
-        \hypo{3} {P(a)} \by{\text{Дано}}{}
-        \have{5} {\neg P(a)}            \Ae{1}
-        \have[n-2]{6} {\bot}                 \ne{3,5}
-        \close
-        \have[n-1]{6a}{\bot}                 \Ee{2,3-(6)}
-        \close
-        \have[n]{7} {\neg \exists x P(x)}  \ni{2-(6a)}
+        \have[n]{e8}{(\exists x~P(x))\to\exists x~Q(x)} \byon{2-}{$\to I$}{e2-(e7)} \onslide<1->
     \end{nd}
     \end{align*}
+    }
 \end{frame}
 
 \begin{frame}
-    \frametitle{Пример 3}
+    \frametitle{Пример 2: отрицание существования}
     \begin{itemize}
-        \item Докажем $\forall x ~ P(x) \land Q(x) \vdash (\forall x ~ P(x)) \land (\forall x ~ Q(x))$:
-        \[
-        \NDANDI
-            {\prftree[r]{\scriptsize $\forall I\,a_1$}
-                {\fbox{\NDANDE
-                    {\NDALLE
-                        {\prfbyaxiom{\scriptsize дано}{\forall x ~ P(x) \land Q(x)}}
-                        {P(a_1) \land Q(a_1)}}
-                    {P(a_1)}}}
-                {\forall x ~ P(x)}}
-            {\prftree[r]{\scriptsize $\forall I\,a_2$}
-                {\fbox{\NDANDE
-                        {\NDALLE
-                            {\prfbyaxiom{\scriptsize дано}{\forall x ~ P(x) \land Q(x)}}
-                            {P(a_2) \land Q(a_2)}}
-                        {Q(a_2)}}}
-                {\forall x ~ Q(x)}}
-            {(\forall x ~ P(x)) \land (\forall x ~ Q(x))}
-        \]
-        \item Можно ли оба раза использовать $a_1$? \pause Да, так как подвыводы независимы. Но незачем.
+        \item Докажем $\forall y~\neg P(y)\vdash\neg\exists x~P(x)$.
     \end{itemize}
-    \end{frame}
-
-\begin{frame}
-    \frametitle{Пример 3 в линейной записи}
-        \begin{columns}
-            \begin{column}{0.5\textwidth}
-                    $\scriptsize
-                \begin{nd}
-                \hypo{1}{\forall x ~ P(x) \land Q(x)} \by{\text{Дано}}{}
-                \open[a_1]
-                \hypo{a_1}{\text{произв. }a_1}
-                \have{2}{P(a_1) \land Q(a_1)} \Ae{1}
-                \have[k][-1]{3}{P(a_1)} \ae{2}
-                \close
-                \open[a_2]
-                \hypo{a_2}{\text{произв. }a_2}
-                \have{5}{P(a_2) \land Q(a_2)} \Ae{1}
-                \have[n][-3]{6}{Q(a_2)} \ae{5}
-                \close
-                \have[n][-2]{4}{\forall x ~ P(x)} \Ai{a_1-(3)}
-                \have[n][-1]{7}{\forall x ~ Q(x)} \Ai{a_2-(6)}
-                \have[n]{8}{(\forall x ~ P(x)) \land (\forall x ~ Q(x))} \ai{4,7}
-                \end{nd}
-                $ \\ \vspace{0.5em} или
-            \end{column} \pause
-            \begin{column}{0.05\textwidth}\end{column}
-            \begin{column}{0.5\textwidth}
-        $\scriptsize
-        \begin{nd}
-        \hypo{1}{\forall x ~ P(x) \land Q(x)} \by{\text{Дано}}{}
-        \have[][9]{2}{P(a_1) \land Q(a_1)} \Ae{1}
-        \open[a_1]
-        \hypo[][5]{a_1}{\text{произв. }a_1}
-        \have[][6]{3}{P(a_1)} \ae{2}
+    {\small
+    \begin{align*}
+    \begin{nd}[height=3.9ex,topheight=2.5ex]
+        \hypo{d1}{\forall y~\neg P(y)} \by{Дано}{} \onslide<1->
+        \open
+            \hypo{d2}{\exists x~P(x)} \by{Допущение для $n$}{} \onslide<2->
+            \open[\uncover<3->{a}]
+                \hypo{d3}{P(a)} \by{Допущение для $n-1$}{} \onslide<3->
+                \have{d4}{\neg P(a)} \byon{5-}{$\forall E$}{d1} \onslide<5->
+                \have[n][-2]{d5}{\bot} \byon{5-}{$\neg E$}{d4,d3} \onslide<4->
+            \close
+            \have[n][-1]{d6}{\bot} \byon{4-}{$\exists E$}{d2,d3-(d5)} \onslide<2->
         \close
-        \open[a_1]
-        \hypo[][7]{a_2}{\text{произв. }a_1}
-        \have[][8]{6}{Q(a_1)} \ae{2}
-        \close
-        \have[][3]{4}{\forall x ~ P(x)} \Ai{a_1-3}
-        \have{7}{\forall x ~ Q(x)} \Ai{a_2-6}
-        \have[][2]{8}{(\forall x ~ P(x)) \land (\forall x ~ Q(x))} \ai{4,7}
-        \end{nd}
-        $ \\ \vspace{0.5em} {\small Здесь важно, что строка 9 появилась после подвыводов 5-6 и 7-8, иначе в них нельзя использовать $a_1$.}
-        \end{column}
-    \end{columns}
+        \have[n]{d7}{\neg\exists x~P(x)} \byon{2-}{$\neg I$}{d2-(d6)} \onslide<1->
+    \end{nd}
+    \end{align*}
+    }
 \end{frame}
 
 \begin{frame}
-    \frametitle{Пример 4}
+    \frametitle{Пример 3: распределение $\forall$ над $\land$}
     \begin{itemize}
-        \item Доказываем $\exists x \forall y ~ P(x, y) \vdash \forall y \exists x ~ P(x, y)$: \pause
-        \[
-        \prftree[r]{\scriptsize $\forall I\,a_1$}
-        {\fbox{
-                \prftree[r]{\scriptsize $\exists E\,a_2; \forall y ~ P(a_2, y) \vdash$}
-                {\prfbyaxiom{\scriptsize дано}{\exists x \forall y ~ P(x, y)}}
-                {\fbox{
-                        \NDEXI
-                            {\NDALLE{\prfbyaxiom{\scriptsize для $\exists E$}{\forall y ~ P(a_2, y)}}{P(a_2, a_1)}}
-                            {\exists x ~ P(x, a_1)}
-                }}
-                {\exists x ~ P(x, a_1)}
-        }}
-        {\forall y \exists x ~ P(x, y)}
-        \]
+        \item Докажем $\forall x~(P(x)\land Q(x))\vdash(\forall x~P(x))\land(\forall x~Q(x))$.
+    \end{itemize}
+    {\small
+    \begin{align*}
+    \begin{nd}[height=3.5ex,topheight=2.2ex]
+        \hypo{c1}{\forall x~(P(x)\land Q(x))} \by{Дано}{} \onslide<1->
+        \open[\uncover<3->{a_1}]
+            \hypo{c2}{\text{произв. }a_1} \by{Параметр для $m$}{} \onslide<3->
+            \have{c3}{P(a_1)\land Q(a_1)} \byon{5-}{$\forall E$}{c1} \onslide<5->
+            \have[m][-1]{c4}{P(a_1)} \byon{5-}{$\land E_l$}{c3} \onslide<4->
+        \close
+        \have[m]{c5}{\forall x~P(x)} \byon{4-}{$\forall I$}{c2-(c4)} \onslide<2->
+        \open[\uncover<3->{a_2}]
+            \hypo{c6}{\text{произв. }a_2} \by{Параметр для $n-1$}{} \onslide<3->
+            \have{c7}{P(a_2)\land Q(a_2)} \byon{5-}{$\forall E$}{c1} \onslide<5->
+            \have[n][-2]{c8}{Q(a_2)} \byon{5-}{$\land E_r$}{c7} \onslide<4->
+        \close
+        \have[n][-1]{c9}{\forall x~Q(x)} \byon{4-}{$\forall I$}{c6-(c8)} \onslide<2->
+        \have[n]{c10}{(\forall x~P(x))\land(\forall x~Q(x))} \byon{2-}{$\land I$}{c5,(c9)} \onslide<1->
+    \end{nd}
+    \end{align*}
+    }
+\end{frame}
+
+\begin{frame}
+    \frametitle{Пример 3 в древовидной записи}
+    \begin{itemize}
+        \item Докажем $\forall x~(P(x)\land Q(x))\vdash(\forall x~P(x))\land(\forall x~Q(x))$.
+    \end{itemize}
+    \[
+    \begin{prooftree}[separation=1em]
+        \hypo{\uncover<3->{\ebsubproof{\text{произв. }a_1}{%
+            \begin{prooftree}[center=false]
+                \hypo{\uncover<5->{\forall x~(P(x)\land Q(x))\;\checkmark}}
+                \ebinfer{5-}{1}{\forall E}{\uncover<4->{P(a_1)\land Q(a_1)}}
+                \ebinfer{4-}{1}{\land E_l}{P(a_1)}
+            \end{prooftree}}}}
+        \ebinfer{3-}{1}{\forall I}{\uncover<2->{\forall x~P(x)}}
+        \hypo{\uncover<3->{\ebsubproof{\text{произв. }a_2}{%
+            \begin{prooftree}[center=false]
+                \hypo{\uncover<5->{\forall x~(P(x)\land Q(x))\;\checkmark}}
+                \ebinfer{5-}{1}{\forall E}{\uncover<4->{P(a_2)\land Q(a_2)}}
+                \ebinfer{4-}{1}{\land E_r}{Q(a_2)}
+            \end{prooftree}}}}
+        \ebinfer{3-}{1}{\forall I}{\uncover<2->{\forall x~Q(x)}}
+        \ebinfer{2-}{2}{\land I}{(\forall x~P(x))\land(\forall x~Q(x))}
+    \end{prooftree}
+    \]
+    \begin{itemize}
+        \item<5-> Можно ли оба раза использовать $a_1$? \uncover<6->{Да: подвыводы независимы, области параметров не пересекаются.}
     \end{itemize}
 \end{frame}
 
 \begin{frame}
-    \frametitle{Пример 4 в линейной записи}
+    \frametitle{Пример 4: перестановка кванторов}
     \begin{itemize}
-        \item Доказываем $\exists x \forall y ~ P(x, y) \vdash \forall y \exists x ~ P(x, y)$ в линейной записи:
-        \item[]
-        \[
-        \begin{nd}
-        \hypo{1}{\exists x \forall y ~ P(x, y)} \by{\text{Дано}}{}
-        \open[a_1]
-        \hypo{a_1}{\text{произв. }a_1}
-        \open[a_2]
-        \hypo{4}{\forall y ~ P(a_2, y)} \by{\text{Дано}}{}
-        \have{5}{P(a_2, a_1)} \Ae{4}
-        \have[n][-2]{6}{\exists x ~ P(x, a_1)} \Ei{5}
+        \item Докажем $\exists x~\forall y~P(x,y)\vdash\forall y~\exists x~P(x,y)$.
+    \end{itemize}
+    {\small
+    \begin{align*}
+    \begin{nd}[height=3.8ex,topheight=2.5ex]
+        \hypo{q1}{\exists x~\forall y~P(x,y)} \by{Дано}{} \onslide<1->
+        \open[\uncover<2->{a_1}]
+            \hypo{q2}{\text{произв. }a_1} \by{Параметр для $n$}{} \onslide<2->
+            \open[\uncover<3->{a_2}]
+                \hypo{q3}{\forall y~P(a_2,y)} \by{Допущение для $n-1$}{} \onslide<3->
+                \have{q4}{P(a_2,a_1)} \byon{5-}{$\forall E$}{q3} \onslide<4->
+                \have[n][-2]{q5}{\exists x~P(x,a_1)} \byon{4-}{$\exists I$}{q4} \onslide<3->
+            \close
+            \have[n][-1]{q6}{\exists x~P(x,a_1)} \byon{3-}{$\exists E$}{q1,q3-(q5)} \onslide<2->
         \close
-        \have[n][-1]{3}{\exists x ~ P(x, a_1)} \Ee{1,4-(6)}
-        \close
-        \have[n]{2}{\forall y \exists x ~ P(x, y)} \Ai{a_1-(3)}
-        \end{nd}
-        \]
+        \have[n]{q7}{\forall y~\exists x~P(x,y)} \byon{2-}{$\forall I$}{q2-(q6)} \onslide<1->
+    \end{nd}
+    \end{align*}
+    }
+\end{frame}
+
+\begin{frame}
+    \frametitle{Пример 4 в древовидной записи}
+    \begin{itemize}
+        \item Докажем $\exists x~\forall y~P(x,y)\vdash\forall y~\exists x~P(x,y)$.
+    \end{itemize}
+    \[
+    \begin{prooftree}
+        \hypo{\uncover<2->{\ebsubproof{\text{произв. }a_1}{%
+            \begin{prooftree}[center=false]
+                \hypo{\uncover<3->{\exists x~\forall y~P(x,y)\;\checkmark}}
+                \hypo{\uncover<3->{\ebsubproof{a_2:\ \forall y~P(a_2,y)}{%
+                    \begin{prooftree}[center=false]
+                        \hypo{\uncover<5->{\forall y~P(a_2,y)\;\checkmark}}
+                        \ebinfer{5-}{1}{\forall E}{\uncover<4->{P(a_2,a_1)}}
+                        \ebinfer{4-}{1}{\exists I}{\exists x~P(x,a_1)}
+                    \end{prooftree}}}}
+                \ebinfer{3-}{2}{\exists E}{\exists x~P(x,a_1)}
+            \end{prooftree}}}}
+        \ebinfer{2-}{1}{\forall I}{\forall y~\exists x~P(x,y)}
+    \end{prooftree}
+    \]
+    \begin{itemize}
+        \item<5-> $a_2$ не входит в результат $\exists E$, а $a_1$ "--- в результат $\forall I$.
     \end{itemize}
 \end{frame}
 
 \begin{frame}
     \frametitle{Построение контрмодели}
     \begin{itemize}
-        \item Если формулу или секвенцию доказать не получается, можно предположить, что она неверна и попробовать построить контрмодель.
-        \item Для дерева с вынесенными посылками выбираем вершину, а для линейной записи --- строку, на которых застряли. 
-        \item Все видимые посылки должны быть истинны, а сама выбранная формула ложна.
-        \item Значения предикатов должны быть заданы на всех параметрах этих формул (если они все без параметров, то на одном параметре $a_1$). 
-        \item Может понадобиться добавить ещё параметры.
+        \item Если поиск вывода зашёл в тупик, ищем контрмодель. Неудача в поиске сама по себе ничего не опровергает. \pause
+        \item Выбираем текущую цель. Её доступные посылки и допущения должны быть истинны, а сама цель "--- ложна.
+        \item Задаём непустой универсум, значения параметров и интерпретации предикатов на всех наборах объектов. \pause
+        \item Иногда нужны дополнительные объекты или бесконечный универсум.
+        \item Проверяем найденную модель на исходной формуле или секвенции.
     \end{itemize}
 \end{frame}
 
 \begin{frame}
     \frametitle{Функциональные символы}
     \begin{itemize}
-        \item Пусть в сигнатуре есть функциональные символы или константы
-        \item Тогда в правилах $\forall E$ и $\exists I$ можно использовать не только параметры, а произвольные термы, построенные из них: \pause $f(a_1)$, $a_3 + 0$ и так далее.
-        \item Но без свободных переменных $x$, $y$, $\ldots$
-        \item Простой пример: докажем $\forall x~P(x) \vdash \forall x~P(f(x))$: \pause
-        \item[]
-        \[
-        \begin{nd}
-        \hypo{1}{\forall x~P(x)} \by{\text{Дано}}{}
-        \open[a]
-        \hypo{a}{\text{произв. }a}
-        \have[n][-1]{p}{P(f(a))} \Ae{1}
-        \close
-        \have[n]{n}{\forall x~P(f(x))} \Ai{a-(p)}
-        \end{nd}
-        \]
+        \item При наличии функций и констант в $\forall E$ и $\exists I$ используем термы из них и параметров: $f(a_1)$, $a_3+0$.
+        \item Как и раньше, без свободных переменных $x,y,\ldots$.
+        \item Докажем $\forall x~P(x)\vdash\forall x~P(f(x))$.
     \end{itemize}
+    \begin{align*}
+    \begin{nd}[height=4ex,topheight=2.5ex]
+        \hypo{f1}{\forall x~P(x)} \by{Дано}{} \onslide<1->
+        \open[\uncover<2->{a}]
+            \hypo{f2}{\text{произв. }a} \by{Параметр для $n$}{} \onslide<2->
+            \have[n][-1]{f3}{P(f(a))} \byon{3-}{$\forall E$}{f1} \onslide<2->
+        \close
+        \have[n]{f4}{\forall x~P(f(x))} \byon{2-}{$\forall I$}{f2-(f3)} \onslide<1->
+    \end{nd}
+    \end{align*}
 \end{frame}
 
 \begin{frame}
     \frametitle{Равенство}
     \begin{itemize}
-        \item Для равенства вводятся новые правила введения и исключения: \pause
-        \item $\dfrac{}{t = t}\ =I \qquad \dfrac{t = s \quad A[t]}{A[s]}\ =E \qquad \dfrac{s = t \quad A[t]}{A[s]}\ =E$
-        \item $t$ и $s$ опять же термы без свободных переменных. 
-        \item $A[t]$ "--- формула, содержащая терм $t$, $A[s]$ \pause "--- та же формула с заменой $t$ на $s$.
-        \item Не обязательно заменять все вхождения $t$.
-        \item Вместо правил можно было бы ввести аксиомы: $\forall x~x=x$ и $\forall x \forall y~(x=y \land A[x] \to A[y])$.
+        \item Правила введения и исключения:
+        \[
+            \frac{}{t=t}\ =I
+            \qquad
+            \frac{t=s\quad A[t]}{A[s]}\ =E_l
+            \qquad
+            \frac{s=t\quad A[t]}{A[s]}\ =E_r.
+        \]
+        \item $t,s$ "--- термы без свободных переменных. \pause
+        \item В $A[t]$ выбираем одно или несколько вхождений $t$. В $A[s]$ заменяем их на $s$.
+        \item Замена не должна связывать свободные переменные. \pause
+        \item Вместо правил можно использовать рефлексивность и схему аксиом подстановки:
+        \[
+            \forall x~x=x,\qquad
+            \forall x~\forall y~(x=y\land A[x]\to A[y]).
+        \]
     \end{itemize}
 \end{frame}
 
 \begin{frame}
-    \frametitle{Пример доказательства с равенством}
+    \frametitle{Пример: симметричность равенства}
     \begin{itemize}
-        \item Докажем симметричность равенства $\forall x \forall y~(x=y \to y=x)$: \pause
-        \[
-        \begin{nd}
-        \open[\text{\scriptsize $a,b$}]
-        \hypo{0}{\text{произв. }a,b}
-        \open
-        \hypo{1}{a = b} \by{\text{Дано}}{}
-        \have{2}{a = a} \by{=I}{}
-        \have[n][-2]{pp}{b = a} \by{=E $(\underline{a} = a)[a \mapsto b]$}{1,2}
+        \item Докажем $\vdash\forall x~\forall y~(x=y\to y=x)$.
+    \end{itemize}
+    {\small
+    \setlength{\abovedisplayskip}{2pt}
+    \setlength{\belowdisplayskip}{2pt}
+    \begin{align*}
+    \begin{nd}[height=3.4ex,topheight=2.4ex]
+        \open[\uncover<2->{a}]
+            \hypo{s1}{\text{произв. }a} \by{Параметр для $n$}{} \onslide<2->
+            \open[\uncover<3->{b}]
+                \hypo{s2}{\text{произв. }b} \by{Параметр для $n-1$}{} \onslide<3->
+                \open
+                    \hypo{s3}{a=b} \by{Допущение для $n-2$}{} \onslide<4->
+                    \have{s4}{\underline{a}=a} \by{$=I$}{} \onslide<5->
+                    \have[n][-3]{s5}{b=a} \byon{6-}{$=E_l$}{s3,s4} \onslide<4->
+                \close
+                \have[n][-2]{s6}{a=b\to b=a} \byon{4-}{$\to I$}{s3-(s5)} \onslide<3->
+            \close
+            \have[n][-1]{s7}{\forall y~(a=y\to y=a)} \byon{3-}{$\forall I$}{s2-(s6)} \onslide<2->
         \close
-        \have[n][-1]{p}{a = b \to b = a} \ii{1-(pp)}
-        \close
-        \have[n]{n}{\forall x \forall y~(x=y \to y=x)} \Ai{0-(p)}
-        \end{nd}
-        \]
-        \item Подчёркиванием в $=E$ выделено заменяемое вхождение терма. \pause
-        \item Это даёт допустимое правило \pause $\dfrac{t = s}{s = t}\ =\ident{Symm}$.
+        \have[n]{s8}{\forall x~\forall y~(x=y\to y=x)} \byon{2-}{$\forall I$}{s1-(s7)} \onslide<1->
+    \end{nd}
+    \end{align*}
+    }
+    \begin{itemize}
+        \item<6-> В строке 4 заменяем подчёркнутое $a$ на $b$.
+        \item<7-> Получили допустимое правило $\dfrac{t=s}{s=t}\ =\ident{Symm}$.
     \end{itemize}
 \end{frame}
 
@@ -412,8 +410,8 @@
     \frametitle{Дополнительное чтение}
     \begin{itemize}
         \item Непейвода, 11.2.5 и 11.4.
-        \item Гладкий, глава 10 (менее удобная система записи).
-        \item Много дополнительных задач с решениями на английском можно найти в \href{https://users.ox.ac.uk/~logicman/carr/NDpack.pdf}{этом документе}.
+        \item Гладкий, глава 10 (другая система записи).
+        \item Дополнительные задачи с решениями на английском: \href{https://users.ox.ac.uk/~logicman/carr/NDpack.pdf}{Natural Deduction}.
     \end{itemize}
 \end{frame}
 
