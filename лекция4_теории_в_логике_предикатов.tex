@@ -17,7 +17,7 @@
     \item Такие классы часто задаются наборами аксиом.
     \item Натуральные числа (в логике обычно включая $0$) с операциями сложения и умножения "--- \enquote{стандартная модель} для сигнатуры арифметики.
     \item Действительные "--- для мат.\,анализа.
-    \item Для конкретных моделей можно поставить вопрос: есть ли набор аксиом, полностью описывающих эту модель?
+    \item Можно ли задать аксиомы, описывающие конкретную модель с точностью до изоморфизма?
 \end{itemize}
 \end{frame}
 
@@ -43,11 +43,11 @@
         \pause
         \item Транзитивность: если все аксиомы $T_1$ "--- теоремы $T_2$, то все теоремы $T_1$ "--- теоремы $T_2$.
         \pause
-        \item Монотонность: если $T_1 \subset T_2$, то все теоремы $T_1$ "--- теоремы $T_2$.
+        \item Монотонность: если $T_1 \subseteq T_2$, то все теоремы $T_1$ "--- теоремы $T_2$.
         \pause
         \item Теорема о дедукции: если $T \cup \{A\} \vdash B$, то $T \vdash A \to B$.
         \pause
-        \item Заметили ли, что монотонность следует из рефлексивности и транзитивности?
+        \item Заметили ли вы, что монотонность следует из рефлексивности и транзитивности?
     \end{itemize}
 \end{frame}
 
@@ -58,72 +58,344 @@
         \item В этом случае в ней выводимы все формулы (её сигнатуры).
         \item Противоречивая теория не имеет моделей.
         \item А непротиворечивая имеет.
-        \item Переформулировка теоремы Лёвенгейма-Сколема: непротиворечивая теория имеет конечную или счётную модель.
+        \item Следствие полноты и теоремы Лёвенгейма---Сколема: непротиворечивая теория счётной сигнатуры имеет конечную или счётную модель.
     \end{itemize}
 \end{frame}
 
 \begin{frame}
     \frametitle{Аксиомы равенства}
     \begin{itemize}
-        \item Пусть в сигнатуре есть предикат равенства $=$.
-        \item Тогда \emph{нормальная модель} "--- такая, в которой он интерпретируется как обычное равенство. 
-        \item Какие формулы истинны на всех нормальных моделях?
+        \item Для доказательства временно рассматриваем $=$ как обычный предикат, без фиксированной интерпретации.
+        \item \emph{Нормальная модель} "--- такая, в которой $=$ интерпретируется как равенство объектов, как и раньше.
+        \item Какие формулы истинны во всех нормальных моделях?
         \pause
         \item $\forall x ~ x=x$
         \item $\forall x \forall y ~ x=y \to y=x$
         \item $\forall x \forall y \forall z ~ x=y \land y=z \to x=z$
-        \pause
-        \item Для каждого $n$-местного функционального символа $f$: \pause $\forall x_1 \ldots \forall x_n \forall y_1 \ldots \forall y_n ~ x_1 = y_1 \land \ldots \land x_n = y_n \to f(x_1,\ldots,x_n) = f(y_1,\ldots,y_n)$.
-        \pause
-        \item Для каждого $n$-местного предикатного символа $P$: \pause $\forall x_1 \ldots \forall x_n \forall y_1 \ldots \forall y_n ~ x_1 = y_1 \land \ldots \land x_n = y_n \to (P(x_1,\ldots,x_n) \to P(y_1,\ldots,y_n))$.
-        \pause
-        \item Всё это \emph{аксиомы равенства}.
+        \item Это рефлексивность, симметричность и транзитивность.
     \end{itemize}
 \end{frame}
 
 \begin{frame}
-    \frametitle{Теорема о полноте для нормальных моделей}
+    \frametitle{Аксиомы равенства: подстановка}
     \begin{itemize}
-        \item Теорема о полноте для нормальных моделей: если в непротиворечивой теории выводимы все аксиомы равенства для её сигнатуры, то она имеет нормальную модель.
-        \item Идея доказательства: есть модель по обычной теореме о полноте, но не обязательно нормальная. 
-        \item Интерпретация равенства в этой модели "--- \pause отношение эквивалентности. 
-        \item Можем взять множество классов эквивалентности по этому отношению (фактор-множество). 
-        \item Значения функций и предикатов на фактор-множестве задаются однозначно \pause (каким именно образом?).
-        \item В теореме Лёвенгейма-Сколема и в теореме о компактности тоже можно потребовать, чтобы модель была нормальной.
+        \item Для каждого $n$-местного функционального символа $f$:
+        \[
+        \begin{gathered}
+            \forall x_1\ldots\forall x_n\forall y_1\ldots\forall y_n\\
+            x_1=y_1\land\ldots\land x_n=y_n\to\\
+            f(x_1,\ldots,x_n)=f(y_1,\ldots,y_n).
+        \end{gathered}
+        \]
+        \pause
+        \item Для каждого $n$-местного предикатного символа $P$:
+        \[
+        \begin{gathered}
+            \forall x_1\ldots\forall x_n\forall y_1\ldots\forall y_n\\
+            x_1=y_1\land\ldots\land x_n=y_n\to\\
+            (P(x_1,\ldots,x_n)\to P(y_1,\ldots,y_n)).
+        \end{gathered}
+        \]
+        \item Вместе с предыдущими тремя это \emph{аксиомы равенства}.
     \end{itemize}
 \end{frame}
 
 \begin{frame}
-    \frametitle{Пример: теория графов}
+    \frametitle{Полнота для нормальных моделей}
     \begin{itemize}
-        \item Мы можем описать графы несколькими возможными сигнатурами. 
-        \item Вариант 1:
-        \begin{itemize}
-            \item 1 сорт объектов: вершины.
-            \item Предикат $E(x,y)$: вершины $x$ и $y$ смежны.
-            \item Аксиомы (кроме аксиом равенства):
-            \pause
-            \begin{enumerate}
-                \item $\forall x ~ \neg E(x,x)$
-                \item $\forall x \forall y ~ E(x,y) \to E(y,x)$
-            \end{enumerate}
-        \end{itemize}
+        \item Если в непротиворечивой теории $T$ выводимы все аксиомы равенства её сигнатуры, то $T$ имеет нормальную модель. \pause
+        \item Достаточно построить обычную модель $T$, а затем перейти к классам эквивалентности по интерпретации $=$.
+        \item Для логики с равенством теоремы Лёвенгейма---Сколема и компактности также верны для нормальных моделей.
+        \item Для компактности требуем, чтобы каждое конечное подмножество имело нормальную модель.
+        \item Далее аксиомы равенства считаем включёнными во все теории с $=$.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Построение нормальной модели}
+    \begin{itemize}
+        \item По обычной полноте есть модель $M\vDash T$. \pause
+        \item Интерпретация $=$ в $M$ задаёт \pause отношение эквивалентности $a\sim b$. \pause
+        \item Универсум $N$ состоит из классов эквивалентности $[a]=\{b\mid b\sim a\}$. \pause
+        \item $c_N=\pause{}[c_M]$ для каждой константы $c$. \pause
+        \item $f_N([a_1],\ldots,[a_n])=\pause{}[f_M(a_1,\ldots,a_n)]$. \pause
+        \item $P_N([a_1],\ldots,[a_n])$ истинно тогда и только тогда, когда \pause истинно $P_M(a_1,\ldots,a_n)$. \pause
+        \item По аксиомам подстановки результат не зависит от представителей. При этом $=_N$ "--- равенство классов. \pause
+        \item Для замкнутой $A$: $M\vDash A\Leftrightarrow N\vDash A$. Поэтому $N\vDash T$. \pause
+        \item Далее снова рассматриваем только нормальные модели.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Деревья истинности для теорий}
+    \begin{itemize}
+        \item Для $T\vdash A$ ищем контрмодель: аксиомам $T$ приписываем $1$, а формуле $A$ "--- $0$.
+        \item Аксиомы с $1$ можно добавлять в любую ветвь, не выписывая все в начале.
+        \item Если все ветви закрыты, то $T\vdash A$. \pause
+        \item Чтобы опровергнуть выводимость, нужна модель \emph{всех} аксиом $T$, в которой $A$ ложна.
+        \item Это показывает $T\nvdash A$, но не обязательно $T\vdash\neg A$. \pause
+        \item Для $T\vdash\neg A$ начинаем с аксиом и $A=1$ и закрываем дерево.
+        \item Конечный вывод использует лишь конечное число аксиом, даже если $T$ бесконечна.
+        \item Универсальные аксиомы можно применять повторно, в том числе с новыми параметрами.
+        \item Правила для равенства разобраны в семинаре 3.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Пример: частичные порядки}
+    \begin{itemize}
+        \item Сигнатура: равенство и двухместный предикат $\le$.
+        \item Аксиомы (кроме аксиом равенства): \pause
+        \begin{enumerate}
+            \item Рефлексивность: $\forall x~x\le x$. \pause
+            \item Антисимметричность:
+            $\forall x\forall y~x\le y\land y\le x\to x=y$. \pause
+            \item Транзитивность:
+            $\forall x\forall y\forall z~x\le y\land y\le z\to x\le z$.
+        \end{enumerate}
         \pause
-        \item Вариант 2:
-        \begin{itemize}
-            \item 2 сорта объектов: вершины $V$ и рёбра $E$.
-            \item Предикат $I(v,e)$: вершина $v$ инцидентна ребру $e$.
-            \item Аксиомы:
-            \pause
-            \begin{enumerate}
-                \item $\forall e \nolinebreak : \nolinebreak E ~ \exists v_1 \nolinebreak : \nolinebreak V ~ \exists v_2 \nolinebreak : \nolinebreak V ~ I(v_1,e) \land I(v_2,e) \land v_1 \neq v_2 \land \linebreak \forall v_3 \nolinebreak : \nolinebreak V (I(v_3,e) \to v_3 = v_1 \lor v_3 = v_2)$
-                \item $\forall v_1 \nolinebreak : \nolinebreak V ~ \forall v_2 \nolinebreak : \nolinebreak V ~  \forall e_1 \nolinebreak : \nolinebreak E ~ \forall e_2 \nolinebreak : \nolinebreak E ~ \linebreak I(v_1,e_1) \land I(v_2,e_1) \land I(v_1,e_2) \land I(v_2,e_2) \to e_1 = e_2$
-            \end{enumerate}
-        \end{itemize}
-    \pause
-    \item Что изменится для обобщённых графов? Для ориентированных?
-    \pause
-    \item Какая теория выразительнее?
+        \item Модели: $(\mathbb{N},\le)$, $(\mathbb{N},\ge)$, $(\mathbb{Z},\le)$.
+        \item Ещё модель: подмножества $\{1,2\}$ (или любого другого множества) с отношением включения.
+        \item Добавив $\forall x\forall y~x\le y\lor y\le x$, получим теорию линейных порядков.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Единственность наименьшего элемента}
+    \begin{itemize}
+        \item Элемент $c$ называется \emph{наименьшим}, если $L(c)$, где $L(t)\coloneqq\forall z~t\le z$.
+        \item Теорема: наименьший элемент, если он существует, единственен.
+        \[
+            \forall x\forall y~L(x)\land L(y)\to x=y.
+        \]
+        \pause
+        \item Пусть $x$ и $y$ "--- наименьшие элементы.
+        \item Из $\forall z~x\le z$ при $z\mapsto y$ получаем $x\le y$. \pause
+        \item Из $\forall z~y\le z$ при $z\mapsto x$ получаем $y\le x$. \pause
+        \item По антисимметричности $x=y$. \pause
+        \item Существование наименьшего элемента из аксиом не следует: в $(\mathbb{Z},\le)$ его нет.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Единственность: дерево истинности}
+    {\centering
+    \only<1>{%
+    \makebox[\linewidth][c]{\begin{tableau}{just sep=.5em, line no sep=.5em}
+[{(\forall x\forall y~L(x)\land L(y)\to x=y)=0}, just=Дано]
+    \end{tableau}}%
+    }
+    \only<2>{%
+    \makebox[\linewidth][c]{\begin{tableau}{just sep=.5em, line no sep=.5em}
+[{(\forall x\forall y~L(x)\land L(y)\to x=y)=0}, just=Дано, checked={a,b}
+[{(L(a)\land L(b)\to a=b)=0}, just={1, $x\mapsto a$, $y\mapsto b$}]]
+    \end{tableau}}%
+    }
+    \only<3>{%
+    \makebox[\linewidth][c]{\begin{tableau}{just sep=.5em, line no sep=.5em}
+[{(\forall x\forall y~L(x)\land L(y)\to x=y)=0}, just=Дано, checked={a,b}
+[{(L(a)\land L(b)\to a=b)=0}, just={1, $x\mapsto a$, $y\mapsto b$}, checked
+[{(L(a)\land L(b))=1}, just=2
+[{(a=b)=0}, just=2, checked]]]]
+    \end{tableau}}%
+    }
+    \only<4>{%
+    \makebox[\linewidth][c]{\begin{tableau}{just sep=.5em, line no sep=.5em}
+[{(\forall x\forall y~L(x)\land L(y)\to x=y)=0}, just=Дано, checked={a,b}
+[{(L(a)\land L(b)\to a=b)=0}, just={1, $x\mapsto a$, $y\mapsto b$}, checked
+[{(L(a)\land L(b))=1}, just=2, checked
+[{(a=b)=0}, just=2, checked
+[{L(a)=1}, just=3
+[{L(b)=1}, just=3]]]]]]
+    \end{tableau}}%
+    }
+    \only<5>{%
+    \makebox[\linewidth][c]{\begin{tableau}{just sep=.5em, line no sep=.5em}
+[{(\forall x\forall y~L(x)\land L(y)\to x=y)=0}, just=Дано, checked={a,b}
+[{(L(a)\land L(b)\to a=b)=0}, just={1, $x\mapsto a$, $y\mapsto b$}, checked
+[{(L(a)\land L(b))=1}, just=2, checked
+[{(a=b)=0}, just=2, checked
+[{L(a)=1}, just=3, subs=b
+[{L(b)=1}, just=3, subs=a
+[{(a\le b)=1}, just=5, checked
+[{(b\le a)=1}, just=6, checked]]]]]]]]
+    \end{tableau}}%
+    }
+    \only<6>{%
+    \makebox[\linewidth][c]{\begin{tableau}{just sep=.5em, line no sep=.5em}
+[{(\forall x\forall y~L(x)\land L(y)\to x=y)=0}, just=Дано, checked={a,b}
+[{(L(a)\land L(b)\to a=b)=0}, just={1, $x\mapsto a$, $y\mapsto b$}, checked
+[{(L(a)\land L(b))=1}, just=2, checked
+[{(a=b)=0}, just=2, checked
+[{L(a)=1}, just=3, subs=b
+[{L(b)=1}, just=3, subs=a
+[{(a\le b)=1}, just=5, checked
+[{(b\le a)=1}, just=6, checked
+[{(\forall x\forall y~x\le y\land y\le x\to x=y)=1}, just={Акс. $T$}
+[{(a\le b\land b\le a\to a=b)=1}, just={9, $x\mapsto a$, $y\mapsto b$}]]]]]]]]]]
+    \end{tableau}}%
+    }
+    \only<7>{%
+    \makebox[\linewidth][c]{\begin{tableau}{just sep=.5em, line no sep=.5em}
+[{(\forall x\forall y~L(x)\land L(y)\to x=y)=0}, just=Дано, checked={a,b}
+[{(L(a)\land L(b)\to a=b)=0}, just={1, $x\mapsto a$, $y\mapsto b$}, checked
+[{(L(a)\land L(b))=1}, just=2, checked
+[{(a=b)=0}, just=2, checked
+[{L(a)=1}, just=3, subs=b
+[{L(b)=1}, just=3, subs=a
+[{(a\le b)=1}, just=5, checked
+[{(b\le a)=1}, just=6, checked
+[{(\forall x\forall y~x\le y\land y\le x\to x=y)=1}, just={Акс. $T$}
+[{(a\le b\land b\le a\to a=b)=1}, just={9, $x\mapsto a$, $y\mapsto b$}, checked
+[{(a\le b\land b\le a)=0}, just=10]
+[{(a=b)=1}, just=10, checked]]]]]]]]]]]
+    \end{tableau}}%
+    }
+    \only<8>{%
+    \makebox[\linewidth][c]{\begin{tableau}{just sep=.5em, line no sep=.5em}
+[{(\forall x\forall y~L(x)\land L(y)\to x=y)=0}, just=Дано, checked={a,b}
+[{(L(a)\land L(b)\to a=b)=0}, just={1, $x\mapsto a$, $y\mapsto b$}, checked
+[{(L(a)\land L(b))=1}, just=2, checked
+[{(a=b)=0}, just=2, checked
+[{L(a)=1}, just=3, subs=b
+[{L(b)=1}, just=3, subs=a
+[{(a\le b)=1}, just=5, checked
+[{(b\le a)=1}, just=6, checked
+[{(\forall x\forall y~x\le y\land y\le x\to x=y)=1}, just={Акс. $T$}
+[{(a\le b\land b\le a\to a=b)=1}, just={9, $x\mapsto a$, $y\mapsto b$}, checked
+[{(a\le b\land b\le a)=0}, just=10]
+[{(a=b)=1}, just=10, checked, close={4,11}]]]]]]]]]]]
+    \end{tableau}}%
+    }
+    \only<9>{%
+    \makebox[\linewidth][c]{\begin{tableau}{just sep=.5em, line no sep=.5em}
+[{(\forall x\forall y~L(x)\land L(y)\to x=y)=0}, just=Дано, checked={a,b}
+[{(L(a)\land L(b)\to a=b)=0}, just={1, $x\mapsto a$, $y\mapsto b$}, checked
+[{(L(a)\land L(b))=1}, just=2, checked
+[{(a=b)=0}, just=2, checked
+[{L(a)=1}, just=3, subs=b
+[{L(b)=1}, just=3, subs=a
+[{(a\le b)=1}, just=5, checked
+[{(b\le a)=1}, just=6, checked
+[{(\forall x\forall y~x\le y\land y\le x\to x=y)=1}, just={Акс. $T$}
+[{(a\le b\land b\le a\to a=b)=1}, just={9, $x\mapsto a$, $y\mapsto b$}, checked
+[{(a\le b\land b\le a)=0}, just=10, checked
+[{(a\le b)=0}, just=11, checked]
+[{(b\le a)=0}, just=11, checked]]
+[{(a=b)=1}, just=10, checked, close={4,11}]]]]]]]]]]]
+    \end{tableau}}%
+    }
+    \only<10->{%
+    \makebox[\linewidth][c]{\begin{tableau}{just sep=.5em, line no sep=.5em}
+[{(\forall x\forall y~L(x)\land L(y)\to x=y)=0}, just=Дано, checked={a,b}
+[{(L(a)\land L(b)\to a=b)=0}, just={1, $x\mapsto a$, $y\mapsto b$}, checked
+[{(L(a)\land L(b))=1}, just=2, checked
+[{(a=b)=0}, just=2, checked
+[{L(a)=1}, just=3, subs=b
+[{L(b)=1}, just=3, subs=a
+[{(a\le b)=1}, just=5, checked
+[{(b\le a)=1}, just=6, checked
+[{(\forall x\forall y~x\le y\land y\le x\to x=y)=1}, just={Акс. $T$}
+[{(a\le b\land b\le a\to a=b)=1}, just={9, $x\mapsto a$, $y\mapsto b$}, checked
+[{(a\le b\land b\le a)=0}, just=10, checked
+[{(a\le b)=0}, just=11, checked, close={7,12}]
+[{(b\le a)=0}, just=11, checked, close={8,12}]]
+[{(a=b)=1}, just=10, checked, close={4,11}]]]]]]]]]]]
+    \end{tableau}}%
+    }
+    \par}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Единственность: натуральная дедукция}
+    \begin{itemize}
+        \item Аксиомы $T$ можно выписывать в любом месте вывода.
+    \end{itemize}
+    {\small
+    \renewcommand{\arraystretch}{0.75}
+    \setlength{\abovedisplayskip}{2pt}
+    \setlength{\belowdisplayskip}{2pt}
+    \begin{align*}
+    \begin{nd}[height=2.5ex,topheight=1.8ex,depth=.65ex,justsep=.7em,labelsep=.7em,indent=1.2em]
+        \open[a]
+            \hypo{u2}{\text{произв. }a} \by{Параметр для $n$}{}
+            \open[b]
+                \hypo{u3}{\text{произв. }b} \by{Параметр для $n-1$}{}
+                \open
+                    \hypo{u4}{L(a)\land L(b)} \by{Допущение для $n-2$}{}
+                    \have{u5}{L(a)} \by{$\land E_l$}{u4}
+                    \have{u6}{L(b)} \by{$\land E_r$}{u4}
+                    \have{u7}{a\le b} \by{$\forall E$, \ndref{u5}, $z\mapsto b$}{}
+                    \have{u8}{b\le a} \by{$\forall E$, \ndref{u6}, $z\mapsto a$}{}
+                    \have{u9}{a\le b\land b\le a} \by{$\land I$}{u7,u8}
+                    \have{u1}{\forall x\forall y~x\le y\land y\le x\to x=y} \by{Аксиома $T$}{}
+                    \have{u11}{a\le b\land b\le a\to a=b} \by{$\forall E$, \ndref{u1}, $x\mapsto a$, $y\mapsto b$}{}
+                    \have[n][-3]{u12}{a=b} \by{$\to E$}{u11,u9}
+                \close
+                \have[n][-2]{u13}{L(a)\land L(b)\to a=b} \by{$\to I$}{u4-(u12)}
+            \close
+            \have[n][-1]{u14}{\forall y~L(a)\land L(y)\to a=y} \by{$\forall I$}{u3-(u13)}
+        \close
+        \have[n]{u15}{\forall x\forall y~L(x)\land L(y)\to x=y} \by{$\forall I$}{u2-(u14)}
+    \end{nd}
+    \end{align*}
+    }
+\end{frame}
+
+\begin{frame}
+    \frametitle{Теория графов: смежность}
+    \begin{itemize}
+        \item Рассмотрим простые неориентированные графы.
+        \item Один сорт объектов: вершины.
+        \item Предикат $\ident{Adj}(x,y)$: вершины $x$ и $y$ смежны.
+        \item Аксиомы (кроме аксиом равенства):
+        \begin{enumerate}
+            \item $\forall x~\neg \ident{Adj}(x,x)$ \pause
+            \item $\forall x\forall y~\ident{Adj}(x,y)\to \ident{Adj}(y,x)$
+        \end{enumerate}
+        \pause
+        \item Петли запрещены, смежность симметрична. Кратные рёбра эта сигнатура не различает.
+        \item Что изменится для ориентированных графов?
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Теория графов: инцидентность}
+    \begin{itemize}
+        \item Два сорта: вершины $V$ и рёбра $E$.
+        \item $I(v,e)$: вершина $v$ инцидентна ребру $e$.
+        \item Каждое ребро имеет ровно два различных конца:
+        \[
+        \begin{gathered}
+            \forall e:E~\exists v_1:V~\exists v_2:V\\
+            I(v_1,e)\land I(v_2,e)\land v_1\ne v_2\land\\
+            (\forall v_3:V~I(v_3,e)\to v_3=v_1\lor v_3=v_2).
+        \end{gathered}
+        \]
+        \pause
+        \item Два различных конца определяют не более одного ребра:
+        \[
+        \begin{gathered}
+            \forall v_1:V~\forall v_2:V~\forall e_1:E~\forall e_2:E\\
+            v_1\ne v_2\land I(v_1,e_1)\land I(v_2,e_1)\land\\
+            I(v_1,e_2)\land I(v_2,e_2)\to e_1=e_2.
+        \end{gathered}
+        \]
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Сравнение двух описаний графов}
+    \begin{itemize}
+        \item Носители сортов непусты. Поэтому описание через инцидентность требует хотя бы одного ребра.
+        \item Описание через смежность допускает и графы без рёбер. \pause
+        \item Для графов с рёбрами переведите смежность через инцидентность: \pause
+        \[
+            \ident{Adj}(v,w)\quad\longleftrightarrow\quad
+            v\ne w\land\exists e:E~I(v,e)\land I(w,e).
+        \]
+        \item Как описать кратные рёбра и петли с помощью инцидентности? \pause
+        \item Какая запись удобнее для утверждений о рёбрах? А о вершинах?
     \end{itemize}
 \end{frame}
 
@@ -136,7 +408,9 @@
             \item предикат равенства;
             \item функции $S$ (следующее число), $+$ и $\cdot$.
         \end{itemize}
-        \item Остальные константы, предикаты и функции выражаются через них.
+        \item Обозначения $1,2,\ldots$, $<$ и другие привычные арифметические понятия можно определить через них.
+        \item Например, $1=S(0)$.
+        \item $x<y$ означает $\exists z~x+S(z)=y$.
         \item Сегодня рассмотрим в первую очередь арифметику Пеано.
     \end{itemize}
 \end{frame}
@@ -152,8 +426,8 @@
         \item $\forall x \forall y ~ x \cdot S(y) = x \cdot y + x$
         \item Схема индукции: для каждой формулы $A(x,y_1,\ldots,y_n)$ ($x,y_1,\ldots,y_n$ "--- все её свободные переменные): \\
         $\forall y_1 \ldots \forall y_n ~ A(0,y_1,\ldots,y_n) \land \linebreak (\forall x ~ A(x,y_1,\ldots,y_n) \to A(S(x),y_1,\ldots,y_n)) \to \linebreak \forall x ~ A(x,y_1,\ldots,y_n)$
-        \item[]
-        \item В этой теории можно доказать все стандартные арифметические утверждения.
+        \pause
+        \item Первые шесть аксиом вместе с $\forall x~x\ne0\to\exists y~x=S(y)$ задают \emph{арифметику Робинсона} $Q$ (без индукции).
     \end{itemize}
 \end{frame}
 
@@ -161,11 +435,26 @@
     \frametitle{Нестандартные модели арифметики}
     \begin{itemize}
         \item Пусть $T$ "--- арифметическая теория, истинная на $\mathbb{N}$ (например, арифметика Пеано). Тогда у неё есть счётная модель, неизоморфная $\mathbb{N}$.
-        \item Доказательство: добавим к сигнатуре арифметики константу $c$, а к $T$ аксиомы $c > 0, c > 1, c > 2, \ldots$. Получим теорию $T'$. \pause 
-        \item Любое конечное подмножество $T'$ имеет модель. 
-        \item Значит, по теореме о компактности $T'$ имеет конечную или счётную модель. 
-        \pause 
-        \item Конечной модели у $T'$ быть не может, значит, модель счётная. Но она будет и моделью $T$.
+        \item Добавим новую константу $c$ и рассмотрим
+        \[
+            T'=T\cup\mathit{PA}\cup\{c>0,\ c>1,\ c>2,\ldots\}.
+        \]
+        \pause
+        \item Любое конечное подмножество $T'$ истинно в $\mathbb{N}$, если выбрать достаточно большое значение $c$.
+        \item По компактности у $T'$ есть модель, а по теореме Лёвенгейма---Сколема "--- конечная или счётная.
+        \item Аксиомы $\mathit{PA}$ исключают конечные модели. Поэтому полученная модель счётна.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Почему модель нестандартна?}
+    \begin{itemize}
+        \item Пусть $M\vDash T'$. В ней $c>0$, $c>1$, $c>2$, $\ldots$
+        \item Забудем интерпретацию $c$: получим модель исходной сигнатуры, удовлетворяющую $T$. \pause
+        \item Если она изоморфна $\mathbb{N}$, образ $c_M$ "--- некоторое натуральное число $k$.
+        \item Изоморфизм сохраняет порядок и значения числовых термов. Из $c_M>k_M$ получаем $k>k$ в $\mathbb{N}$ "--- противоречие. \pause
+        \item Значит, эта счётная модель $T$ неизоморфна $\mathbb{N}$.
+        \item Это работает даже для теории всех арифметических истин: их недостаточно для единственности модели.
     \end{itemize}
 \end{frame}
 
@@ -173,10 +462,45 @@
     \frametitle{Полные теории}
     \begin{itemize}
         \item Непротиворечивая теория $T$ называется \emph{полной}, если для каждой замкнутой формулы $A$ (её сигнатуры) либо $T \vdash A$, либо $T \vdash \neg A$.
-        \item Пример: для любой модели $M$ можно рассмотреть теорию $\Th(M)$, аксиомы которой "--- все формулы, истинные в $M$. Она \pause полна: если $M \vDash A$, то $\Th(M) \vdash A$, а иначе $\Th(M) \vdash \neg A$.
-        \item Полна ли теория графов? \pause Нет. Например, формула $\exists x \exists y ~ E(x,y)$ истинна в одних графах и ложна в других. Значит, ни она, ни её отрицание "--- не теоремы.
+        \item Для любой модели $M$ теория $\Th(M)$ состоит из всех замкнутых формул, истинных в $M$.
+        \item Она непротиворечива: у неё есть модель $M$. \pause
+        \item Она полна: если $M\vDash A$, то $\Th(M)\vdash A$, а иначе $\Th(M)\vdash\neg A$.
+        \item Полнота не означает единственности модели: даже $\Th(\mathbb{N})$ имеет нестандартные модели.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Пример: плотные линейные порядки}
+    \begin{itemize}
+        \item Сигнатура: \emph{только порядок} $\le$ и равенство. Без сложения и умножения.
+        \item $x<y$ означает $x\le y\land x\ne y$.
+        \item К аксиомам линейного порядка добавим:
+        \begin{enumerate}
+            \item Плотность:
+            $\forall x\forall y~x<y\to\exists z~x<z\land z<y$.
+            \item Отсутствие наименьшего и наибольшего элементов:
+            $\forall x\exists y\exists z~y<x\land x<z$.
+        \end{enumerate}
         \pause
-        \item Теоремы Гёделя о неполноте говорят, что никакая теория с разрешимым множеством аксиом, позволяющая доказать арифметику Робинсона, не может быть полна. Подробнее о них в конце курса, если успеем.
+        \item Модели: $(\mathbb{Q},\le)$ и $(\mathbb{R},\le)$.
+        \item Эта теория \emph{полна} (без доказательства). \pause
+        \item Все замкнутые формулы языка порядка имеют одинаковые значения истинности в этих двух моделях.
+        \item Но модели неизоморфны: $\mathbb{Q}$ счётно, а $\mathbb{R}$ несчётно.
+    \end{itemize}
+    \note{Источник: Y. N. Moschovakis, Lecture Notes in Logic, разделы 1F--1G.
+    \url{https://www.math.ucla.edu/~ynm/lectures/lnl.pdf}}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Примеры неполных теорий}
+    \begin{itemize}
+        \item Полна ли теория графов в сигнатуре смежности? \pause
+        \item Нет: $\exists x\exists y~\ident{Adj}(x,y)$ истинно в одних графах и ложно в других.
+        \item По корректности ни эта формула, ни её отрицание не выводимы из аксиом графов.
+        \pause
+        \item Первая теорема Гёделя о неполноте (в усилении Россера): непротиворечивая теория с разрешимым множеством аксиом, в которой выводимы аксиомы арифметики Робинсона, неполна.
+        \item В частности, арифметика Пеано неполна.
+        \item Подробнее о неполноте в конце курса, если успеем.
     \end{itemize}
 \end{frame}
 
@@ -184,10 +508,36 @@
     \frametitle{Разрешимые теории}
     \begin{itemize}
         \item Теория $T$ называется \emph{разрешимой}, если существует алгоритм, который по замкнутой формуле $A$ определяет, является ли она теоремой $T$.
-        \item В прошлый раз упоминалось, что чистая логика предикатов (т.е. пустая теория) неразрешима.
-        \item Как простой пример разрешимой теории приведём $\Th(M)$ для конечной модели $M$.
-        \item Ещё примеры неразрешимых теорий: теория полугрупп, $\Th(\mathbb{N})$ (в сигнатуре $+,\cdot,=$), арифметика Робинсона (и любое её непротиворечивое расширение).
-        \item Примеры разрешимых теорий: теория равенства (в сигнатуре только $=$, аксиомы равенства), $\Th(\mathbb{C})$ в сигнатуре $+,\cdot,=$, арифметика Пресбургера (арифметика Пеано без умножения).
+        \item Для обсуждения алгоритмов далее берём конечные сигнатуры.
+        \item В достаточно богатой сигнатуре даже пустая теория неразрешима. \pause
+        \item Полная теория с разрешимым множеством аксиом разрешима.
+        \item Перебираем все доказательства из $T$, пока не найдём доказательство $A$ или $\neg A$.
+        \item Поскольку $T$ полна, одно из них обязательно найдётся.
+        \item В первом случае отвечаем \enquote{да}, во втором "--- \enquote{нет}.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Примеры разрешимых теорий}
+    \begin{itemize}
+        \item $\Th(M)$ для конечной модели $M$ в конечной сигнатуре.
+        \item Проверяем формулу в $M$, перебирая значения переменных из конечного универсума. \pause
+        \item Теория равенства: сигнатура только $=$, аксиомы равенства.
+        \item $\Th(\mathbb{C})$ в сигнатуре $+,\cdot,=$.
+        \item Арифметика Пресбургера: арифметика натуральных чисел со сложением, без умножения.
+        \item В её схеме индукции тоже используются только формулы языка без умножения.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Примеры неразрешимых теорий}
+    \begin{itemize}
+        \item Теория частичных порядков.
+        \item Теория простых неориентированных графов.
+        \item $\Th(\mathbb{N})$ в сигнатуре $+,\cdot,=$.
+        \item Арифметика Робинсона и любое её непротиворечивое расширение. \pause
+        \item Разрешимость множества аксиом и разрешимость теории "--- разные свойства.
+        \item Аксиомы арифметики Пеано распознаются алгоритмом, но алгоритма проверки её теорем нет.
     \end{itemize}
 \end{frame}
 
