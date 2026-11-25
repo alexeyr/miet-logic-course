@@ -158,18 +158,46 @@
 \end{frame}
 
 \begin{frame}
+    \frametitle{Индексированные семейства}
+    \begin{itemize}
+        \item Семейство $(x_i)_{i\in I}$ элементов $X$ задаётся функцией $x:I\to X$: каждому \emph{индексу} $i$ соответствует $x_i=x(i)$. Это могут быть числа, функции, множества и т.д.
+        \item При $I=\{1,\ldots,n\}$ получаем список $x_1,\ldots,x_n$, при $I=\N$ "--- последовательность $x_0,x_1,\ldots$
+        \pause
+        \item Индексы не обязаны быть числами. Пример семейства множеств: для $f:A\to B$ каждому $b\in B$ сопоставим $A_b=f^{-1}[\{b\}]=\{a:A\mid f(a)=b\}$.
+        \pause
+        \item Объединение: $x\in\bigcup_{i\in I}A_i \iff \exists i:I~x\in A_i$. В нашем примере $\bigcup_{b\in B}A_b=A$.
+        \item Пересечение (при $I\ne\varnothing$):
+        $x\in\bigcap_{i\in I}A_i \iff \forall i:I~x\in A_i$.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Прямое произведение семейства}
+    \begin{itemize}
+        \item Элемент произведения $\prod_{i\in I}A_i$ задаёт по одной координате $x_i\in A_i$ для каждого индекса $i\in I$.
+        \item Иначе говоря, это функция $x:I\to\bigcup_{i\in I}A_i$, для которой $\forall i:I~x(i)\in A_i$. Пишем $x_i=x(i)$.
+        \pause
+        \item При $I=\{1,2\}$ такую функцию задаёт пара $(x_1,x_2)\in A_1\times A_2$.
+        \pause
+        \item При $I=\N$ элементы $\prod_{n\in\N}A_n$ "--- бесконечные последовательности $(x_0,x_1,\ldots)$, где $x_n\in A_n$ для каждого $n\in\N$.
+        \pause
+        \item Если все $A_i=B$, в каждой координате можно взять любой элемент $B$. Так $\prod_{i\in I}B$ отождествляется с множеством функций $I\to B$.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
     \frametitle{Вложения, наложения и биекции}
     \begin{itemize}
-        \item Пусть $f:A\to B$.
+        \item Пусть $f:A\to B$, $A_b=f^{-1}[\{b\}]$ при $b\in B$.
         \item $f$ "--- \emph{вложение (инъекция)}, если для разных аргументов значения $f$ различны: $\forall x,y:A~x \neq y \to f(x) \neq f(y)$.
         \item Эквивалентно (без $\neq$), \pause $\forall x,y:A~f(x)=f(y)\to x=y$.
-        \item То есть каждый элемент $B$ имеет не более одного прообраза.
+        \item У каждого $b\in B$ не более одного прообраза, то есть в каждом $A_b$ не более одного элемента.
         \pause
         \item $f$ "--- \emph{наложение (сюръекция)}, если $\forall y:B~\exists x:A~y=f(x)$.
-        \item То есть каждый элемент $B$ имеет хотя бы один прообраз. Эквивалентно, $f[A]=B$.
+        \item У каждого $b\in B$ есть хотя бы один прообраз, то есть каждое $A_b$ непусто. Эквивалентно, $f[A]=B$.
         \pause
         \item $f$ "--- \emph{биекция}, если она одновременно вложение и наложение: $\forall y:B~\exists!x:A~y=f(x)$.
-        \item То есть каждый элемент $B$ имеет ровно один прообраз.
+        \item У каждого $b\in B$ ровно один прообраз, то есть в каждом $A_b$ ровно один элемент.
     \end{itemize}
 \end{frame}
 
@@ -430,7 +458,8 @@
 \begin{frame}
     \frametitle{Мощность континуума}
     \begin{itemize}
-        \item $2^{\aleph_0}$ (то есть мощность $\N \to \{0,1\}$ или $\pow{\N}$) имеет своё название \emph{мощность континуума} и обозначение $\continuum$.
+        \item Бесконечные двоичные последовательности образуют произведение $\prod_{n\in\N}\{0,1\}$: это функции $\N\to\{0,1\}$.
+        \item Их мощность $2^{\aleph_0}=|\pow{\N}|$ называется \emph{мощностью континуума} и обозначается $\continuum$.
         \item Ту же мощность имеют множества $\R$, $(0, 1)$, $\R^n$ при $n\geq1$.
         \item То есть $\continuum + \continuum = \continuum \cdot \continuum = \continuum$.
     \end{itemize}
