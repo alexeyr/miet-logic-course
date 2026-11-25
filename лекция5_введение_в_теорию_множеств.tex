@@ -28,16 +28,15 @@
     \frametitle{Задание множеств}
     \begin{itemize}
         \item Запись $\{x \mid A(x)\}$ означает совокупность всех $x$, для которых выполняется $A(x)$:
-        $\forall x ~ (x \in \{x \mid A(x)\} \leftrightarrow \pause A(x))$.
+        $\forall y ~ (y \in \{x \mid A(x)\} \leftrightarrow \pause A(y))$.
         \item Не всякая такая совокупность является множеством!
-        \item $x$ в $\{x \mid \ldots\}$ "--- связанная переменная.
+        \item В записи $\{x\mid x=a\lor x=b\}$ какая переменная связана? Какие остаются свободными?
+        \pause
+        \item $x$ связана, а $a,b$ свободны: это \emph{параметры}. При фиксированных $a,b$ получаем пару $\{a,b\}$.
+        \item Если переименовать $x$ в $y$, пара не изменится. Если изменить значение $a$, может получиться другая пара.
         \item Задание перечислением: $\{a_1,\ldots,a_n\} = \{x \mid \pause x = a_1 \lor \ldots \lor x = a_n \}$.
-        \item Пустое множество: $\varnothing = \{x \mid \pause x \neq x\}$.
+        \item Пустое множество: $\varnothing = \{x \mid \pause x \neq x\}$ или $\varnothing = \{x \mid 0=1\}$.
         \item Одно множество может быть задано разными эквивалентными свойствами.
-        \item Часто значения $x$ берутся из какого-то множества $X$: $\{x : X \mid A(x)\} = \{x \mid x \in X \land A(x)\}$ (или $\{x \in X \mid A(x)\}$).
-        \item $x:X$ указывает связанную переменную $x$, пробегающую $X$. Часто вместо $x:X$ пишут $x\in X$.
-        \item Слева может быть не переменная, а выражение:
-        $\{f(x)\mid x:X\}=\{y\mid\exists x:X~y=f(x)\}$.
     \end{itemize}
 \end{frame}
 
@@ -47,6 +46,7 @@
         \item Объединение: $A \cup B = \{x \mid \pause x \in A \lor x \in B\}$.
         \pause
         \item Пересечение: $A \cap B = \{x \mid \pause x \in A \land x \in B\} = \{x : A \mid x \in B\}$.
+        Здесь $x:A$ означает, что $x$ пробегает $A$. Пишут также $\{x\in A\mid x\in B\}$.
         \pause
         \item Разность: $A \setminus B = \{x \mid \pause x \in A \land x \notin B\} = \{x : A \mid x \notin B\}$.
         \pause
@@ -131,7 +131,8 @@
         $\forall x : A ~ \exists ! y : B ~ y=f(x)$.
         \item $A$ "--- \emph{домен (область определения)} $f$, обозначается $\Dom\ f$.
         \item $B$ "--- \emph{кодомен (область прибытия)} $f$, обозначается $\ident{Cod}\ f$.
-        \item \emph{Образ (область значений)} $f$: $\Ran\ f=\{f(x)\mid x:A\}\subseteq B$. Не обязательно совпадает с кодоменом!
+        \item \emph{Образ (область значений)} $f$ может не совпадать с кодоменом. Слева от черты пишем выражение $f(x)$:
+        $\Ran\ f=\{f(x)\mid x:A\}=\{y\mid\exists x:A~y=f(x)\}\subseteq B$.
         \pause
         \item Если значение функции $f$ на аргументе $x$ задаётся выражением $\ident{expr}$, пишем $f(x) = \ident{expr}$ или $f = x \mapsto \ident{expr}$. 
         \item \emph{Лямбда-выражение} $x \mapsto \ident{expr}$ удобно использовать как часть более сложных выражений.
