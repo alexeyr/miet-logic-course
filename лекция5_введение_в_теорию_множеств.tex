@@ -44,10 +44,13 @@
 \begin{frame}
     \frametitle{Операции над множествами}
     \begin{itemize}
-        \item Объединение: $A \cup B = \{x \mid \pause x \in A \lor x \in B\}$. \[\bigcup A = \bigcup_{B \in A} B = \reveal<+(1)->{\{x \mid \exists B \in A~x \in B\}}.\]
-        \item<.(1)-> Пересечение: $A \cap B = \{x \mid \pause x \in A \land x \in B\} = \{x : A \mid x \in B\}$. Для $A\neq\varnothing$:
-        \[\bigcap A = \bigcap_{B \in A} B = \reveal<+(1)->{\{x \mid \forall B \in A~x \in B\}}.\]
-        \item<.(1)-> Множество всех подмножеств: $\mathcal{P}(A) = \{ B \mid B \subseteq A \}$.
+        \item Объединение: $A \cup B = \{x \mid \pause x \in A \lor x \in B\}$.
+        \pause
+        \item Пересечение: $A \cap B = \{x \mid \pause x \in A \land x \in B\} = \{x : A \mid x \in B\}$.
+        \pause
+        \item Разность: $A \setminus B = \{x \mid \pause x \in A \land x \notin B\} = \{x : A \mid x \notin B\}$.
+        \pause
+        \item Множество всех подмножеств: $\mathcal{P}(A) = \{ B \mid B \subseteq A \}$.
     \end{itemize}
 \end{frame}
 
@@ -84,8 +87,10 @@
     \frametitle{Аксиомы $\ZF$: неформально}
     \begin{itemize}
         \item \emph{Объёмность:} множества с одними и теми же элементами равны.
-        \item \emph{Пустое множество и пара:} существуют $\varnothing$ и $\{a,b\}$.
-        \item \emph{Объединение и булеан:} для любого множества $X$ существуют $\bigcup X$ и множество всех подмножеств $\pow{X}$.
+        \item \emph{Пустое множество:} существует $\varnothing$.
+        \item \emph{Пара:} для любых множеств $X,Y$ существует $\{X,Y\}$.
+        \item \emph{Объединение:} для любого $X$ есть $\{x\mid \exists B:X~x\in B\}$.
+        \item \emph{Булеан:} для любого $X$ есть $\pow{X}=\{B\mid B\subseteq X\}$.
         \pause
         \item \emph{Выделение:} для любого множества $X$ и формулы $A$ существует множество $\{x:X\mid A(x)\}$.
         \item \emph{Подстановка:} для любого множества $X$ и формулы $A(x,y)$, если $\forall x:X~\exists!y~A(x,y)$, то существует множество $\{y\mid\exists x:X~A(x,y)\}$.
@@ -138,9 +143,11 @@
     \frametitle{Функции как множества}
     \begin{itemize}
         \item \emph{График функции} $f:A\to B$ "--- множество пар $\{(x, f(x)) \mid x : A\}$.
-        \item У нас функция задаётся тройкой $(A,B,\text{график})$. Есть и другие соглашения.
-        \item Можно ли определить $A$ и $B$ по графику? \pause $A$ да, $B$ нет.
+        \item Можно ли определить $A$ и $B$ по графику? \pause $A$ "--- да: это множество первых компонент пар. \pause $B$ "--- нет: вторые компоненты дают только образ.
         \pause
+        \item Поэтому кодомен указываем отдельно. У нас функция задаётся тройкой $(A,B,\text{график})$.
+        \item Значит, две функции равны тогда и только тогда, когда совпадают их домены, кодомены и графики.
+        \item Для $f,g:A\to B$ остаётся сравнить графики, то есть проверить равенство значений: $f=g\iff \forall x:A~f(x)=g(x)$.
         \item Множество всех функций из $A$ в $B$ обозначается $A \to B$.
     \end{itemize}
 \end{frame}
@@ -168,6 +175,8 @@
         \item Объединение: $x\in\bigcup_{i\in I}A_i \iff \exists i:I~x\in A_i$. В нашем примере $\bigcup_{b\in B}A_b=A$.
         \item Пересечение (при $I\ne\varnothing$):
         $x\in\bigcap_{i\in I}A_i \iff \forall i:I~x\in A_i$.
+        \pause
+        \item Если каждое $B\in X$ служит собственным индексом, пишем $\bigcup X=\bigcup_{B\in X}B$ и, при $X\ne\varnothing$, $\bigcap X=\bigcap_{B\in X}B$.
     \end{itemize}
 \end{frame}
 
@@ -424,7 +433,7 @@
         \item Вторые называются \emph{собственными классами} и не могут быть элементами классов или множеств.
         \item Ещё один пример собственного класса "--- все одноэлементные множества. Почему?
         \pause
-        \item Если бы все одноэлементные множества образовывали множество $S$, то $\bigcup S$ было бы множеством всех множеств.
+        \item Если бы все одноэлементные множества образовывали множество $S$, то $\bigcup_{B\in S}B$ было бы множеством всех множеств.
         \item Но такого множества не существует!
     \end{itemize}
 \end{frame}
@@ -445,10 +454,8 @@
     \begin{itemize}
         \item Как можно определить операции над мощностями множеств по аналогии с конечными множествами?
         \item $|A| + |B| = \pause |A \cup B|$, где $A \cap B = \varnothing$. \pause
-        \item При необходимости заменяем $A$ и $B$ непересекающимися равномощными копиями $A\times\{0\}$ и $B\times\{1\}$.
+        \item Для любых $A,B$ берём \emph{дизъюнктное объединение} $A\sqcup B=(\{0\}\times A)\cup(\{1\}\times B)$. Тогда $|A|+|B|=|A\sqcup B|$.
         \item Напомним: $|A| \cdot |B| = \pause |A \times B|$. \pause
-        \item $|A|^{|B|} = \pause |B \to A|$.
-        \item В частности, $2^{|A|} = \pause |A \to \{0,1\}| = |\pow{A}|$. \pause
         \item Важно, что при замене $A$ или $B$ на равномощное результат не меняется. Это нужно доказать (для каждого из определений).
         \item Контрпример: рассмотрим определение $|A| \oplus |B| = |A \cup B|$ (без условий). В чём проблема с ним?
         \item Имеем $\aleph_0 + \aleph_0 = \aleph_0$ и $\aleph_0 \cdot \aleph_0 = \aleph_0$.
@@ -456,10 +463,28 @@
 \end{frame}
 
 \begin{frame}
+    \frametitle{Сумма и произведение семейства мощностей}
+    \begin{itemize}
+        \item Сумма: выбираем один индекс $i\in I$ и один элемент $x\in A_i$. Поэтому $\sum_{i\in I}|A_i|=|\{(i,x)\mid i\in I,\ x\in A_i\}|$.
+        \item Если $A_i$ попарно не пересекаются, метки не нужны: $\sum_{i\in I}|A_i|=\left|\bigcup_{i\in I}A_i\right|$.
+        \pause
+        \item Произведение: выбираем по одному $x_i\in A_i$ для каждого $i\in I$. Поэтому $\prod_{i\in I}|A_i|=\left|\prod_{i\in I}A_i\right|$.
+        \pause
+        \item Если все $A_i=A$, получаем \emph{степень}:
+        $|A|^{|I|}=\pause \prod_{i\in I}|A|=\left|\prod_{i\in I}A\right|=\pause |I\to A|$.
+        \item В частности, $2^{|I|}=\pause |I\to\{0,1\}|=|\pow{I}|$.
+        \pause
+        \item Пусть $I=\N$ и все $A_i=\{0,1\}$. Чему равны сумма и произведение?
+        \pause
+        \item Для суммы выбираем позицию и один бит: $\sum_{n\in\N}2=|\N\times\{0,1\}|=\aleph_0$. А для произведения?
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
     \frametitle{Мощность континуума}
     \begin{itemize}
         \item Бесконечные двоичные последовательности образуют произведение $\prod_{n\in\N}\{0,1\}$: это функции $\N\to\{0,1\}$.
-        \item Их мощность $2^{\aleph_0}=|\pow{\N}|$ называется \emph{мощностью континуума} и обозначается $\continuum$.
+        \item Их мощность $\prod_{n\in\N}2=2^{\aleph_0}=|\pow{\N}|$ называется \emph{мощностью континуума} и обозначается $\continuum$.
         \item Ту же мощность имеют множества $\R$, $(0, 1)$, $\R^n$ при $n\geq1$.
         \item То есть $\continuum + \continuum = \continuum \cdot \continuum = \continuum$.
     \end{itemize}
