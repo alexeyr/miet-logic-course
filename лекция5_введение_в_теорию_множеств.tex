@@ -352,12 +352,56 @@
 \end{frame}
 
 \begin{frame}
+    \frametitle{Операции над мощностями}
+    \begin{itemize}
+        \item Мы только что определили произведение мощностей: $|A|\cdot|B|=|A\times B|$. Как определить другие арифметические операции?
+        \pause
+        \item $|A| + |B| = \pause |A \cup B|$, где $A \cap B = \varnothing$. \pause
+        \item Для любых $A,B$ берём \emph{дизъюнктное объединение} $A\sqcup B=\pause(\{0\}\times A)\cup(\{1\}\times B)$. Тогда $|A|+|B|=|A\sqcup B|$.
+        \pause
+        \item Важно, что при замене $A$ или $B$ на равномощное результат не меняется. Это нужно доказать (для каждого из определений).
+        \item Контрпример: рассмотрим определение $|A| \oplus |B| = |A \cup B|$ (без условий). В чём проблема с ним?
+        \item Имеем $\aleph_0 + \aleph_0 = \aleph_0$ и $\aleph_0 \cdot \aleph_0 = \aleph_0$.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Сумма и произведение семейства мощностей}
+    \begin{itemize}
+        \item Сумма: выбираем один индекс $i\in I$ и один элемент $x\in A_i$. Поэтому $\sum_{i\in I}|A_i|=|\{(i,x)\mid i\in I,\ x\in A_i\}|$.
+        \item Если $A_i$ попарно не пересекаются, метки не нужны: $\sum_{i\in I}|A_i|=\left|\bigcup_{i\in I}A_i\right|$.
+        \pause
+        \item Произведение: выбираем по одному $x_i\in A_i$ для каждого $i\in I$. Поэтому $\prod_{i\in I}|A_i|=\left|\prod_{i\in I}A_i\right|$.
+        \pause
+        \item Если все $A_i=A$, получаем \emph{степень}:
+        $|A|^{|I|}=\pause \prod_{i\in I}|A|=\left|\prod_{i\in I}A\right|=\pause |I\to A|$.
+        \item В частности, $2^{|I|}=\pause |I\to\{0,1\}|=|\pow{I}|$. Равномощность $\pow{I}\sim(I\to\{0,1\})$ вы докажете в домашнем задании.
+        \pause
+        \item Пусть $I=\N$ и все $A_i=\{0,1\}$. Чему равны сумма и произведение?
+        \pause
+        \item Для суммы выбираем позицию и один бит: $\sum_{n\in\N}2=|\N\times\{0,1\}|=\aleph_0$. А для произведения?
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Мощность континуума}
+    \begin{itemize}
+        \item Бесконечные двоичные последовательности образуют произведение $\prod_{n\in\N}\{0,1\}$: это функции $\N\to\{0,1\}$.
+        \item Их мощность $\prod_{n\in\N}2=2^{\aleph_0}=|\pow{\N}|$ называется \emph{мощностью континуума} и обозначается $\continuum$.
+        \item Ту же мощность имеют множества $\R$, $(0, 1)$, $\R^n$ при $n\geq1$.
+        \item То есть $\continuum + \continuum = \continuum \cdot \continuum = \continuum$.
+        \pause
+        \item Мы знаем, что $\aleph_0\cdot\aleph_0=\aleph_0$. А может ли и $2^{\aleph_0}$ равняться $\aleph_0$?
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
     \frametitle{Теорема Кантора}
     \begin{itemize}
-        \item А есть ли какие-то бесконечные мощности, кроме $\aleph_0$?
+        \item Нет: $2^{\aleph_0}>\aleph_0$.
         \pause
-        \item Окажется, что для любого $A$ $|A \to \{0,1\}| > |A|$, т.е. $(A \lesssim A \to \{0,1\}) \land (A \nsim A \to \{0,1\})$.
-        \item Это называется теоремой Кантора.
+        \item Более того, для любого множества $A$ верно $2^{|A|}>|A|$. Это \emph{теорема Кантора}.
+        \item Поскольку $2^{|A|}=|A\to\{0,1\}|$, сравним $A$ с множеством всех функций $A\to\{0,1\}$.
         \pause
         \item В том числе $|\N \to \{0,1\}| > |\N|$. То есть множество всех функций из натуральных чисел в $\{0,1\}$ несчётно.
         \item Сначала докажем этот частный случай, затем общий.
@@ -416,8 +460,7 @@
         \item Из теоремы Кантора можно заключить, что не существует множества всех множеств. Почему?
         \pause
         \item Допустим, что оно существует, и обозначим его $U$.
-        \item В домашнем задании вы докажете, что $\pow{A} \sim (A \to \{0,1\})$. Поэтому $|\pow{A}| > |A|$ для любого множества $A$.
-        \item В том числе $|\pow{U}| > |U|$. Но элементы $\pow{U}$ "--- множества, поэтому \pause $\pow{U} \subseteq U$ и \pause $|\pow{U}| \leq |U|$.
+        \item По теореме Кантора $|\pow{U}|=2^{|U|}>|U|$. Но элементы $\pow{U}$ "--- множества, поэтому \pause $\pow{U} \subseteq U$ и \pause $|\pow{U}| \leq |U|$.
         \item Пришли к противоречию!
         \pause
         \item Заметьте, что функции у нас тоже множества, так что переходить к $\mathcal{P}$ было не обязательно.
@@ -446,47 +489,6 @@
         \item Множества "--- те классы, которые являются элементами какого-либо класса. Собственные классы элементами быть не могут.
         \item Например, существует класс всех множеств, но он сам не множество.
         \item Формальные формулировки: \href{https://ru.wikipedia.org/wiki/Система_аксиом_фон_Неймана_—_Бернайса_—_Гёделя}{Википедия}.
-    \end{itemize}
-\end{frame}
-
-\begin{frame}
-    \frametitle{Операции над мощностями}
-    \begin{itemize}
-        \item Как можно определить операции над мощностями множеств по аналогии с конечными множествами?
-        \item $|A| + |B| = \pause |A \cup B|$, где $A \cap B = \varnothing$. \pause
-        \item Для любых $A,B$ берём \emph{дизъюнктное объединение} $A\sqcup B=(\{0\}\times A)\cup(\{1\}\times B)$. Тогда $|A|+|B|=|A\sqcup B|$.
-        \item Напомним: $|A| \cdot |B| = \pause |A \times B|$. \pause
-        \item Важно, что при замене $A$ или $B$ на равномощное результат не меняется. Это нужно доказать (для каждого из определений).
-        \item Контрпример: рассмотрим определение $|A| \oplus |B| = |A \cup B|$ (без условий). В чём проблема с ним?
-        \item Имеем $\aleph_0 + \aleph_0 = \aleph_0$ и $\aleph_0 \cdot \aleph_0 = \aleph_0$.
-    \end{itemize}
-\end{frame}
-
-\begin{frame}
-    \frametitle{Сумма и произведение семейства мощностей}
-    \begin{itemize}
-        \item Сумма: выбираем один индекс $i\in I$ и один элемент $x\in A_i$. Поэтому $\sum_{i\in I}|A_i|=|\{(i,x)\mid i\in I,\ x\in A_i\}|$.
-        \item Если $A_i$ попарно не пересекаются, метки не нужны: $\sum_{i\in I}|A_i|=\left|\bigcup_{i\in I}A_i\right|$.
-        \pause
-        \item Произведение: выбираем по одному $x_i\in A_i$ для каждого $i\in I$. Поэтому $\prod_{i\in I}|A_i|=\left|\prod_{i\in I}A_i\right|$.
-        \pause
-        \item Если все $A_i=A$, получаем \emph{степень}:
-        $|A|^{|I|}=\pause \prod_{i\in I}|A|=\left|\prod_{i\in I}A\right|=\pause |I\to A|$.
-        \item В частности, $2^{|I|}=\pause |I\to\{0,1\}|=|\pow{I}|$.
-        \pause
-        \item Пусть $I=\N$ и все $A_i=\{0,1\}$. Чему равны сумма и произведение?
-        \pause
-        \item Для суммы выбираем позицию и один бит: $\sum_{n\in\N}2=|\N\times\{0,1\}|=\aleph_0$. А для произведения?
-    \end{itemize}
-\end{frame}
-
-\begin{frame}
-    \frametitle{Мощность континуума}
-    \begin{itemize}
-        \item Бесконечные двоичные последовательности образуют произведение $\prod_{n\in\N}\{0,1\}$: это функции $\N\to\{0,1\}$.
-        \item Их мощность $\prod_{n\in\N}2=2^{\aleph_0}=|\pow{\N}|$ называется \emph{мощностью континуума} и обозначается $\continuum$.
-        \item Ту же мощность имеют множества $\R$, $(0, 1)$, $\R^n$ при $n\geq1$.
-        \item То есть $\continuum + \continuum = \continuum \cdot \continuum = \continuum$.
     \end{itemize}
 \end{frame}
 
